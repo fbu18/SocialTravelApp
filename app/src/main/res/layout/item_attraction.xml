@@ -31,9 +31,11 @@
         style="@style/Widget.AppCompat.RatingBar.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvDescription"
+        android:layout_alignStart="@+id/tvAttrName"
         android:layout_below="@+id/tvAttrName"
+        android:layout_centerVertical="true"
         android:numStars="5"
+        android:layout_marginTop="10dp"
         android:stepSize="0.5" />
 
     <TextView
@@ -45,6 +47,15 @@
         android:layout_marginTop="56dp"
         android:text="Attraction caption here"
         android:textColor="@color/colorPrimaryDark" />
+
+    <View
+        android:id="@+id/profile_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:layout_below="@+id/ivAttrPic"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/background_gradient" />
+
 
 
 </RelativeLayout>
