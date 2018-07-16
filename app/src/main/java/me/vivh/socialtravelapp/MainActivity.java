@@ -1,5 +1,6 @@
 package me.vivh.socialtravelapp;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -7,10 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ TripFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractio
         ButterKnife.bind(this);
 
         fragments.add(new FeedFragment());
-        fragments.add(new ExploreFragment());
+        fragments.add(new AttractionFragment());
         fragments.add(new TripFragment());
         fragments.add(new ProfileFragment());
 

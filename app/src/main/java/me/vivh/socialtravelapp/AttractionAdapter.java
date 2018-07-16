@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -20,7 +22,7 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.Vi
     private List<Attraction> mAttractions;
     Context context;
     // pass in attractions
-    public void AttractionAdapter(List<Attraction> attractions) {
+    public AttractionAdapter(List<Attraction> attractions) {
         mAttractions = attractions;
     }
 
@@ -40,7 +42,7 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.Vi
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tvAttrName) TextView tvAttrName;
-        @BindView(R.id.tvDescription) TextView tvDesc;
+        @BindView(R.id.tvDescription) TextView tvAttrDesc;
         @BindView(R.id.rbVoteAverage) RatingBar rbVoteAverage;
         @BindView(R.id.ivAttrPic) ImageView ivAttrPic;
 
@@ -51,11 +53,11 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.Vi
             tvAttrName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // replace existing fragment with profile fragment inside the frame
-                    /*ProfileFragment profileFragment = new ProfileFragment();
+                    // TODO - replace existing fragment with details fragment inside the frame
+                    /*AttractionDetailsFragment attractionDetailsFragment = new AttractionDetailsFragment();
                     FragmentManager fm = ((FragmentActivity) view.getContext()).getSupportFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.fragmentPlace, profileFragment);
+                    ft.replace(R.id.fragmentPlace, attractionDetailsFragment);
                     ft.commit();*/
                 }
             });
@@ -64,15 +66,11 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-/*        Attraction attraction = mAttractions.get(position);
-        String profilePicUrl = "";
-        if (post.getUser().getParseFile("profilePic") != null) {
-            profilePicUrl = post.getUser().getParseFile("profilePic").getUrl();
-        }
-        holder.tvDesc.setText(post.getDescription());
-        holder.tvUserName.setText(post.getUser().getUsername());
-        holder.ivImage.layout(0,0,0,0);
-        Glide.with(context).load(post.getImage().getUrl()).into(holder.ivImage);*/
+        Attraction attraction = mAttractions.get(position);
+        holder.tvAttrName.setText(attraction.getName());
+        holder.tvAttrDesc.setText(attraction.getDescription());
+        holder.rbVoteAverage.setNumStars((int) Math.round(attraction.getRating()));
+        Glide.with(context).load(attraction.getImage().getUrl()).into(holder.ivAttrPic);
     }
 
     // Clean all elements of the recycler

@@ -3,15 +3,14 @@ package me.vivh.socialtravelapp.model;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
+import com.parse.ParseQuery;
 
 @ParseClassName("Attraction")
 public class Attraction extends ParseObject {
     private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_IMAGE = "image";
-    private static final String KEY_USER = "user";
+    private static final String KEY_NAME = "name";
     private static final String KEY_RATING = "rating";
-    private static final String KEY_LIKED_BY = "liked_by";
 
     public String getDescription() {
         return getString(KEY_DESCRIPTION);
@@ -29,22 +28,37 @@ public class Attraction extends ParseObject {
         put(KEY_IMAGE, image);
     }
 
-    public ParseUser getUser() { return getParseUser(KEY_USER); }
-
-    public void setUser(ParseUser user) {
-        put(KEY_USER, user);
+    public String getName() {
+        return getString(KEY_NAME);
     }
 
-    public String getRating() {
-        return getString(KEY_RATING);
+    public void setName(String name) {
+        put(KEY_NAME, name);
     }
 
-    public void setRating(String rating) {
+    public Double getRating() {
+        return getDouble(KEY_RATING);
+    }
+
+    public void setRating(Double rating) {
         put(KEY_RATING, rating);
     }
 
-    public String getUsername() {
-        return getUser().getUsername();
+    public static class Query extends ParseQuery<Attraction> {
+        public Query() {
+            super(Attraction.class);
+        }
+
+        public Query getTop() {
+            setLimit(20);
+            return this;
+        }
+
+        public Query withName() {
+            include(KEY_NAME);
+            return this;
+        }
+
     }
 
 }

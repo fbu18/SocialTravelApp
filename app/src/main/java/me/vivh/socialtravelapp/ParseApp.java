@@ -13,6 +13,9 @@ public class ParseApp extends Application{
     public void onCreate() {
         super.onCreate();
 
+        // Enable Local Datastore.
+        Parse.enableLocalDatastore(this);
+
         ParseObject.registerSubclass(Attraction.class);
 
         final Parse.Configuration configuration = new Parse.Configuration.Builder(this)
