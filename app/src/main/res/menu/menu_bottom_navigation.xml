@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_feed"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="home" />
+    <item
+        android:id="@+id/action_explore"
+        android:icon="@drawable/ic_explore_black_24dp"
+        android:title="explore" />
+
+    <item
+        android:id="@+id/action_trips"
+        android:icon="@drawable/ic_card_travel_black_24dp"
+        android:title="trips" />
+
+    <item
+        android:id="@+id/action_profile"
+        android:icon="@drawable/ic_perm_identity_black_24dp"
+        android:title="profile" />
+
+</menu>
