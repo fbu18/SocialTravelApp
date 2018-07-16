@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,5 +30,11 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(new ExploreFragment());
         fragments.add(new TripFragment());
         fragments.add(new ProfileFragment());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 }
