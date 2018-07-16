@@ -1,11 +1,11 @@
-package me.vivh.SocialTravelApp;
+package me.vivh.socialtravelapp;
 
 import android.app.Application;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
 
-import me.vivh.parstagram.model.Post;
+import me.vivh.socialtravelapp.model.Attraction;
 
 public class ParseApp extends Application{
 
@@ -13,14 +13,15 @@ public class ParseApp extends Application{
     public void onCreate() {
         super.onCreate();
 
-        ParseObject.registerSubclass(Post.class);
+        ParseObject.registerSubclass(Attraction.class);
 
         final Parse.Configuration configuration = new Parse.Configuration.Builder(this)
-                .applicationId("johnny-hopkins")
-                .clientKey("sloan-kettering!")
-                .server("http://vivh3-fbu-instagram.herokuapp.com/parse")
+                .applicationId("travelapp")
+                .clientKey("supersecretkey#2")
+                .server("https://travelapp-fbu18.herokuapp.com/parse")
                 .build();
 
         Parse.initialize(configuration);
     }
 }
+
