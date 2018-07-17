@@ -17,24 +17,20 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-    <activity android:name=".LoginActivity">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
-    <activity android:name=".MainActivity" />
-
-<<<<<<< HEAD
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".MainActivity" />
+
+        <uses-library android:required="true" android:name="com.google.android.maps" />
         <meta-data android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/google_maps_api_key"/>
-=======
->>>>>>> c06ca818f36270828357ee94269a3422cc4f59c1
+            android:value="AIzaSyCf2GDkUWjJ4p2hnlX2Pgj-i6MYhJoga90"/>
+
+
     </application>
 
 </manifest>
