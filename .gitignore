@@ -66,3 +66,4 @@ fastlane/readme.md
 .idea/modules.xml
 app/src/main/res/values/secret.xml
 .idea
+.idea/modules.xml
