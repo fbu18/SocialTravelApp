@@ -31,6 +31,12 @@ Describe any challenges encountered while building the app.
 - [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
 - [Glide](https://github.com/bumptech/glide) - Image loading and caching library for Android
 
+## Parse configuration
+
+- First install parse dashboard: npm install -g parse-dashboard
+- Then view the dashboard: parse-dashboard --appId myAppId --masterKey myMasterKey --serverURL "https://yourapp.herokuapp.com/parse"
+- Replace the variables there with the ones specific to the project.
+
 ## License
 
     Copyright [2018] [Facebook]
