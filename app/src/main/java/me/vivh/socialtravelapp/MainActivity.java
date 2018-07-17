@@ -57,6 +57,7 @@ TripFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractio
                         break;
                     case 2:
                         bottomNavigationView.setSelectedItemId(R.id.action_trips);
+                        break;
                     case 3:
                         bottomNavigationView.setSelectedItemId(R.id.action_profile);
                         break;
