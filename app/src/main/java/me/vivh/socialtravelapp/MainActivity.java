@@ -32,7 +32,7 @@ TripFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractio
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         fragments.add(new FeedFragment());
-        fragments.add(new ExploreFragment());
+        fragments.add(new AttractionFragment());
         fragments.add(new TripFragment());
         fragments.add(new ProfileFragment());
         fragments.add(new MapsFragment());
