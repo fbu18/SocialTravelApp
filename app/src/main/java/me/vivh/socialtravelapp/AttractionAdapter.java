@@ -10,11 +10,13 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.vivh.socialtravelapp.model.Attraction;
 
 public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.ViewHolder> {
@@ -70,7 +72,12 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.Vi
         holder.tvAttrName.setText(attraction.getName());
         holder.tvAttrDesc.setText(attraction.getDescription());
         holder.rbVoteAverage.setNumStars((int) Math.round(attraction.getRating()));
-        Glide.with(context).load(attraction.getImage().getUrl()).into(holder.ivAttrPic);
+        Glide.with(context).load(attraction.getImage().getUrl())
+                .apply(
+                        RequestOptions.placeholderOf(R.drawable.background_gradient)
+                                .fitCenter()
+                                .transform(new RoundedCornersTransformation(25, 0)))
+                .into(holder.ivAttrPic);
     }
 
     // Clean all elements of the recycler
