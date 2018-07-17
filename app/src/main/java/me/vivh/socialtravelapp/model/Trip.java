@@ -27,6 +27,10 @@ public class Trip extends ParseObject {
         return getDate(KEY_DATE);
     }
 
+    public Attraction getAttraction(){
+        return (Attraction) get(KEY_ATTRACTION);
+    }
+
     public void setDescription(String description) {
         put(KEY_DESCRIPTION, description);
     }
@@ -37,6 +41,10 @@ public class Trip extends ParseObject {
 
     public void setDate(Date date){
         put(KEY_DATE, date);
+    }
+
+    public void setKeyAttraction(Attraction attraction){
+        put(KEY_ATTRACTION, attraction);
     }
 
     public static class Query extends ParseQuery<Trip> {

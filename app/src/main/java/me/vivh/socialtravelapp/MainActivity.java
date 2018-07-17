@@ -86,6 +86,7 @@ TripFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractio
                         return true;
                     case R.id.action_profile:
                         viewPager.setCurrentItem(3);
+                        return true;
                     default:
                         return false;
                 }
