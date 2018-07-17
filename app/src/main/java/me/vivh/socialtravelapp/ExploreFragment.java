@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -17,6 +18,9 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class ExploreFragment extends Fragment {
+
+    Button knowBtn;
+    Button suggestBtn;
 
     private OnFragmentInteractionListener mListener;
 
@@ -39,7 +43,22 @@ public class ExploreFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_explore, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_explore,
+                container, false);
+
+        knowBtn = (Button) rootView.findViewById(R.id.btnKnow);
+        suggestBtn = (Button) rootView.findViewById(R.id.btnSuggest);
+
+        suggestBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AttractionFragment nextFrag= new AttractionFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.explore_layout_container, nextFrag,"findThisFragment")
+                        .commit();
+            }
+        });
+        return rootView;
     }
 
 
@@ -74,3 +93,4 @@ public class ExploreFragment extends Fragment {
     public interface OnFragmentInteractionListener {
     }
 }
+
