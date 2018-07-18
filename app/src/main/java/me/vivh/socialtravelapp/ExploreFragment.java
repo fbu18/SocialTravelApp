@@ -95,5 +95,7 @@ public class ExploreFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
     }
+
+
 }
 
