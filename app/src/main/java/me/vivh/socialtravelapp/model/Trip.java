@@ -4,7 +4,9 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 @ParseClassName("Trip")
 public class Trip extends ParseObject {
@@ -25,6 +27,15 @@ public class Trip extends ParseObject {
 
     public Date getDate(){
         return getDate(KEY_DATE);
+    }
+
+    public String getDateString(){
+        Date date = getDate(KEY_DATE);
+        String postFormat = "EEE, MMM dd, yyyy h:mm aaa";
+        SimpleDateFormat sf = new SimpleDateFormat(postFormat, Locale.ENGLISH);
+        sf.setLenient(true);
+
+        return sf.format(date);
     }
 
     public Attraction getAttraction(){

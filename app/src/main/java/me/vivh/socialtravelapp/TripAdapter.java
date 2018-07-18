@@ -49,7 +49,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         Trip trip = mTrips.get(i);
 
         viewHolder.tvGroupName.setText(trip.getName());
-        viewHolder.tvDate.setText(trip.getDate().toString());
+        viewHolder.tvDate.setText(trip.getDateString());
         viewHolder.tvDescription.setText(trip.getDescription());
 
         try{

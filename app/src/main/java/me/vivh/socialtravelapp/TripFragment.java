@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,6 +31,7 @@ import me.vivh.socialtravelapp.model.Trip;
 public class TripFragment extends Fragment {
 
     @BindView(R.id.rvTrips) RecyclerView rvTrips;
+    @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
     ArrayList<Trip> trips;
     TripAdapter tripAdapter;
 
@@ -66,6 +68,22 @@ public class TripFragment extends Fragment {
         rvTrips.setAdapter(tripAdapter);
 
         loadTopTrips();
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadTopTrips();
+                swipeContainer.setRefreshing(false);
+            }
+        });
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
         return view;
 
     }
@@ -101,11 +119,9 @@ public class TripFragment extends Fragment {
             @Override
             public void done(List<Trip> objects, ParseException e) {
                 if (e==null){
-                    for (int i = 0; i < objects.size(); i++){
-
-                        trips.add(0,objects.get(i));
-                        tripAdapter.notifyItemInserted(trips.size()-1);
-                    }
+                    trips.clear();
+                    trips.addAll(objects);
+                    tripAdapter.notifyDataSetChanged();
                 } else {
                     e.printStackTrace();
                 }
