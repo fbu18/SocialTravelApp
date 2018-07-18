@@ -35,6 +35,7 @@ TripFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractio
         fragments.add(new ExploreFragment());
         fragments.add(new TripFragment());
         fragments.add(new ProfileFragment());
+        fragments.add(new SuggestionFragment());
         fragments.add(new MapsFragment());
         fragments.add(new AttractionFragment());
 

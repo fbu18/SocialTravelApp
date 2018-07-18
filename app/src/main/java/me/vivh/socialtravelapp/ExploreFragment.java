@@ -1,8 +1,9 @@
 package me.vivh.socialtravelapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -13,9 +14,8 @@ import android.widget.Button;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
-import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
 
 
 /**
@@ -45,28 +45,6 @@ public class ExploreFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PlaceAutocompleteFragment placeAutocompleteFragment  = (PlaceAutocompleteFragment) getActivity().getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-
-        placeAutocompleteFragment.setOnPlaceSelectedListener(
-                new PlaceSelectionListener() {
-                    @Override
-                    public void onPlaceSelected(Place place) {
-                        // TODO: Get info about the selected place.
-                        String placeDetailsStr = place.getName() + "\n"
-                                + place.getId() + "\n"
-                                + place.getLatLng().toString() + "\n"
-                                + place.getAddress() + "\n"
-                                + place.getAttributions();
-                        Log.i("OnPlaceSelected", placeDetailsStr);
-                    }
-
-                    @Override
-                    public void onError(Status status) {
-                        // TODO: Handle the error.
-                        Log.i("OnPlaceSelected", "An error occurred: " + status);
-                    }
-                }
-        );
     }
 
 
@@ -89,11 +67,21 @@ public class ExploreFragment extends Fragment {
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.explore_layout_container, nextFrag,"findThisFragment")
                         .commit();*/
-                ViewPager vp=(ViewPager) getActivity().findViewById(R.id.viewPager);
-                vp.setCurrentItem(5, false);
+                ViewPager vp= (ViewPager) getActivity().findViewById(R.id.viewPager);
+                vp.setCurrentItem(4, false);
             }
         });
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getFragmentManager().beginTransaction()
+                .replace(R.id.place_autocomplete_fragment_container, new SupportPlaceAutocompleteFragment())
+                .addToBackStack(SupportPlaceAutocompleteFragment.class.getName())
+                .commit();
+
     }
 
 
@@ -108,6 +96,30 @@ public class ExploreFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onAttachFragment(Fragment childFragment) {
+        super.onAttachFragment(childFragment);
+        ((SupportPlaceAutocompleteFragment) childFragment).setOnPlaceSelectedListener(
+                new PlaceSelectionListener() {
+                    @Override
+                    public void onPlaceSelected(Place place) {
+                        // TODO: Get info about the selected place.
+                        String placeDetailsStr = place.getName() + "\n"
+                                + place.getId() + "\n"
+                                + place.getLatLng().toString() + "\n"
+                                + place.getAddress() + "\n"
+                                + place.getAttributions();
+                        Log.i("OnPlaceSelected", placeDetailsStr);
+                    }
+
+                    @Override
+                    public void onError(Status status) {
+                        // TODO: Handle the error.
+                        Log.i("OnPlaceSelected", "An error occurred: " + status);
+                    }
+                }
+         );
+    }
 
     @Override
     public void onDetach() {

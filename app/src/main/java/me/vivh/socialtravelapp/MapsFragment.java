@@ -41,9 +41,9 @@ public class MapsFragment extends Fragment {
                     loadMap(map);
                 }
             });
-        } else {
+        } /*else {
             Toast.makeText(getActivity(), "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
-        }
+        }*/
 
     }
 
@@ -52,13 +52,13 @@ public class MapsFragment extends Fragment {
         map = googleMap;
         if (map != null) {
             // Map is ready
-            Toast.makeText(getActivity(), "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
 //            MapDemoActivityPermissionsDispatcher.getMyLocationWithPermissionCheck(this);
 //            MapDemoActivityPermissionsDispatcher.startLocationUpdatesWithPermissionCheck(this);
 //            map.setOnMapLongClickListener(this);
 //            map.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater()));
-        } else {
+        } /*else {
             Toast.makeText(getActivity(), "Error - Map was null!!", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 }
