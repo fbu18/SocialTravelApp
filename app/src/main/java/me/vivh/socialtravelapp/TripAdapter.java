@@ -3,6 +3,7 @@ package me.vivh.socialtravelapp;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,13 +24,23 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.vivh.socialtravelapp.model.Attraction;
 import me.vivh.socialtravelapp.model.Trip;
 
+import static android.app.PendingIntent.getActivity;
+
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
 
+    interface Callback{
+        void openTripDetail(@NonNull Trip trip);
+    }
+
+    private Callback inputCallback;
     private List<Trip> mTrips;
     Context context;
+    Trip trip;
 
-    public TripAdapter(List<Trip> trips) {
+
+    public TripAdapter(List<Trip> trips, Callback callback) {
         mTrips = trips;
+        inputCallback = callback;
     }
 
     @NonNull
@@ -41,12 +52,18 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         View view = inflater.inflate(R.layout.item_trip, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
 
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                inputCallback.openTripDetail(trip);
+            }
+        });
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        Trip trip = mTrips.get(i);
+        trip = mTrips.get(i);
 
         viewHolder.tvGroupName.setText(trip.getName());
         viewHolder.tvDate.setText(trip.getDateString());

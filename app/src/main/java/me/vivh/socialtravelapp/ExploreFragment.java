@@ -69,6 +69,7 @@ public class ExploreFragment extends Fragment {
                         .commit();*/
                 ViewPager vp= (ViewPager) getActivity().findViewById(R.id.viewPager);
                 vp.setCurrentItem(4, false);
+
             }
         });
         return rootView;

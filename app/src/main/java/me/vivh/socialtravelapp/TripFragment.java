@@ -39,6 +39,8 @@ public class TripFragment extends Fragment {
 
     private Unbinder unbinder;
 
+    private TripAdapter.Callback callback;
+
     public TripFragment() {
         // Required empty public constructor
     }
@@ -62,7 +64,7 @@ public class TripFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
 
         trips = new ArrayList<>();
-        tripAdapter = new TripAdapter(trips);
+        tripAdapter = new TripAdapter(trips, callback);
 
         rvTrips.setLayoutManager(new LinearLayoutManager(getContext()));
         rvTrips.setAdapter(tripAdapter);
@@ -91,8 +93,8 @@ public class TripFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof TripAdapter.Callback) {
+            callback = (TripAdapter.Callback) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -102,7 +104,7 @@ public class TripFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        callback = null;
     }
 
     @Override
