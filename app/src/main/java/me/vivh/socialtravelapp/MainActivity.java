@@ -16,9 +16,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.vivh.socialtravelapp.model.Trip;
 
 public class MainActivity extends AppCompatActivity implements ExploreFragment.OnFragmentInteractionListener, FeedFragment.OnFragmentInteractionListener,
-TripFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener{
+TripListFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener, TripDetailFragment.OnFragmentInteractionListener, TripAdapter.Callback{
 
     private final List<Fragment> fragments = new ArrayList<>();
     private BottomNavAdapter adapter;
@@ -33,11 +34,12 @@ TripFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractio
         ButterKnife.bind(this);
         fragments.add(new FeedFragment());
         fragments.add(new ExploreFragment());
-        fragments.add(new TripFragment());
+        fragments.add(new TripListFragment());
         fragments.add(new ProfileFragment());
         fragments.add(new SuggestionFragment());
         fragments.add(new MapsFragment());
         fragments.add(new AttractionFragment());
+        fragments.add(new TripDetailFragment());
 
         adapter = new BottomNavAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
@@ -126,5 +128,11 @@ TripFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractio
         public int getCount() {
             return fragments.size();
         }
+    }
+
+    @Override
+    public void openTripDetail(@NonNull Trip trip) {
+        ((TripDetailFragment)fragments.get(7)).trip = trip;
+        viewPager.setCurrentItem(7, false);
     }
 }

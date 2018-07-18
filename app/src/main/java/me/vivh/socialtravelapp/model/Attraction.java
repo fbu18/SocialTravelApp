@@ -2,6 +2,7 @@ package me.vivh.socialtravelapp.model;
 
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -11,6 +12,8 @@ public class Attraction extends ParseObject {
     private static final String KEY_IMAGE = "image";
     private static final String KEY_NAME = "name";
     private static final String KEY_RATING = "rating";
+    private static final String KEY_POINT = "point";
+    private static final String KEY_ADDRESS = "address";
 
     public String getDescription() {
         return getString(KEY_DESCRIPTION);
@@ -44,6 +47,33 @@ public class Attraction extends ParseObject {
         put(KEY_RATING, rating);
     }
 
+    public ParseGeoPoint getPoint(){
+        return getParseGeoPoint(KEY_POINT);
+    }
+
+    public void setPoint(Double latitude, Double longitude){
+        final ParseGeoPoint loc = new ParseGeoPoint(latitude, longitude);
+        put(KEY_POINT, loc);
+    }
+
+    public Double getLatitude() {
+        return getPoint().getLatitude();
+    }
+
+
+    public Double getLongitude() {
+        return getPoint().getLongitude();
+    }
+
+    public String getAddress() {
+        return getString(KEY_ADDRESS);
+    }
+
+    public void setAddress(String address) {
+        put(KEY_ADDRESS, address);
+    }
+
+
     public static class Query extends ParseQuery<Attraction> {
         public Query() {
             super(Attraction.class);
@@ -62,4 +92,5 @@ public class Attraction extends ParseObject {
     }
 
 }
+
 
