@@ -67,14 +67,7 @@ public class ExploreFragment extends Fragment {
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.explore_layout_container, nextFrag,"findThisFragment")
                         .commit();*/
-                ViewPager vp=(ViewPager) getActivity().findViewById(R.id.viewPager);
-                vp.setCurrentItem(5, false);
-            }
-        });
-        knowBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                ViewPager vp = (ViewPager) getActivity().findViewById(R.id.viewPager);
+                ViewPager vp= (ViewPager) getActivity().findViewById(R.id.viewPager);
                 vp.setCurrentItem(4, false);
             }
         });
