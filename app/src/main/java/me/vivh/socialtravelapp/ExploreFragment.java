@@ -65,6 +65,7 @@ public class ExploreFragment extends Fragment {
             public void onClick(View view) {
                 ViewPager vp= (ViewPager) getActivity().findViewById(R.id.viewPager);
                 vp.setCurrentItem(4, false);
+
             }
         });
         return rootView;
