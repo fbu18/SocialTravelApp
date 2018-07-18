@@ -32,9 +32,11 @@ TripFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractio
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         fragments.add(new FeedFragment());
-        fragments.add(new AttractionFragment());
+        fragments.add(new ExploreFragment());
         fragments.add(new TripFragment());
         fragments.add(new ProfileFragment());
+        fragments.add(new MapsFragment());
+        fragments.add(new AttractionFragment());
 
         adapter = new BottomNavAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
@@ -75,16 +77,18 @@ TripFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractio
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
                     case R.id.action_feed:
-                        viewPager.setCurrentItem(0);
+                        viewPager.setCurrentItem(0, false);
                         return true;
                     case R.id.action_explore:
-                        viewPager.setCurrentItem(1);
+                        viewPager.setCurrentItem(1, false);
                         return true;
                     case R.id.action_trips:
-                        viewPager.setCurrentItem(2);
+                        viewPager.setCurrentItem(2, false);
                         return true;
                     case R.id.action_profile:
+
                         viewPager.setCurrentItem(3);
+                        viewPager.setCurrentItem(3, false);
                         return true;
                     default:
                         return false;

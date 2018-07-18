@@ -6,6 +6,7 @@ import com.parse.Parse;
 import com.parse.ParseObject;
 
 import me.vivh.socialtravelapp.model.Attraction;
+import me.vivh.socialtravelapp.model.Trip;
 
 public class ParseApp extends Application{
 
@@ -17,6 +18,7 @@ public class ParseApp extends Application{
         Parse.enableLocalDatastore(this);
 
         ParseObject.registerSubclass(Attraction.class);
+        ParseObject.registerSubclass(Trip.class);
 
         final Parse.Configuration configuration = new Parse.Configuration.Builder(this)
                 .applicationId("travelapp")

@@ -1,24 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background_gradient"
+    android:id="@+id/explore_layout_container"
     tools:context=".ExploreFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/fragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btnKnow"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        app:menu="@menu/menu_explore" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="139dp"
+        android:background="?attr/colorControlHighlight"
+        android:text="I know where I want to go"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        tools:clickable="true" />
 
-</FrameLayout>
+    <Button
+        android:id="@+id/btnSuggest"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="221dp"
+        android:background="?attr/colorControlHighlight"
+        android:text="Suggest places for me"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        tools:clickable="true" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="57dp"
+        android:fontFamily="cursive"
+        android:text="Explore"
+        android:textColor="@android:color/white"
+        android:textSize="55sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
+
