@@ -1,13 +1,21 @@
 package me.vivh.socialtravelapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.CameraUpdateFactory;
 
 
 /**
@@ -37,7 +45,31 @@ public class ExploreFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PlaceAutocompleteFragment placeAutocompleteFragment  = (PlaceAutocompleteFragment) getActivity().getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
+        placeAutocompleteFragment.setOnPlaceSelectedListener(
+                new PlaceSelectionListener() {
+                    @Override
+                    public void onPlaceSelected(Place place) {
+                        // TODO: Get info about the selected place.
+                        String placeDetailsStr = place.getName() + "\n"
+                                + place.getId() + "\n"
+                                + place.getLatLng().toString() + "\n"
+                                + place.getAddress() + "\n"
+                                + place.getAttributions();
+                        Log.i("OnPlaceSelected", placeDetailsStr);
+                    }
+
+                    @Override
+                    public void onError(Status status) {
+                        // TODO: Handle the error.
+                        Log.i("OnPlaceSelected", "An error occurred: " + status);
+                    }
+                }
+        );
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,7 +127,5 @@ public class ExploreFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
     }
-
-
 }
 
