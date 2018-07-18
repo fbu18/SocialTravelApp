@@ -28,7 +28,7 @@
 
         <uses-library android:required="true" android:name="com.google.android.maps" />
         <meta-data android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCf2GDkUWjJ4p2hnlX2Pgj-i6MYhJoga90"/>
+            android:value="@string/googlemapsapi"/>
 
 
     </application>

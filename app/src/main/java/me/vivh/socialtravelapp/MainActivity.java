@@ -35,7 +35,6 @@ TripFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractio
         fragments.add(new AttractionFragment());
         fragments.add(new TripFragment());
         fragments.add(new ProfileFragment());
-        fragments.add(new MapsFragment());
 
         adapter = new BottomNavAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
@@ -57,6 +56,7 @@ TripFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractio
                         break;
                     case 2:
                         bottomNavigationView.setSelectedItemId(R.id.action_trips);
+                        break;
                     case 3:
                         bottomNavigationView.setSelectedItemId(R.id.action_profile);
                         break;
@@ -85,6 +85,7 @@ TripFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractio
                         return true;
                     case R.id.action_profile:
                         viewPager.setCurrentItem(3);
+                        return true;
                     default:
                         return false;
                 }
