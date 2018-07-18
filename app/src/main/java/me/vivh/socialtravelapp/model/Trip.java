@@ -28,7 +28,7 @@ public class Trip extends ParseObject {
     }
 
     public Attraction getAttraction(){
-        return (Attraction) get(KEY_ATTRACTION);
+        return (Attraction) getParseObject(KEY_ATTRACTION);
     }
 
     public void setDescription(String description) {

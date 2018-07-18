@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +13,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.parse.ParseException;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+import me.vivh.socialtravelapp.model.Attraction;
 import me.vivh.socialtravelapp.model.Trip;
 
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
@@ -49,11 +52,18 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         viewHolder.tvDate.setText(trip.getDate().toString());
         viewHolder.tvDescription.setText(trip.getDescription());
 
-//        Glide.with(context).load(trip.getAttraction().getImage().getUrl())
-//                .apply(
-//                        RequestOptions.placeholderOf(R.drawable.background_gradient)
-//                                .circleCrop()
-//                .into(viewHolder.ivAttrPic);
+        try{
+            String url = trip.getAttraction().fetchIfNeeded().getParseFile("image").getUrl();
+            Glide.with(context).load(url)
+                    .apply(
+                            RequestOptions.placeholderOf(R.drawable.background_gradient)
+                                    .circleCrop())
+                    .into(viewHolder.ivAttractionPic);
+        }catch(ParseException e){
+            e.printStackTrace();
+        }
+
+
 
     }
 
@@ -61,7 +71,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
 
         @BindView(R.id.tvGroupName) TextView tvGroupName;
         @BindView(R.id.tvDate) TextView tvDate;
-        @Nullable @BindView(R.id.ivAttrPic) ImageView ivAttrPic;
+        @BindView(R.id.ivAttractionPic) ImageView ivAttractionPic;
         @BindView(R.id.tvDescription) TextView tvDescription;
 
         public ViewHolder(View itemView){
