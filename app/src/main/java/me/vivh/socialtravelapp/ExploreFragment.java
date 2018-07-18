@@ -3,6 +3,7 @@ package me.vivh.socialtravelapp;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,10 +53,12 @@ public class ExploreFragment extends Fragment {
         suggestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AttractionFragment nextFrag= new AttractionFragment();
+                /*AttractionFragment nextFrag= new AttractionFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.explore_layout_container, nextFrag,"findThisFragment")
-                        .commit();
+                        .commit();*/
+                ViewPager vp=(ViewPager) getActivity().findViewById(R.id.viewPager);
+                vp.setCurrentItem(5, false);
             }
         });
         return rootView;
