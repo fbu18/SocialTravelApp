@@ -63,10 +63,6 @@ public class ExploreFragment extends Fragment {
         suggestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*AttractionFragment nextFrag= new AttractionFragment();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.explore_layout_container, nextFrag,"findThisFragment")
-                        .commit();*/
                 ViewPager vp= (ViewPager) getActivity().findViewById(R.id.viewPager);
                 vp.setCurrentItem(4, false);
 
@@ -78,11 +74,12 @@ public class ExploreFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        SupportPlaceAutocompleteFragment placeAutocompleteFragment = new SupportPlaceAutocompleteFragment();
+        //((EditText)placeAutocompleteFragment.getView().findViewById(R.id.place_autocomplete_fragment_container)).setHint("Know where you want to go?");
         getFragmentManager().beginTransaction()
-                .replace(R.id.place_autocomplete_fragment_container, new SupportPlaceAutocompleteFragment())
+                .replace(R.id.place_autocomplete_fragment_container, placeAutocompleteFragment)
                 .addToBackStack(SupportPlaceAutocompleteFragment.class.getName())
                 .commit();
-
     }
 
 
