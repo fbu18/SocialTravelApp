@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/flSuggest"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
     <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+        android:id="@+id/suggestionnavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        app:menu = "@menu/menu_bottom_navigation"/>
+        android:layout_alignParentTop="true"
+        app:menu="@menu/menu_explore">
 
-
+    </android.support.design.widget.BottomNavigationView>
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
+        android:id="@+id/vpSuggest"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/bottom_navigation"
+        android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_below="@+id/suggestionnavigation" />
 
 </RelativeLayout>

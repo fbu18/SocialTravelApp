@@ -26,14 +26,9 @@
         </activity>
         <activity android:name=".MainActivity" />
 
-        <!--<uses-library android:required="true" android:name="com.google.android.maps" />
-        <meta-data android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/google_maps_api_key"/>-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_places_api_key"/>
-
-
     </application>
 
 </manifest>
