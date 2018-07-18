@@ -1,23 +1,17 @@
 package me.vivh.socialtravelapp;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +19,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import me.vivh.socialtravelapp.model.Attraction;
 import me.vivh.socialtravelapp.model.Trip;
 
-public class TripFragment extends Fragment {
+public class TripListFragment extends Fragment {
 
     @BindView(R.id.rvTrips) RecyclerView rvTrips;
     @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
@@ -41,12 +34,12 @@ public class TripFragment extends Fragment {
 
     private TripAdapter.Callback callback;
 
-    public TripFragment() {
+    public TripListFragment() {
         // Required empty public constructor
     }
 
-    public static TripFragment newInstance(String param1, String param2) {
-        TripFragment fragment = new TripFragment();
+    public static TripListFragment newInstance(String param1, String param2) {
+        TripListFragment fragment = new TripListFragment();
 
         return fragment;
     }

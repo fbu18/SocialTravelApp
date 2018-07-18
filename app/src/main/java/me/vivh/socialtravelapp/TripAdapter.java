@@ -35,8 +35,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
     private Callback inputCallback;
     private List<Trip> mTrips;
     Context context;
-    Trip trip;
-
 
     public TripAdapter(List<Trip> trips, Callback callback) {
         mTrips = trips;
@@ -50,12 +48,12 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View view = inflater.inflate(R.layout.item_trip, viewGroup, false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        final ViewHolder viewHolder = new ViewHolder(view);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                inputCallback.openTripDetail(trip);
+                inputCallback.openTripDetail(mTrips.get(viewHolder.getAdapterPosition()));
             }
         });
         return viewHolder;
@@ -63,7 +61,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        trip = mTrips.get(i);
+        Trip trip = mTrips.get(i);
 
         viewHolder.tvGroupName.setText(trip.getName());
         viewHolder.tvDate.setText(trip.getDateString());
