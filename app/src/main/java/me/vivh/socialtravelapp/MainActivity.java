@@ -1,5 +1,6 @@
 package me.vivh.socialtravelapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -10,6 +11,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -134,5 +140,17 @@ TripListFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentIntera
     public void openTripDetail(@NonNull Trip trip) {
         ((TripDetailFragment)fragments.get(7)).trip = trip;
         viewPager.setCurrentItem(7, false);
+    }
+
+    @Override
+    public void logout() {
+        ParseUser.logOutInBackground(new LogOutCallback() {
+            @Override
+            public void done(ParseException e) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                Toast.makeText(MainActivity.this, "Logged out successfully.", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

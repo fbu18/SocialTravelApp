@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +109,7 @@ public class TripListFragment extends Fragment {
 
     public void loadTopTrips(){
         final Trip.Query tripsQuery = new Trip.Query();
-        tripsQuery.getTop().withName();
+        tripsQuery.whereEqualTo("user", ParseUser.getCurrentUser());
 
         tripsQuery.findInBackground(new FindCallback<Trip>() {
             @Override
