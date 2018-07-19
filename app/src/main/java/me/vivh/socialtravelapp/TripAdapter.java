@@ -48,7 +48,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
             @Override
             public void onClick(View view) {
                 inputCallback.openTripDetail(mTrips.get(viewHolder.getAdapterPosition()));
-                //inputCallback.openDetail("trip", mTrips.get(viewHolder.getAdapterPosition()));
             }
         });
         return viewHolder;
@@ -104,7 +103,5 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         mTrips.addAll(list);
         notifyDataSetChanged();
     }
-
-
 
 }

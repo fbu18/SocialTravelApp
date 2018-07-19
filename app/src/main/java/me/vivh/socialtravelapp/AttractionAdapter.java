@@ -47,7 +47,6 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.Vi
             @Override
             public void onClick(View view) {
                 attrCallback.openAttractionDetails(mAttractions.get(viewHolder.getAdapterPosition()));
-                //attrCallback.openDetail("attraction", mAttractions.get(viewHolder.getAdapterPosition()));
             }
         });
         return viewHolder;

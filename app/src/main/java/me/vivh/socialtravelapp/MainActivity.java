@@ -148,20 +148,4 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         ((AttractionDetailsFragment)fragments.get(8)).attraction = attraction;
         viewPager.setCurrentItem(8, false);
     }
-
-   /* @Override
-    // for integrating openTripDetail and openAttractionDetails
-    public void openDetail(String TAG, @NonNull Object data){
-        if (TAG.equals("trip")){
-            Trip trip = (Trip) data;
-            ((TripDetailFragment)fragments.get(7)).trip = trip;
-            viewPager.setCurrentItem(7, false);
-        }
-        else if (TAG.equals("attraction")){
-            Attraction attraction = (Attraction) data;
-            ((AttractionDetailsFragment)fragments.get(8)).attraction = attraction;
-            viewPager.setCurrentItem(8, false);
-        }
-    }*/
-
 }
