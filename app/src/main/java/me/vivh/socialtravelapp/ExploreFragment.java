@@ -80,7 +80,6 @@ public class ExploreFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         SupportPlaceAutocompleteFragment placeAutocompleteFragment = new SupportPlaceAutocompleteFragment();
-        //((EditText)placeAutocompleteFragment.getView().findViewById(R.id.place_autocomplete_fragment_container)).setHint("Know where you want to go?");
         getFragmentManager().beginTransaction()
                 .replace(R.id.place_autocomplete_fragment_container, placeAutocompleteFragment)
                 .addToBackStack(SupportPlaceAutocompleteFragment.class.getName())
@@ -125,6 +124,7 @@ public class ExploreFragment extends Fragment {
                 }
         );
     }
+
 
     @Override
     public void onDetach() {

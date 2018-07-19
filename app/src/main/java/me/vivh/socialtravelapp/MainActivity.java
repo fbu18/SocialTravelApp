@@ -16,10 +16,14 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.vivh.socialtravelapp.model.Attraction;
 import me.vivh.socialtravelapp.model.Trip;
 
-public class MainActivity extends AppCompatActivity implements ExploreFragment.OnFragmentInteractionListener, FeedFragment.OnFragmentInteractionListener,
-TripListFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener, TripDetailFragment.OnFragmentInteractionListener, TripAdapter.Callback{
+public class MainActivity extends AppCompatActivity implements ExploreFragment.OnFragmentInteractionListener,
+        ProfileFragment.OnFragmentInteractionListener,
+        AttractionDetailsFragment.OnFragmentInteractionListener, AttractionFragment.OnFragmentInteractionListener,
+        AttractionAdapter.Callback, FeedFragment.OnFragmentInteractionListener,
+        TripListFragment.OnFragmentInteractionListener, TripDetailFragment.OnFragmentInteractionListener, TripAdapter.Callback{
 
     private final List<Fragment> fragments = new ArrayList<>();
     private BottomNavAdapter adapter;
@@ -32,14 +36,17 @@ TripListFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentIntera
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        fragments.add(new FeedFragment());
-        fragments.add(new ExploreFragment());
-        fragments.add(new TripListFragment());
-        fragments.add(new ProfileFragment());
-        fragments.add(new SuggestionFragment());
-        fragments.add(new MapsFragment());
-        fragments.add(new AttractionFragment());
-        fragments.add(new TripDetailFragment());
+        fragments.add(new FeedFragment()); // index 0
+        fragments.add(new ExploreFragment()); // index 1
+        // fragments.add(new FeedFragment()); // index 2 for testing w/o TripListFragment
+        fragments.add(new TripListFragment()); // index 2
+        fragments.add(new ProfileFragment()); // index 3
+        fragments.add(new SuggestionFragment()); // index 4
+        fragments.add(new MapsFragment()); // index 5
+        fragments.add(new AttractionFragment()); // index 6
+        //fragments.add(new FeedFragment()); // index 7 for testing w/o TripDetailFragment
+        fragments.add(new TripDetailFragment()); // index 7
+        fragments.add(new AttractionDetailsFragment()); // index 8
 
         adapter = new BottomNavAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
@@ -135,4 +142,26 @@ TripListFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentIntera
         ((TripDetailFragment)fragments.get(7)).trip = trip;
         viewPager.setCurrentItem(7, false);
     }
+
+    @Override
+    public void openAttractionDetails(@NonNull Attraction attraction) {
+        ((AttractionDetailsFragment)fragments.get(8)).attraction = attraction;
+        viewPager.setCurrentItem(8, false);
+    }
+
+   /* @Override
+    // for integrating openTripDetail and openAttractionDetails
+    public void openDetail(String TAG, @NonNull Object data){
+        if (TAG.equals("trip")){
+            Trip trip = (Trip) data;
+            ((TripDetailFragment)fragments.get(7)).trip = trip;
+            viewPager.setCurrentItem(7, false);
+        }
+        else if (TAG.equals("attraction")){
+            Attraction attraction = (Attraction) data;
+            ((AttractionDetailsFragment)fragments.get(8)).attraction = attraction;
+            viewPager.setCurrentItem(8, false);
+        }
+    }*/
+
 }
