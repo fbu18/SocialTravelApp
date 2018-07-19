@@ -21,6 +21,8 @@ import java.util.List;
  */
 
 public class SuggestionFragment extends Fragment {
+
+
     private final List<Fragment> fragments = new ArrayList<>();
     MainActivity.BottomNavAdapter adapter;
 

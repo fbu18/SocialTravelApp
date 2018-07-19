@@ -11,11 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
+import com.parse.ParseException;
+import com.parse.SaveCallback;
+
+import me.vivh.socialtravelapp.model.Attraction;
 
 
 /**
@@ -101,6 +106,7 @@ public class ExploreFragment extends Fragment {
                 new PlaceSelectionListener() {
                     @Override
                     public void onPlaceSelected(Place place) {
+                        Toast.makeText( getContext(),"Place selected!",Toast.LENGTH_LONG).show();
                         // TODO: Get info about the selected place.
                         String placeDetailsStr = place.getName() + "\n"
                                 + place.getId() + "\n"
@@ -108,6 +114,7 @@ public class ExploreFragment extends Fragment {
                                 + place.getAddress() + "\n"
                                 + place.getAttributions();
                         Log.i("OnPlaceSelected", placeDetailsStr);
+                        uploadAttraction(place.getName().toString());
                     }
 
                     @Override
@@ -116,7 +123,7 @@ public class ExploreFragment extends Fragment {
                         Log.i("OnPlaceSelected", "An error occurred: " + status);
                     }
                 }
-         );
+        );
     }
 
     @Override
@@ -137,5 +144,24 @@ public class ExploreFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
     }
+
+    public void uploadAttraction(String name){
+        Attraction newAtt = new Attraction();
+        newAtt.setName(name);
+        newAtt.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    // Attraction has been successfully created
+                    Toast.makeText( getContext(),"New attraction added!",Toast.LENGTH_LONG ).show();
+                } else {
+                    Toast.makeText( getContext(),"Failed to add new attraction :(",Toast.LENGTH_LONG ).show();
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 }
+
 
