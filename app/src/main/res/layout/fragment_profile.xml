@@ -1,4 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+
+    <TextView
+        android:id="@+id/profile_points_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/cover_photo"
+        android:layout_marginEnd="67dp"
+        android:gravity="bottom"
+        android:text="Rewards"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#000000"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:id="@+id/cover_photo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/background_gradient"
+        android:scaleType="centerCrop"
+        android:elevation="2dp" />
+
+    <ImageView
+        android:id="@+id/profile_picture"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="52dp"
+        android:elevation="4dp"
+        android:src="@drawable/mark" />
+
+    <TextView
+        android:id="@+id/first_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/last_name"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_toEndOf="@+id/profile_picture"
+        android:layout_toRightOf="@+id/profile_picture"
+        android:elevation="2dp"
+        android:gravity="center_horizontal"
+        android:text="First Name"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#000000"
+        android:textSize="27dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/last_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/cover_photo"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentTop="false"
+        android:layout_toEndOf="@+id/profile_picture"
+        android:layout_toRightOf="@+id/profile_picture"
+        android:elevation="2dp"
+        android:gravity="center_horizontal"
+        android:text="Last Name"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#000000"
+        android:textSize="27dp"
+        android:textStyle="bold" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/profile_comments_list"
+        android:layout_width="160dp"
+        android:layout_height="275dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="false"
+        android:layout_marginEnd="224dp"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/profile_trips_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/profile_comments_list"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/profile_picture"
+        android:layout_marginLeft="11dp"
+        android:gravity="bottom"
+        android:text="Trips"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#000000"
+        android:textStyle="bold" />
+
+
+
+</RelativeLayout>
+
+
+<!--
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -61,3 +171,4 @@
 
 
 </RelativeLayout>
+-->
