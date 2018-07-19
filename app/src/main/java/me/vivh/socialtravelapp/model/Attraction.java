@@ -1,5 +1,7 @@
 package me.vivh.socialtravelapp.model;
 
+import android.telephony.PhoneNumberUtils;
+
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -14,6 +16,7 @@ public class Attraction extends ParseObject {
     private static final String KEY_RATING = "rating";
     private static final String KEY_POINT = "point";
     private static final String KEY_ADDRESS = "address";
+    private static final String KEY_PHONE = "phone";
 
     public String getDescription() {
         return getString(KEY_DESCRIPTION);
@@ -71,6 +74,14 @@ public class Attraction extends ParseObject {
 
     public void setAddress(String address) {
         put(KEY_ADDRESS, address);
+    }
+
+    public String getPhoneNumber() {
+        return PhoneNumberUtils.formatNumber(getString(KEY_PHONE));
+    }
+
+    public void setPhoneNumber(Double number) {
+        put(KEY_PHONE, number);
     }
 
 
