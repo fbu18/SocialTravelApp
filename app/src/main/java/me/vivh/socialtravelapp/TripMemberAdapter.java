@@ -9,18 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.parse.ParseException;
 import com.parse.ParseUser;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.vivh.socialtravelapp.model.Trip;
 
 public class TripMemberAdapter extends RecyclerView.Adapter<TripMemberAdapter.ViewHolder> {
 
@@ -72,7 +66,6 @@ public class TripMemberAdapter extends RecyclerView.Adapter<TripMemberAdapter.Vi
         @BindView(R.id.tvHomeLoc) TextView tvHomeLoc;
 
         public ViewHolder(View itemView){
-
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
