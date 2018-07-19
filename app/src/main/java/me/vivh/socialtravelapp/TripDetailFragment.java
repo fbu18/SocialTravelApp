@@ -3,13 +3,24 @@ package me.vivh.socialtravelapp;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,9 +32,18 @@ import me.vivh.socialtravelapp.model.Trip;
 public class TripDetailFragment extends Fragment {
 
     @BindView(R.id.ivAttractionPic) ImageView ivAttractionPic;
+    @BindView(R.id.tvTripName) TextView tvTripName;
+    @BindView(R.id.tvDate) TextView tvDate;
+    @BindView(R.id.tvAddress) TextView tvAddress;
+    @BindView(R.id.tvDescription) TextView tvDescription;
+    @BindView(R.id.vpTrip) ViewPager vpTrip;
+    @BindView(R.id.tripNavigation) BottomNavigationView tripNavigation;
+
     Trip trip;
     Context context;
     private Unbinder unbinder;
+    MainActivity.BottomNavAdapter adapter;
+    private final List<Fragment> fragments = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
 
@@ -44,6 +64,9 @@ public class TripDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_trip_detail, container, false);
         unbinder = ButterKnife.bind(this, view);
 
+        tvTripName.setText(trip.getName());
+        tvDate.setText(trip.getDateString());
+        tvDescription.setText(trip.getDescription());
         try{
             Glide.with(context)
                     .load(trip.getAttraction().fetchIfNeeded().getParseFile("image").getUrl())
@@ -75,6 +98,56 @@ public class TripDetailFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_explore, menu);
+        fragments.add(new TripMemberFragment());
+        fragments.add(new TripPhotosFragment());
+        adapter = new MainActivity.BottomNavAdapter(getChildFragmentManager(), fragments);
+        vpTrip.setAdapter(adapter);
+        vpTrip.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                switch (i) {
+                    case 0:
+                        tripNavigation.setSelectedItemId(R.id.action_list);
+                        break;
+                    case 1:
+                        tripNavigation.setSelectedItemId(R.id.action_map);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+
+        });
+        tripNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()){
+                    case R.id.action_list:
+                        vpTrip.setCurrentItem(0);
+                        return true;
+                    case R.id.action_map:
+                        vpTrip.setCurrentItem(1);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
     }
 
     public interface OnFragmentInteractionListener {

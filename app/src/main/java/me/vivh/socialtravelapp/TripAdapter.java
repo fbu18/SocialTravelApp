@@ -78,8 +78,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
             e.printStackTrace();
         }
 
-
-
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

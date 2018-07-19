@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_members"
+        android:icon="@drawable/ic_group_black_24dp"
+        android:title="Members" />
+
+    <item
+        android:id="@+id/action_photos"
+        android:icon="@drawable/ic_photo_library_black_24dp"
+        android:title="Photos" />
+</menu>
