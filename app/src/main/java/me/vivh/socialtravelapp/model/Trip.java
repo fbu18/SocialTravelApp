@@ -3,9 +3,12 @@ package me.vivh.socialtravelapp.model;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 @ParseClassName("Trip")
@@ -16,6 +19,7 @@ public class Trip extends ParseObject {
     private static final String KEY_ATTRACTION = "attraction";
     private static final String KEY_NAME = "name";
     private static final String KEY_DATE = "date";
+    private static final String KEY_USER = "user";
 
     public String getDescription() {
         return getString(KEY_DESCRIPTION);
@@ -40,6 +44,10 @@ public class Trip extends ParseObject {
 
     public Attraction getAttraction(){
         return (Attraction) getParseObject(KEY_ATTRACTION);
+    }
+
+    public List<ParseUser> getMembers(){
+        return getList(KEY_USER);
     }
 
     public void setDescription(String description) {
