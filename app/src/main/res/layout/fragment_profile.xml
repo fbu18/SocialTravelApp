@@ -9,7 +9,7 @@
 
 
     <TextView
-        android:id="@+id/profile_points_label"
+        android:id="@+id/profile_rewards_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -22,14 +22,14 @@
         android:textStyle="bold" />
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="210dp"
         android:id="@+id/cover_photo"
-        android:layout_alignParentLeft="true"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:background="@drawable/background_gradient"
-        android:scaleType="centerCrop"
-        android:elevation="2dp" />
+        android:elevation="2dp"
+        android:scaleType="centerCrop" />
 
     <ImageView
         android:id="@+id/profile_picture"
@@ -38,19 +38,17 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="40dp"
         android:elevation="4dp"
         android:src="@drawable/mark" />
 
     <TextView
         android:id="@+id/first_name"
-        android:layout_width="fill_parent"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/last_name"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_toEndOf="@+id/profile_picture"
-        android:layout_toRightOf="@+id/profile_picture"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="94dp"
         android:elevation="2dp"
         android:gravity="center_horizontal"
         android:text="First Name"
@@ -61,13 +59,11 @@
 
     <TextView
         android:id="@+id/last_name"
-        android:layout_width="fill_parent"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/cover_photo"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentTop="false"
-        android:layout_toEndOf="@+id/profile_picture"
-        android:layout_toRightOf="@+id/profile_picture"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="139dp"
         android:elevation="2dp"
         android:gravity="center_horizontal"
         android:text="Last Name"
@@ -84,6 +80,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="false"
         android:layout_marginEnd="224dp"
+        android:layout_marginLeft="10dp"
         android:visibility="visible" />
 
     <TextView
@@ -91,12 +88,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/profile_comments_list"
-        android:layout_alignParentBottom="false"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/profile_picture"
-        android:layout_marginLeft="11dp"
-        android:gravity="bottom"
+        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/profile_rewards_label"
         android:text="Trips"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#000000"
