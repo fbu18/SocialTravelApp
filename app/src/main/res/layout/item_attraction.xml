@@ -5,6 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/item_attraction_layout"
+    android:clickable="false"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
     android:layout_marginBottom="10dp">
 
     <TextView
