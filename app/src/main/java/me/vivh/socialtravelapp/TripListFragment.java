@@ -6,12 +6,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -108,8 +110,10 @@ public class TripListFragment extends Fragment {
     }
 
     public void loadTopTrips(){
+
+
         final Trip.Query tripsQuery = new Trip.Query();
-        tripsQuery.whereEqualTo("user", ParseUser.getCurrentUser());
+        tripsQuery.whereEqualTo("user", ParseUser.getCurrentUser()).include("user");
 
         tripsQuery.findInBackground(new FindCallback<Trip>() {
             @Override

@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         ProfileFragment.OnFragmentInteractionListener,
         AttractionDetailsFragment.OnFragmentInteractionListener, AttractionFragment.OnFragmentInteractionListener,
         AttractionAdapter.Callback, FeedFragment.OnFragmentInteractionListener,
-        TripListFragment.OnFragmentInteractionListener, TripDetailFragment.OnFragmentInteractionListener, TripAdapter.Callback{
+        TripListFragment.OnFragmentInteractionListener, TripAdapter.Callback, TripMemberAdapter.CallbackMember{
+
 
     private final List<Fragment> fragments = new ArrayList<>();
     private BottomNavAdapter adapter;
@@ -160,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
             }
         });
     }
+
     public void openAttractionDetails(@NonNull Attraction attraction) {
         ((AttractionDetailsFragment)fragments.get(8)).attraction = attraction;
         viewPager.setCurrentItem(8, false);
@@ -179,5 +181,11 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
             viewPager.setCurrentItem(8, false);
         }
     }*/
+
+
+    @Override
+    public void openMemberDetail(@NonNull ParseUser user) {
+
+    }
 
 }
