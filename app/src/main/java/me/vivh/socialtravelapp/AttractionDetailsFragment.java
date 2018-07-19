@@ -13,6 +13,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -27,12 +30,14 @@ public class AttractionDetailsFragment extends Fragment {
     @BindView(R.id.tvAttrDesc) TextView tvAttrDesc;
     @BindView(R.id.tvAttrAddress) TextView tvAttrAddress;
     @BindView(R.id.tvAttrPhoneNumber) TextView tvAttrPhoneNumber;
+    @BindView(R.id.tvAttrWebsite) TextView tvAttrWebsite;
 
+    private final List<Attraction> attractions = new ArrayList<>();
     Attraction attraction;
     Context context;
     private Unbinder unbinder;
 
-    private AttractionDetailsFragment.OnFragmentInteractionListener mListener;
+    private AttractionDetailsFragment.OnFragmentInteractionListener listener;
 
     public AttractionDetailsFragment() {
         // Required empty public constructor
@@ -48,12 +53,18 @@ public class AttractionDetailsFragment extends Fragment {
 
         context = container.getContext();
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_trip_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_attraction_details, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        tvAttrDesc.setText(attraction.getDescription());
-        rbVoteAverage.setNumStars((int) Math.round(attraction.getRating()));
+
+
         try{
+            tvAttrName.setText(attraction.getName());
+            tvAttrDesc.setText(attraction.getDescription());
+            tvAttrAddress.setText(attraction.getAddress());
+            rbVoteAverage.setNumStars((int) Math.round(attraction.getRating()));
+            tvAttrPhoneNumber.setText(attraction.getPhoneNumber());
+            tvAttrWebsite.setText(attraction.getWebsite());
             Glide.with(context).load(attraction.getImage().getUrl())
                     .apply(
                             RequestOptions.placeholderOf(R.drawable.background_gradient)
@@ -69,8 +80,8 @@ public class AttractionDetailsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof TripDetailFragment.OnFragmentInteractionListener) {
-            mListener = (AttractionDetailsFragment.OnFragmentInteractionListener) context;
+        if (context instanceof AttractionDetailsFragment.OnFragmentInteractionListener) {
+            listener = (AttractionDetailsFragment.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -80,7 +91,7 @@ public class AttractionDetailsFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        listener = null;
     }
 
     @Override
@@ -90,6 +101,5 @@ public class AttractionDetailsFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-
     }
 }

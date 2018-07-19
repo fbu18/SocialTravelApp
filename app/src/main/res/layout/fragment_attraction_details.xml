@@ -23,11 +23,9 @@
         style="@style/Widget.AppCompat.RatingBar.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvAttrName"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
+        android:layout_alignBottom="@+id/tvAttrName"
+        android:layout_alignParentStart="true"
         android:numStars="5"
-        android:layout_marginTop="10dp"
         android:stepSize="0.5" />
 
     <ImageView
@@ -36,6 +34,7 @@
         android:layout_height="235dp"
         android:layout_below="@+id/tvAttrName"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
         app:srcCompat="@android:color/black" />
 
     <View
@@ -90,23 +89,23 @@
         android:src="@drawable/ic_location_on_black_24dp" />
 
     <TextView
-        android:id="@+id/tvWebsite"
+        android:id="@+id/tvAttrWebsite"
         android:layout_width="321dp"
         android:layout_height="20dp"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/tvAttrAddress"
-        android:layout_toRightOf="@id/ivWebsite"
+        android:layout_toRightOf="@id/ivAttrWebsite"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="5dp"
         android:text="www.website.com"
         android:textColor="@android:color/black" />
 
     <ImageView
-        android:id="@+id/ivWebsite"
+        android:id="@+id/ivAttrWebsite"
         android:layout_width="21dp"
         android:layout_height="20dp"
         android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/tvWebsite"
+        android:layout_alignTop="@+id/tvAttrWebsite"
         android:layout_marginStart="12dp"
         android:src="@drawable/ic_desktop_mac_black_24dp" />
 
@@ -115,7 +114,7 @@
         android:layout_width="321dp"
         android:layout_height="20dp"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/tvWebsite"
+        android:layout_below="@+id/tvAttrWebsite"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/ivAttrPhoneNumber"

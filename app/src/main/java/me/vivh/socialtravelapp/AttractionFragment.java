@@ -1,10 +1,10 @@
 package me.vivh.socialtravelapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,30 +18,31 @@ import com.parse.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.vivh.socialtravelapp.dummy.DummyContent.DummyItem;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import me.vivh.socialtravelapp.model.Attraction;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
 public class AttractionFragment extends Fragment {
 
     ArrayList<Attraction> attractions;
     RecyclerView rvAttractions;
-    AttractionAdapter adapter;
+    AttractionAdapter attractionAdapter;
+    private AttractionAdapter.Callback callback;
     AsyncHttpClient client;
     SwipeRefreshLayout swipeContainer;
-
-    private OnListFragmentInteractionListener mListener;
+    private Unbinder unbinder;
+    private OnFragmentInteractionListener listener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public AttractionFragment() {
+    }
+
+    public static AttractionFragment newInstance(String param1, String param2) {
+        AttractionFragment fragment = new AttractionFragment();
+        return fragment;
     }
 
 
@@ -51,23 +52,21 @@ public class AttractionFragment extends Fragment {
 
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_attraction_list, container, false);
+        unbinder = ButterKnife.bind(this, rootView);
 
         client = new AsyncHttpClient();
         attractions = new ArrayList<>();
 
-        adapter = new AttractionAdapter(attractions);
+        attractionAdapter = new AttractionAdapter(attractions, callback);
         rvAttractions = (RecyclerView) rootView.findViewById(R.id.rvAttractions);
         swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
-
-        rvAttractions.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvAttractions.setAdapter(adapter);
 
         loadTopAttractions();
         getConfiguration();
 
         int numColumns = 2;
         rvAttractions.setLayoutManager(new GridLayoutManager(getContext(),numColumns));
-        rvAttractions.setAdapter(adapter);
+        rvAttractions.setAdapter(attractionAdapter);
 
 
         // Setup refresh listener which triggers new data loading
@@ -78,7 +77,7 @@ public class AttractionFragment extends Fragment {
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
                 attractions.clear();
-                adapter.clear();
+                attractionAdapter.clear();
                 loadTopAttractions();
                 swipeContainer.setRefreshing(false);
             }
@@ -88,24 +87,30 @@ public class AttractionFragment extends Fragment {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-
         return rootView;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof AttractionAdapter.Callback) {
+            callback = (AttractionAdapter.Callback) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        callback = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     public void getConfiguration() {
@@ -125,12 +130,16 @@ public class AttractionFragment extends Fragment {
                                 + "\n name = " + objects.get(i).getName());
 
                         attractions.add(0,objects.get(i));
-                        adapter.notifyItemInserted(attractions.size()-1);
+                        attractionAdapter.notifyItemInserted(attractions.size()-1);
                     }
                 } else {
                     e.printStackTrace();
                 }
             }
         });
+    }
+
+    public interface OnFragmentInteractionListener {
+
     }
 }
