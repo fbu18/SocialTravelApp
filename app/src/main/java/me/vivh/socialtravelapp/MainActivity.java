@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
 
             }
 
+
             @Override
             public void onPageSelected(int i) {
                 switch (i) {

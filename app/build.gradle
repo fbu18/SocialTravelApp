@@ -45,6 +45,9 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     implementation 'com.loopj.android:android-async-http:1.4.9'
     implementation 'com.google.android.gms:play-services-places:15.0.1'
+    implementation 'com.parse:parse-livequery-android:1.0.4' // for Parse Live Queries
 
     implementation 'com.google.android.gms:play-services-location:15.0.1'
+
+    implementation "com.android.support:support-core-utils:28"
 }
