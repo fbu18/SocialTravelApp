@@ -206,6 +206,7 @@ public class ExploreFragment extends Fragment {
         newAtt.setRating(rating);
         newAtt.setType(type);
         newAtt.setPriceLevel(priceLevel);
+
         newAtt.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
