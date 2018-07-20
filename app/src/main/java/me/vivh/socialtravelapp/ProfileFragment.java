@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+
+import com.parse.ParseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,6 +20,12 @@ import butterknife.Unbinder;
 public class ProfileFragment extends Fragment {
 
     @BindView(R.id.btnLogOut) Button btnLogOut;
+    @BindView(R.id.tvUserName)
+    TextView tvUsername;
+    @BindView(R.id.tvHomeLoc) TextView tvHomeLoc;
+    @BindView(R.id.tvPoints) TextView tvPoints;
+
+    ParseUser currentUser;
 
     private OnFragmentInteractionListener mListener;
     private Unbinder unbinder;
@@ -51,6 +60,12 @@ public class ProfileFragment extends Fragment {
                 mListener.logout();
             }
         });
+
+        currentUser = ParseUser.getCurrentUser();
+
+        tvUsername.setText(currentUser.getUsername());
+        tvHomeLoc.setText(currentUser.getString("home"));
+        tvPoints.setText(currentUser.getNumber("points").toString());
 
         return view;
     }

@@ -29,6 +29,8 @@ import me.vivh.socialtravelapp.model.Trip;
 
 public class TripMemberFragment extends Fragment {
 
+    private static final String TRIP_ARG = "trip";
+
     @BindView(R.id.rvMembers) RecyclerView rvMembers;
 
     private Trip trip;
@@ -38,8 +40,13 @@ public class TripMemberFragment extends Fragment {
     private Unbinder unbinder;
     Context context;
 
-    public TripMemberFragment(Trip trp) {
-        trip = trp;
+
+    public static TripMemberFragment newInstance(Trip trip) {
+        TripMemberFragment fragment = new TripMemberFragment();
+        Bundle extras = new Bundle();
+        extras.putParcelable(TRIP_ARG, trip);
+        fragment.setArguments(extras);
+        return fragment;
     }
 
     public  TripMemberFragment(){}
@@ -48,6 +55,8 @@ public class TripMemberFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
     }
 
     @Override
@@ -55,6 +64,10 @@ public class TripMemberFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         context = container.getContext();
+
+        if (getArguments() != null) {
+            trip = getArguments().getParcelable(TRIP_ARG);
+        }
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_trip_member, container, false);
 
@@ -123,7 +136,7 @@ public class TripMemberFragment extends Fragment {
     }
 
     public void setTrip(Trip trip) {
-        this.trip = trip;
+        this.getArguments().putParcelable(TRIP_ARG, trip);
     }
 
 }

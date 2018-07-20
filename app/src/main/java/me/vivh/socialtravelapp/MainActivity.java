@@ -104,8 +104,6 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
                         viewPager.setCurrentItem(2, false);
                         return true;
                     case R.id.action_profile:
-
-                        viewPager.setCurrentItem(3);
                         viewPager.setCurrentItem(3, false);
                         return true;
                     default:
