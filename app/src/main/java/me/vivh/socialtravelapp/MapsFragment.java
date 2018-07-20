@@ -1,6 +1,9 @@
 package me.vivh.socialtravelapp;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -30,11 +33,13 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -46,17 +51,94 @@ import com.parse.ParseQuery;
 import com.parse.SubscriptionHandling;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Dictionary;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import me.vivh.socialtravelapp.model.Attraction;
 
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
 public class MapsFragment extends Fragment {
+    private OnFragmentInteractionListener mListener;
+    public interface OnFragmentInteractionListener {
+        void openAttractionDetails(@NonNull Attraction attraction);
+    }
+
+    Context context;
+
     ArrayList<Attraction> attractions = new ArrayList();
     SupportMapFragment mapFragment;
-    FragmentActivity myContext;
     GoogleMap map;
+
+
+    Map<String,Attraction> dictionary = new Map<String, Attraction>() {
+        @Override
+        public int size() {
+            return 0;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return false;
+        }
+
+        @Override
+        public boolean containsKey(Object o) {
+            return false;
+        }
+
+        @Override
+        public boolean containsValue(Object o) {
+            return false;
+        }
+
+        @Override
+        public Attraction get(Object o) {
+            return null;
+        }
+
+        @Override
+        public Attraction put(String s, Attraction attraction) {
+            return null;
+        }
+
+        @Override
+        public Attraction remove(Object o) {
+            return null;
+        }
+
+        @Override
+        public void putAll(@NonNull Map<? extends String, ? extends Attraction> map) {
+
+        }
+
+        @Override
+        public void clear() {
+
+        }
+
+        @NonNull
+        @Override
+        public Set<String> keySet() {
+            return null;
+        }
+
+        @NonNull
+        @Override
+        public Collection<Attraction> values() {
+            return null;
+        }
+
+        @NonNull
+        @Override
+        public Set<Entry<String, Attraction>> entrySet() {
+            return null;
+        }
+    };
     //    Location location;
     private LocationRequest mLocationRequest;
     private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
@@ -93,6 +175,7 @@ public class MapsFragment extends Fragment {
                     map.setMyLocationEnabled(true);
                 }
             });
+
             /*ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
             ParseQuery<Attraction> parseQuery = ParseQuery.getQuery(Attraction.class);
             SubscriptionHandling<Attraction> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
@@ -103,6 +186,16 @@ public class MapsFragment extends Fragment {
                     populateMap(attractions);
                 }
             });*/
+        }
+    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -133,7 +226,14 @@ public class MapsFragment extends Fragment {
                             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
                             map.animateCamera(cameraUpdate);
                             getAttractions();
-
+                            map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                @Override
+                                public boolean onMarkerClick(Marker marker) {
+                                    Attraction attraction = dictionary.get(marker.getTitle());
+                                    mListener.openAttractionDetails(attraction);
+                                    return false;
+                                }
+                            });
                         }
                     }
                 })
@@ -259,6 +359,7 @@ public class MapsFragment extends Fragment {
         double lng = point.getLongitude();
         String name = attraction.getName();
         String description = attraction.getDescription();
+        dictionary.put(name, attraction);
         LatLng latLng = new LatLng(lat, lng);
         mp.position(latLng);
         mp.title(name);
