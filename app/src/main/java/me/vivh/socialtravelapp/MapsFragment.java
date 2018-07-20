@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseLiveQueryClient;
 import com.parse.ParseQuery;
 import com.parse.SubscriptionHandling;
@@ -252,8 +254,9 @@ public class MapsFragment extends Fragment {
     }
     void dropPin(Attraction attraction) {
         MarkerOptions mp = new MarkerOptions();
-        double lat = attraction.getLatitude();
-        double lng = attraction.getLongitude();
+        ParseGeoPoint point = attraction.getPoint();
+        double lat = point.getLatitude();
+        double lng = point.getLongitude();
         String name = attraction.getName();
         String description = attraction.getDescription();
         LatLng latLng = new LatLng(lat, lng);
