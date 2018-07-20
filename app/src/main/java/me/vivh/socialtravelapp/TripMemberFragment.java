@@ -31,11 +31,12 @@ public class TripMemberFragment extends Fragment {
 
     @BindView(R.id.rvMembers) RecyclerView rvMembers;
 
-    Trip trip;
+    private Trip trip;
     private TripMemberAdapter.CallbackMember callbackMember;
     private ArrayList<ParseUser> members;
     private TripMemberAdapter memberAdapter;
     private Unbinder unbinder;
+    Context context;
 
     public TripMemberFragment(Trip trp) {
         trip = trp;
@@ -52,6 +53,8 @@ public class TripMemberFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        context = container.getContext();
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_trip_member, container, false);
 
@@ -60,7 +63,7 @@ public class TripMemberFragment extends Fragment {
         members = new ArrayList<>();
         memberAdapter = new TripMemberAdapter(members, callbackMember);
 
-        rvMembers.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvMembers.setLayoutManager(new LinearLayoutManager(context));
         rvMembers.setAdapter(memberAdapter);
 
         loadMembers();
@@ -113,11 +116,14 @@ public class TripMemberFragment extends Fragment {
             e.printStackTrace();
         }
 
+    }
 
+    public Trip getTrip() {
+        return trip;
+    }
 
-
-
-
+    public void setTrip(Trip trip) {
+        this.trip = trip;
     }
 
 }
