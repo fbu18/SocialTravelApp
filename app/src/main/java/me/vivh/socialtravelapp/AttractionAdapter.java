@@ -78,12 +78,18 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.Vi
         holder.tvAttrName.setText(attraction.getName());
         holder.tvAttrDesc.setText(attraction.getDescription());
         holder.rbVoteAverage.setNumStars((int) Math.round(attraction.getRating()));
-        Glide.with(context).load(attraction.getImage().getUrl())
-                .apply(
-                        RequestOptions.placeholderOf(R.drawable.background_gradient)
-                                .fitCenter()
-                                .transform(new RoundedCornersTransformation(25, 0)))
-                .into(holder.ivAttrPic);
+        try{
+            Glide.with(context).load(attraction.getImage().getUrl())
+                    .apply(
+                            RequestOptions.placeholderOf(R.drawable.background_gradient)
+                                    .fitCenter()
+                                    .transform(new RoundedCornersTransformation(25, 0)))
+                    .into(holder.ivAttrPic);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
         holder.tvAttrAddress.setText(attraction.getAddress());
         holder.tvAttrPhoneNumber.setText(attraction.getPhoneNumber());
         holder.tvWebsite.setText(attraction.getWebsite());
