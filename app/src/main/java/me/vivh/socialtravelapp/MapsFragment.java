@@ -39,7 +39,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseLiveQueryClient;
 import com.parse.ParseQuery;
+import com.parse.SubscriptionHandling;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,6 +91,16 @@ public class MapsFragment extends Fragment {
                     map.setMyLocationEnabled(true);
                 }
             });
+            /*ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
+            ParseQuery<Attraction> parseQuery = ParseQuery.getQuery(Attraction.class);
+            SubscriptionHandling<Attraction> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
+            subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, new SubscriptionHandling.HandleEventCallback<Attraction>() {
+                @Override
+                public void onEvent(ParseQuery<Attraction> query, Attraction object) {
+                    attractions.add(object);
+                    populateMap(attractions);
+                }
+            });*/
         }
     }
 
@@ -221,6 +233,7 @@ public class MapsFragment extends Fragment {
         query.findInBackground(new FindCallback<Attraction>() {
             @Override
             public void done(List<Attraction> objects, ParseException e) {
+                map.clear();
                 if(e == null) {
                     attractions.clear();
                     attractions.addAll(objects);
@@ -234,15 +247,18 @@ public class MapsFragment extends Fragment {
     void populateMap(ArrayList<Attraction> arrayList) {
         for(int i = 0; i < arrayList.size(); i++) {
             Attraction attraction = (Attraction) arrayList.get(i);
-            MarkerOptions mp = new MarkerOptions();
-            double lat = attraction.getLatitude();
-            double lng = attraction.getLongitude();
-            String name = attraction.getName();
-            String description = attraction.getDescription();
-            LatLng latLng = new LatLng(lat, lng);
-            mp.position(latLng);
-            mp.title(name);
-            map.addMarker(mp);
+            dropPin(attraction);
         }
+    }
+    void dropPin(Attraction attraction) {
+        MarkerOptions mp = new MarkerOptions();
+        double lat = attraction.getLatitude();
+        double lng = attraction.getLongitude();
+        String name = attraction.getName();
+        String description = attraction.getDescription();
+        LatLng latLng = new LatLng(lat, lng);
+        mp.position(latLng);
+        mp.title(name);
+        map.addMarker(mp);
     }
 }
