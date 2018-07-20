@@ -1,5 +1,6 @@
 package me.vivh.socialtravelapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -10,16 +11,26 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.vivh.socialtravelapp.model.Attraction;
 import me.vivh.socialtravelapp.model.Trip;
 
-public class MainActivity extends AppCompatActivity implements ExploreFragment.OnFragmentInteractionListener, FeedFragment.OnFragmentInteractionListener,
-TripListFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener, TripDetailFragment.OnFragmentInteractionListener, TripAdapter.Callback{
+public class MainActivity extends AppCompatActivity implements ExploreFragment.OnFragmentInteractionListener,
+        ProfileFragment.OnFragmentInteractionListener,
+        AttractionDetailsFragment.OnFragmentInteractionListener, AttractionFragment.OnFragmentInteractionListener,
+        AttractionAdapter.Callback, FeedFragment.OnFragmentInteractionListener,
+        TripListFragment.OnFragmentInteractionListener, TripAdapter.Callback, TripMemberAdapter.CallbackMember{
+
 
     private final List<Fragment> fragments = new ArrayList<>();
     private BottomNavAdapter adapter;
@@ -32,14 +43,17 @@ TripListFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentIntera
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        fragments.add(new FeedFragment());
-        fragments.add(new ExploreFragment());
-        fragments.add(new TripListFragment());
-        fragments.add(new ProfileFragment());
-        fragments.add(new SuggestionFragment());
-        fragments.add(new MapsFragment());
-        fragments.add(new AttractionFragment());
-        fragments.add(new TripDetailFragment());
+        fragments.add(new FeedFragment()); // index 0
+        fragments.add(new ExploreFragment()); // index 1
+        // fragments.add(new FeedFragment()); // index 2 for testing w/o TripListFragment
+        fragments.add(new TripListFragment()); // index 2
+        fragments.add(new ProfileFragment()); // index 3
+        fragments.add(new SuggestionFragment()); // index 4
+        fragments.add(new MapsFragment()); // index 5
+        fragments.add(new AttractionFragment()); // index 6
+        //fragments.add(new FeedFragment()); // index 7 for testing w/o TripDetailFragment
+        fragments.add(new TripDetailFragment()); // index 7
+        fragments.add(new AttractionDetailsFragment()); // index 8
 
         adapter = new BottomNavAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
@@ -49,6 +63,7 @@ TripListFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentIntera
             public void onPageScrolled(int i, float v, int i1) {
 
             }
+
 
             @Override
             public void onPageSelected(int i) {
@@ -135,4 +150,27 @@ TripListFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentIntera
         ((TripDetailFragment)fragments.get(7)).trip = trip;
         viewPager.setCurrentItem(7, false);
     }
+
+    @Override
+    public void logout() {
+        ParseUser.logOutInBackground(new LogOutCallback() {
+            @Override
+            public void done(ParseException e) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                Toast.makeText(MainActivity.this, "Logged out successfully.", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void openAttractionDetails(@NonNull Attraction attraction) {
+        ((AttractionDetailsFragment)fragments.get(8)).attraction = attraction;
+        viewPager.setCurrentItem(8, false);
+    }
+
+    @Override
+    public void openMemberDetail(@NonNull ParseUser user) {
+
+    }
+
 }

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp">
+
+    <TextView
+        android:id="@+id/tvAttrName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:text="Attraction Name"
+        android:textColor="@android:color/black"
+        android:textSize="25sp" />
+
+    <RatingBar
+        android:id="@+id/rbVoteAverage"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvAttrName"
+        android:layout_alignParentStart="true"
+        android:numStars="5"
+        android:stepSize="0.5" />
+
+    <ImageView
+        android:id="@+id/ivAttrPic"
+        android:layout_width="262dp"
+        android:layout_height="235dp"
+        android:layout_below="@+id/tvAttrName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        app:srcCompat="@android:color/black" />
+
+    <View
+        android:id="@+id/profile_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:layout_below="@+id/ivAttrPic"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/background_gradient" />
+
+    <TextView
+        android:id="@+id/tvAbout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_divider"
+        android:text="About"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/tvAttrDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvAbout"
+        android:text="Attraction description here"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/tvAttrAddress"
+        android:layout_width="321dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvAttrDesc"
+        android:layout_toRightOf="@id/ivAddress"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:text="Address"
+        android:textColor="@android:color/black" />
+
+    <ImageView
+        android:id="@+id/ivAddress"
+        android:layout_width="21dp"
+        android:layout_height="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/tvAttrAddress"
+        android:layout_marginStart="12dp"
+        android:src="@drawable/ic_location_on_black_24dp" />
+
+    <TextView
+        android:id="@+id/tvAttrWebsite"
+        android:layout_width="321dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvAttrAddress"
+        android:layout_toRightOf="@id/ivAttrWebsite"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:text="www.website.com"
+        android:textColor="@android:color/black" />
+
+    <ImageView
+        android:id="@+id/ivAttrWebsite"
+        android:layout_width="21dp"
+        android:layout_height="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/tvAttrWebsite"
+        android:layout_marginStart="12dp"
+        android:src="@drawable/ic_desktop_mac_black_24dp" />
+
+    <TextView
+        android:id="@+id/tvAttrPhoneNumber"
+        android:layout_width="321dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvAttrWebsite"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/ivAttrPhoneNumber"
+        android:text="(999) 999-9999"
+        android:textColor="@android:color/black" />
+
+    <ImageView
+        android:id="@+id/ivAttrPhoneNumber"
+        android:layout_width="21dp"
+        android:layout_height="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/tvAttrPhoneNumber"
+        android:layout_marginStart="12dp"
+        android:src="@drawable/ic_call_black_24dp" />
+
+
+
+</RelativeLayout>
+
+

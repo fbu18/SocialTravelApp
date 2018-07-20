@@ -20,6 +20,8 @@ import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragmen
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
+import java.lang.reflect.Field;
+
 import me.vivh.socialtravelapp.model.Attraction;
 
 
@@ -80,8 +82,7 @@ public class ExploreFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         SupportPlaceAutocompleteFragment placeAutocompleteFragment = new SupportPlaceAutocompleteFragment();
-        //((EditText)placeAutocompleteFragment.getView().findViewById(R.id.place_autocomplete_fragment_container)).setHint("Know where you want to go?");
-        getFragmentManager().beginTransaction()
+        getChildFragmentManager().beginTransaction()
                 .replace(R.id.place_autocomplete_fragment_container, placeAutocompleteFragment)
                 .addToBackStack(SupportPlaceAutocompleteFragment.class.getName())
                 .commit();
@@ -106,25 +107,64 @@ public class ExploreFragment extends Fragment {
                 new PlaceSelectionListener() {
                     @Override
                     public void onPlaceSelected(Place place) {
-                        Toast.makeText( getContext(),"Place selected!",Toast.LENGTH_LONG).show();
-                        // TODO: Get info about the selected place.
-                        String placeDetailsStr = place.getName() + "\n"
-                                + place.getId() + "\n"
-                                + place.getLatLng().toString() + "\n"
-                                + place.getAddress() + "\n"
-                                + place.getAttributions();
+                        // TODO: get image and description, convert types to strings?
+                        String id = place.getId();
+                        String name;
+                        String address;
+                        String phoneNumber;
+                        Double latitude;
+                        Double longitude;
+                        String website;
+                        Double rating = 0.0;
+                        String type;
+                        Integer priceLevel;
+
+                        try{ name = place.getName().toString();}
+                        catch (Exception e) { name = "";}
+
+                        try{ address = place.getAddress().toString();}
+                        catch (Exception e) { address = "42 Wallaby Way, Sydney, Australia";}
+
+                        try{ phoneNumber = place.getPhoneNumber().toString();}
+                        catch (Exception e) { phoneNumber = "(650) 867-5309";}
+
+                        try{
+                            latitude = place.getLatLng().latitude;
+                            longitude = place.getLatLng().longitude;
+                        }
+                        catch (Exception e) {
+                            latitude = 47.6062; //seattle
+                            longitude = 122.3321;
+                        }
+
+                        try{ website = place.getWebsiteUri().toString();}
+                        catch (Exception e) { website = "https://www.facebook.com/";}
+
+                        try{ rating = (double) place.getRating();}
+                        catch (Exception e) { rating = 0.0;}
+
+                        try{ type = place.getPlaceTypes().toString();}
+                        catch (Exception e) { type = "Fun";}
+
+                        try{ priceLevel = place.getPriceLevel();}
+                        catch (Exception e) {  priceLevel = 0;}
+
+
+                        String placeDetailsStr = name + "\n" + address + "\n" + phoneNumber + "\n"
+                                + latitude + ", " + longitude + "," + "\n" + website;
                         Log.i("OnPlaceSelected", placeDetailsStr);
-                        uploadAttraction(place.getName().toString());
+                        uploadAttraction(id, name, address, phoneNumber, latitude, longitude,
+                                website, rating, type, priceLevel);
                     }
 
                     @Override
                     public void onError(Status status) {
-                        // TODO: Handle the error.
                         Log.i("OnPlaceSelected", "An error occurred: " + status);
                     }
                 }
         );
     }
+
 
     @Override
     public void onDetach() {
@@ -137,17 +177,36 @@ public class ExploreFragment extends Fragment {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
     }
 
-    public void uploadAttraction(String name){
+    public String convertPlaceTypetoString(int value) throws Exception {
+        //TODO - implement this if we want to filter by category
+        Field[] fields = Place.class.getDeclaredFields();
+        String name;
+        for (Field field : fields) {
+            name = field.getName().toLowerCase();
+            if (name.startsWith("type_") && field.getInt(null) == value) {
+                return name.replace("type_", "");
+            }
+        }
+        throw new IllegalArgumentException("place value " + value + " not found.");
+    }
+
+    public void uploadAttraction(String id, String name, String address, String phoneNumber, Double latitude, Double longitude,
+                                 String website, Double rating, String type, Integer priceLevel){
         Attraction newAtt = new Attraction();
+        newAtt.setId(id);
         newAtt.setName(name);
+        newAtt.setAddress(address);
+        newAtt.setPhoneNumber(phoneNumber);
+        newAtt.setPoint(latitude, longitude);
+        newAtt.setWebsite(website);
+        newAtt.setRating(rating);
+        newAtt.setType(type);
+        newAtt.setPriceLevel(priceLevel);
+
         newAtt.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

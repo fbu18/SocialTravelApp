@@ -38,7 +38,7 @@ public class SuggestionFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewPager = view.findViewById(R.id.vpSuggest);
-        bottomNavigationView = view.findViewById(R.id.suggestionnavigation);
+        bottomNavigationView = view.findViewById(R.id.tripNavigation);
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
