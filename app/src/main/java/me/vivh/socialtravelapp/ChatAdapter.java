@@ -10,11 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.vivh.socialtravelapp.model.Message;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
@@ -56,12 +58,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         final ImageView profileView = isMe ? holder.imageMe : holder.imageOther;
         Glide.with(mContext).load(getProfileUrl(message.getUserId())).into(profileView);
         holder.body.setText(message.getBody());
-        /*Glide.with(mContext).load(message.getProfilePic().getUrl())
+        Glide.with(mContext).load(message.getProfilePic().getUrl())
                 .apply(
                         RequestOptions.placeholderOf(R.drawable.background_gradient)
                                 .fitCenter()
                                 .transform(new RoundedCornersTransformation(25, 0)))
-                .into(holder.imageMe);*/
+                .into(profileView);
     }
 
     // Create a gravatar image based on the hash value obtained from userId
