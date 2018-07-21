@@ -75,10 +75,13 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Attraction attraction = mAttractions.get(position);
-        holder.tvAttrName.setText(attraction.getName());
-        holder.tvAttrDesc.setText(attraction.getDescription());
-        holder.rbVoteAverage.setNumStars((int) Math.round(attraction.getRating()));
         try{
+            holder.tvAttrName.setText(attraction.getName());
+            holder.tvAttrDesc.setText(attraction.getDescription());
+            holder.rbVoteAverage.setNumStars((int) Math.round(attraction.getRating()));
+            holder.tvAttrAddress.setText(attraction.getAddress());
+            holder.tvAttrPhoneNumber.setText(attraction.getPhoneNumber());
+            holder.tvWebsite.setText(attraction.getWebsite());
             Glide.with(context).load(attraction.getImage().getUrl())
                     .apply(
                             RequestOptions.placeholderOf(R.drawable.background_gradient)
@@ -89,10 +92,6 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.Vi
         catch (Exception e) {
             e.printStackTrace();
         }
-
-        holder.tvAttrAddress.setText(attraction.getAddress());
-        holder.tvAttrPhoneNumber.setText(attraction.getPhoneNumber());
-        holder.tvWebsite.setText(attraction.getWebsite());
     }
 
     // Clean all elements of the recycler

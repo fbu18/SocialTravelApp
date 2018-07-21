@@ -72,7 +72,6 @@ public class AttractionDetailsFragment extends Fragment {
         }catch(Exception e){
             e.printStackTrace();
         }
-
         return view;
     }
     @Override

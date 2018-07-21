@@ -42,7 +42,7 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:layout_below="@id/rbVoteAverage"
-        app:srcCompat="@android:color/black" />
+        app:srcCompat="@drawable/fremont_troll" />
 
     <TextView
         android:id="@+id/tvDescription"

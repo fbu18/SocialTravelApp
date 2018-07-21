@@ -121,6 +121,18 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         return true;
     }
 
+    // handle chat button press
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.miChat) {
+            Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     static class BottomNavAdapter extends FragmentStatePagerAdapter {
 
         /**

@@ -1,6 +1,7 @@
 package me.vivh.socialtravelapp;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,13 +15,21 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlacePhotoMetadata;
+import com.google.android.gms.location.places.PlacePhotoMetadataBuffer;
+import com.google.android.gms.location.places.PlacePhotoMetadataResponse;
+import com.google.android.gms.location.places.PlacePhotoResponse;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
-import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 import me.vivh.socialtravelapp.model.Attraction;
 
@@ -37,6 +46,8 @@ public class ExploreFragment extends Fragment {
 
     Button knowBtn;
     Button suggestBtn;
+    GeoDataClient mGeoDataClient;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -63,6 +74,8 @@ public class ExploreFragment extends Fragment {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_explore,
                 container, false);
+
+        mGeoDataClient = Places.getGeoDataClient(getActivity());
 
         knowBtn = (Button) rootView.findViewById(R.id.btnKnow);
         suggestBtn = (Button) rootView.findViewById(R.id.btnSuggest);
@@ -115,12 +128,19 @@ public class ExploreFragment extends Fragment {
                         Double latitude;
                         Double longitude;
                         String website;
-                        Double rating = 0.0;
+                        Double rating;
                         String type;
                         Integer priceLevel;
+                        Bitmap bitmap = null;
 
                         try{ name = place.getName().toString();}
                         catch (Exception e) { name = "";}
+
+                        // TODO - replace with id
+                        try { bitmap = getPhotos(id); }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
                         try{ address = place.getAddress().toString();}
                         catch (Exception e) { address = "42 Wallaby Way, Sydney, Australia";}
@@ -150,11 +170,14 @@ public class ExploreFragment extends Fragment {
                         catch (Exception e) {  priceLevel = 0;}
 
 
+
+
                         String placeDetailsStr = name + "\n" + address + "\n" + phoneNumber + "\n"
                                 + latitude + ", " + longitude + "," + "\n" + website;
                         Log.i("OnPlaceSelected", placeDetailsStr);
-                        uploadAttraction(id, name, address, phoneNumber, latitude, longitude,
+                        uploadAttraction(id, name, bitmap, address, phoneNumber, latitude, longitude,
                                 website, rating, type, priceLevel);
+                        // TODO - transition to "join a group" fragment
                     }
 
                     @Override
@@ -181,7 +204,7 @@ public class ExploreFragment extends Fragment {
     public interface OnFragmentInteractionListener {
     }
 
-    public String convertPlaceTypetoString(int value) throws Exception {
+    /*public String convertPlaceTypetoString(int value) throws Exception {
         //TODO - implement this if we want to filter by category
         Field[] fields = Place.class.getDeclaredFields();
         String name;
@@ -192,9 +215,9 @@ public class ExploreFragment extends Fragment {
             }
         }
         throw new IllegalArgumentException("place value " + value + " not found.");
-    }
+    }*/
 
-    public void uploadAttraction(String id, String name, String address, String phoneNumber, Double latitude, Double longitude,
+    public void uploadAttraction(String id, String name, Bitmap bitmap, String address, String phoneNumber, Double latitude, Double longitude,
                                  String website, Double rating, String type, Integer priceLevel){
         Attraction newAtt = new Attraction();
         newAtt.setId(id);
@@ -206,6 +229,7 @@ public class ExploreFragment extends Fragment {
         newAtt.setRating(rating);
         newAtt.setType(type);
         newAtt.setPriceLevel(priceLevel);
+        newAtt.setBitmap(bitmap);
 
         newAtt.saveInBackground(new SaveCallback() {
             @Override
@@ -219,6 +243,36 @@ public class ExploreFragment extends Fragment {
                 }
             }
         });
+    }
+
+    // Request photos and metadata for the specified place.
+    private Bitmap getPhotos(String placeId) {
+        final ArrayList<Bitmap> bitmapArray = new ArrayList<Bitmap>();
+        final Task<PlacePhotoMetadataResponse> photoMetadataResponse = mGeoDataClient.getPlacePhotos(placeId);
+        photoMetadataResponse.addOnCompleteListener(new OnCompleteListener<PlacePhotoMetadataResponse>() {
+            @Override
+            public void onComplete(@NonNull Task<PlacePhotoMetadataResponse> task) {
+                // Get the list of photos.
+                PlacePhotoMetadataResponse photos = task.getResult();
+                // Get the PlacePhotoMetadataBuffer (metadata for all of the photos).
+                PlacePhotoMetadataBuffer photoMetadataBuffer = photos.getPhotoMetadata();
+                // Get the first photo in the list.
+                PlacePhotoMetadata photoMetadata = photoMetadataBuffer.get(0);
+                // Get the attribution text.
+                CharSequence attribution = photoMetadata.getAttributions();
+                // Get a full-size bitmap for the photo.
+                Task<PlacePhotoResponse> photoResponse = mGeoDataClient.getPhoto(photoMetadata);
+                photoResponse.addOnCompleteListener(new OnCompleteListener<PlacePhotoResponse>() {
+                    @Override
+                    public void onComplete(@NonNull Task<PlacePhotoResponse> task) {
+                        PlacePhotoResponse photo = task.getResult();
+                        Bitmap bitmap = photo.getBitmap();
+                        bitmapArray.add(bitmap); // Add a bitmap
+                    }
+                });
+            }
+        });
+        return bitmapArray.get(0);
     }
 
 }

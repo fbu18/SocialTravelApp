@@ -5,25 +5,16 @@ import android.app.Application;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
-import me.vivh.socialtravelapp.model.Attraction;
 import me.vivh.socialtravelapp.model.Message;
-import me.vivh.socialtravelapp.model.Trip;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
-public class ParseApp extends Application{
-
+public class ChatApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
 
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
 
-
-
-        ParseObject.registerSubclass(Attraction.class);
-        ParseObject.registerSubclass(Trip.class);
         ParseObject.registerSubclass(Message.class);
 
 
@@ -34,14 +25,14 @@ public class ParseApp extends Application{
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         builder.networkInterceptors().add(httpLoggingInterceptor);
 
+        // set applicationId and server based on the values in the Heroku settings.
+        // any network interceptors must be added with the Configuration Builder given this syntax
+        Parse.initialize(new Parse.Configuration.Builder(this)
+                .applicationId("simplechat-client") // should correspond to APP_ID env variable
+                .clientKey(null)  // set explicitly unless clientKey is explicitly configured on Parse server
+                .clientBuilder(builder)
+                .server("https://codepath-chat-lab.herokuapp.com/parse/").build());
 
-        final Parse.Configuration configuration = new Parse.Configuration.Builder(this)
-                .applicationId("travelapp")
-                .clientKey("supersecretkey#2")
-                .server("https://travelapp-fbu18.herokuapp.com/parse")
-                .build();
 
-        Parse.initialize(configuration);
     }
 }
-
