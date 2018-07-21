@@ -29,8 +29,6 @@ import com.google.android.gms.tasks.Task;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
-import java.util.ArrayList;
-
 import me.vivh.socialtravelapp.model.Attraction;
 
 
@@ -47,7 +45,6 @@ public class ExploreFragment extends Fragment {
     Button knowBtn;
     Button suggestBtn;
     GeoDataClient mGeoDataClient;
-
 
     private OnFragmentInteractionListener mListener;
 
@@ -136,11 +133,13 @@ public class ExploreFragment extends Fragment {
                         try{ name = place.getName().toString();}
                         catch (Exception e) { name = "";}
 
-                        // TODO - replace with id
-                        try { bitmap = getPhotos(id); }
+                        /*try {
+                            getPhotos(id);
+                            bitmap = bitmapArray.get(0);
+                        }
                         catch (Exception e) {
                             e.printStackTrace();
-                        }
+                        }*/
 
                         try{ address = place.getAddress().toString();}
                         catch (Exception e) { address = "42 Wallaby Way, Sydney, Australia";}
@@ -169,14 +168,24 @@ public class ExploreFragment extends Fragment {
                         try{ priceLevel = place.getPriceLevel();}
                         catch (Exception e) {  priceLevel = 0;}
 
-
-
-
                         String placeDetailsStr = name + "\n" + address + "\n" + phoneNumber + "\n"
                                 + latitude + ", " + longitude + "," + "\n" + website;
                         Log.i("OnPlaceSelected", placeDetailsStr);
-                        uploadAttraction(id, name, bitmap, address, phoneNumber, latitude, longitude,
-                                website, rating, type, priceLevel);
+
+
+                        Attraction newAtt = new Attraction();
+                        newAtt.setId(id);
+                        newAtt.setName(name);
+                        newAtt.setAddress(address);
+                        newAtt.setPhoneNumber(phoneNumber);
+                        newAtt.setPoint(latitude, longitude);
+                        newAtt.setWebsite(website);
+                        newAtt.setRating(rating);
+                        newAtt.setType(type);
+                        newAtt.setPriceLevel(priceLevel);
+                        // set image in the retrieveUploadPhoto method so that upload is only
+                        // executed after photo request is complete
+                        retrieveUploadPhoto(id, newAtt);
                         // TODO - transition to "join a group" fragment
                     }
 
@@ -217,37 +226,10 @@ public class ExploreFragment extends Fragment {
         throw new IllegalArgumentException("place value " + value + " not found.");
     }*/
 
-    public void uploadAttraction(String id, String name, Bitmap bitmap, String address, String phoneNumber, Double latitude, Double longitude,
-                                 String website, Double rating, String type, Integer priceLevel){
-        Attraction newAtt = new Attraction();
-        newAtt.setId(id);
-        newAtt.setName(name);
-        newAtt.setAddress(address);
-        newAtt.setPhoneNumber(phoneNumber);
-        newAtt.setPoint(latitude, longitude);
-        newAtt.setWebsite(website);
-        newAtt.setRating(rating);
-        newAtt.setType(type);
-        newAtt.setPriceLevel(priceLevel);
-        newAtt.setBitmap(bitmap);
 
-        newAtt.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    // Attraction has been successfully created
-                    Toast.makeText( getContext(),"New attraction added!",Toast.LENGTH_LONG ).show();
-                } else {
-                    Toast.makeText( getContext(),"Failed to add new attraction :(",Toast.LENGTH_LONG ).show();
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    // Request photos and metadata for the specified place.
-    private Bitmap getPhotos(String placeId) {
-        final ArrayList<Bitmap> bitmapArray = new ArrayList<Bitmap>();
+    // Request and upload image to Parse for the specified place.
+    // Uploading image is done here so it waits for request to complete.
+    private void retrieveUploadPhoto(String placeId, final Attraction attraction) {
         final Task<PlacePhotoMetadataResponse> photoMetadataResponse = mGeoDataClient.getPlacePhotos(placeId);
         photoMetadataResponse.addOnCompleteListener(new OnCompleteListener<PlacePhotoMetadataResponse>() {
             @Override
@@ -267,12 +249,23 @@ public class ExploreFragment extends Fragment {
                     public void onComplete(@NonNull Task<PlacePhotoResponse> task) {
                         PlacePhotoResponse photo = task.getResult();
                         Bitmap bitmap = photo.getBitmap();
-                        bitmapArray.add(bitmap); // Add a bitmap
+                        attraction.setBitmap(bitmap);
+                        attraction.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    // Attraction has been successfully created
+                                    Toast.makeText( getContext(),"New attraction added!",Toast.LENGTH_LONG ).show();
+                                } else {
+                                    Toast.makeText( getContext(),"Failed to add new attraction :(",Toast.LENGTH_LONG ).show();
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                     }
                 });
             }
         });
-        return bitmapArray.get(0);
     }
 
 }

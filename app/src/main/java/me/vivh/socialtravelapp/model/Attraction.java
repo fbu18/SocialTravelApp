@@ -76,7 +76,9 @@ public class Attraction extends ParseObject {
         return getDouble(KEY_RATING);
     }
     public void setRating(Double rating) {
-        put(KEY_RATING, rating);
+        if (rating >= 1.0) {
+          put(KEY_RATING, rating);
+        }
     }
 
     public ParseGeoPoint getPoint(){
@@ -117,7 +119,7 @@ public class Attraction extends ParseObject {
         return getInt(KEY_PRICE);
     }
     public void setPriceLevel(Integer priceLevel) {
-        if (priceLevel != -1) {
+        if (priceLevel > -1 ) {
           put(KEY_PRICE, priceLevel);
         }
     }
