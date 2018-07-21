@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    tools:context=".EditProfileFragment">
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:text="tvUserName"
+        android:textSize="24sp" />
+
+    <ImageView
+        android:id="@+id/ivProfilePIcPreview"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="-100dp"
+
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/user_outline_24" />
+
+    <Button
+        android:id="@+id/btnCamera"
+        android:layout_width="215dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivProfilePIcPreview"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:background="@color/white"
+        android:text="Take Photo"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btnPost"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="180dp"
+        android:background="@drawable/background_gradient"
+        android:text="Change Photo"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="italic" />
+
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@xml/progress"
+        android:visibility="invisible"
+        android:layout_gravity="center"
+        android:layout_marginTop="-150dp" />
+
+</FrameLayout>

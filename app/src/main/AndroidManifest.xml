@@ -9,6 +9,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <!-- - requesting the WRITE_EXTERNAL_STORAGE permission will also include READ_EXTERNAL_STORAGE permission -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:name=".ParseApp"
         android:allowBackup="true"
@@ -37,6 +40,16 @@
             android:name=".ChatListActivity"
             android:label="@string/title_activity_chat_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="me.vivh.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/fileprovider" />
+        </provider>
     </application>
 
 </manifest>

@@ -45,15 +45,14 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         ButterKnife.bind(this);
         fragments.add(new FeedFragment()); // index 0
         fragments.add(new ExploreFragment()); // index 1
-        // fragments.add(new FeedFragment()); // index 2 for testing w/o TripListFragment
         fragments.add(new TripListFragment()); // index 2
         fragments.add(new ProfileFragment()); // index 3
         fragments.add(new SuggestionFragment()); // index 4
         fragments.add(new MapsFragment()); // index 5
         fragments.add(new AttractionFragment()); // index 6
-        //fragments.add(new FeedFragment()); // index 7 for testing w/o TripDetailFragment
         fragments.add(new TripDetailFragment()); // index 7
         fragments.add(new AttractionDetailsFragment()); // index 8
+        fragments.add(new EditProfileFragment()); // index 9
 
         adapter = new BottomNavAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);

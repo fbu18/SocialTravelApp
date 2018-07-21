@@ -117,7 +117,8 @@ public class ExploreFragment extends Fragment {
                 new PlaceSelectionListener() {
                     @Override
                     public void onPlaceSelected(Place place) {
-                        // TODO: get image and description, convert types to strings?
+                        // TODO: get description, convert types to strings?
+                        String description = "One of Seattle's finest gems";
                         String id = place.getId();
                         String name;
                         String address;
@@ -128,7 +129,6 @@ public class ExploreFragment extends Fragment {
                         Double rating;
                         String type;
                         Integer priceLevel;
-                        Bitmap bitmap = null;
 
                         try{ name = place.getName().toString();}
                         catch (Exception e) { name = "";}
@@ -183,6 +183,7 @@ public class ExploreFragment extends Fragment {
                         newAtt.setRating(rating);
                         newAtt.setType(type);
                         newAtt.setPriceLevel(priceLevel);
+                        newAtt.setDescription(description);
                         // set image in the retrieveUploadPhoto method so that upload is only
                         // executed after photo request is complete
                         retrieveUploadPhoto(id, newAtt);
