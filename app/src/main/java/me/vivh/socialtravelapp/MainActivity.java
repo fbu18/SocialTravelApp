@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         ProfileFragment.OnFragmentInteractionListener,
         AttractionDetailsFragment.OnFragmentInteractionListener, AttractionFragment.OnFragmentInteractionListener,
         AttractionAdapter.Callback, FeedFragment.OnFragmentInteractionListener,
-        TripListFragment.OnFragmentInteractionListener, TripAdapter.Callback, TripMemberAdapter.CallbackMember{
+        TripListFragment.OnFragmentInteractionListener, TripAdapter.Callback, TripMemberAdapter.CallbackMember, MapsFragment.OnFragmentInteractionListener{
 
 
     private final List<Fragment> fragments = new ArrayList<>();
@@ -104,8 +104,6 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
                         viewPager.setCurrentItem(2, false);
                         return true;
                     case R.id.action_profile:
-
-                        viewPager.setCurrentItem(3);
                         viewPager.setCurrentItem(3, false);
                         return true;
                     default:

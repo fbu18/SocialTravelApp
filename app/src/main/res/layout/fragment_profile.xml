@@ -116,39 +116,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_alignBottom="@+id/btnLogOut"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="67dp"
         android:text="tvUserName"
         android:textAlignment="center"
         android:textSize="24sp" />
 
     <Button
         android:id="@+id/btnLogOut"
-        android:layout_width="100dp"
+        android:layout_width="212dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/tvHomeLoc"
+        android:layout_marginEnd="20dp"
         android:text="Log Out" />
     "
 
     <ImageView
         android:id="@+id/ivProfilePic"
-        android:layout_width="113dp"
-        android:layout_height="94dp"
+        android:layout_width="118dp"
+        android:layout_height="82dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="left"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="13dp"
         android:src="@drawable/user_outline_24" />
 
     <Button
         android:id="@+id/btnEditProfile"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/tvUserName"
+        android:layout_height="26dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ivProfilePic"
         android:layout_gravity="center"
-        android:layout_marginTop="70dp"
+        android:layout_marginStart="44dp"
         android:background="@android:color/white"
         android:text="Edit Profile"
         android:textAllCaps="false" />
@@ -157,11 +160,43 @@
         android:id="@+id/profile_divider"
         android:layout_width="fill_parent"
         android:layout_height="2dip"
-        android:layout_below="@+id/ivProfilePic"
-        android:layout_marginTop="15dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnEditProfile"
         android:background="@drawable/background_gradient" />
 
+    <TextView
+        android:id="@+id/tvHomeLoc"
+        android:layout_width="132dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/tvUserName"
+        android:layout_marginTop="41dp"
+        android:text="TextView" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnEditProfile">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Points" />
+
+            <TextView
+                android:id="@+id/tvPoints"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+        </LinearLayout>
+    </ScrollView>
 
 
 </RelativeLayout>

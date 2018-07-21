@@ -3,6 +3,7 @@ package me.vivh.socialtravelapp;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -40,6 +41,9 @@ public class TripDetailFragment extends Fragment {
     Context context;
     private Unbinder unbinder;
     MainActivity.BottomNavAdapter adapter;
+    TripMemberFragment tripMemberFrag;
+    TripPhotosFragment tripPhotosFrag;
+
     private final List<Fragment> fragments = new ArrayList<>();
 
     public TripDetailFragment() {
@@ -48,6 +52,7 @@ public class TripDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -58,7 +63,6 @@ public class TripDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_trip_detail, container, false);
         unbinder = ButterKnife.bind(this, view);
-
 
         try{
             tvTripName.setText(trip.getName());
@@ -71,106 +75,17 @@ public class TripDetailFragment extends Fragment {
             e.printStackTrace();
         }
 
-        fragments.add(new TripMemberFragment(trip));
-        fragments.add(new TripPhotosFragment());
-        adapter = new MainActivity.BottomNavAdapter(getChildFragmentManager(), fragments);
-        vpTrip.setAdapter(adapter);
-        vpTrip.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
-
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-                switch (i) {
-                    case 0:
-                        tripNavigation.setSelectedItemId(R.id.action_members);
-                        break;
-                    case 1:
-                        tripNavigation.setSelectedItemId(R.id.action_photos);
-                        break;
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-
-        });
-        tripNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch(item.getItemId()){
-                    case R.id.action_members:
-                        vpTrip.setCurrentItem(0);
-                        return true;
-                    case R.id.action_photos:
-                        vpTrip.setCurrentItem(1);
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
+        setUpFragments();
 
         return view;
+
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-        inflater.inflate(R.menu.menu_trips, menu);
-        fragments.add(new TripMemberFragment(trip));
-        fragments.add(new TripPhotosFragment());
-        adapter = new MainActivity.BottomNavAdapter(getChildFragmentManager(), fragments);
-        vpTrip.setAdapter(adapter);
-        vpTrip.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
-
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-                switch (i) {
-                    case 0:
-                        tripNavigation.setSelectedItemId(R.id.action_members);
-                        break;
-                    case 1:
-                        tripNavigation.setSelectedItemId(R.id.action_photos);
-                        break;
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-
-        });
-        tripNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch(item.getItemId()){
-                    case R.id.action_members:
-                        vpTrip.setCurrentItem(0);
-                        return true;
-                    case R.id.action_photos:
-                        vpTrip.setCurrentItem(1);
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
-    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
     }
 
     @Override
@@ -184,5 +99,54 @@ public class TripDetailFragment extends Fragment {
         unbinder.unbind();
     }
 
+    private void setUpFragments(){
 
+        tripMemberFrag = TripMemberFragment.newInstance(trip);
+        tripPhotosFrag = TripPhotosFragment.newInstance(trip);
+
+        fragments.clear();
+        fragments.add(tripMemberFrag);
+        fragments.add(tripPhotosFrag);
+        adapter = new MainActivity.BottomNavAdapter(getChildFragmentManager(), fragments);
+        vpTrip.setAdapter(adapter);
+        vpTrip.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                switch (i) {
+                    case 0:
+                        tripNavigation.setSelectedItemId(R.id.action_members);
+                        break;
+                    case 1:
+                        tripNavigation.setSelectedItemId(R.id.action_photos);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+
+        });
+        tripNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()){
+                    case R.id.action_members:
+                        vpTrip.setCurrentItem(0);
+                        return true;
+                    case R.id.action_photos:
+                        vpTrip.setCurrentItem(1);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+    }
 }

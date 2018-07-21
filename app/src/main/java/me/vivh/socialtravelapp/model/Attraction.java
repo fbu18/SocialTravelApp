@@ -26,6 +26,7 @@ public class Attraction extends ParseObject {
     private static final String KEY_TYPE = "type";
     private static final String KEY_PRICE = "priceLevel";
 
+
     public String getId() { return getString(KEY_ID); }
     public void setId(String id) {
         put(KEY_ID, id);

@@ -29,16 +29,24 @@ import me.vivh.socialtravelapp.model.Trip;
 
 public class TripMemberFragment extends Fragment {
 
+    private static final String TRIP_ARG = "trip";
+
     @BindView(R.id.rvMembers) RecyclerView rvMembers;
 
-    Trip trip;
+    private Trip trip;
     private TripMemberAdapter.CallbackMember callbackMember;
     private ArrayList<ParseUser> members;
     private TripMemberAdapter memberAdapter;
     private Unbinder unbinder;
+    Context context;
 
-    public TripMemberFragment(Trip trp) {
-        trip = trp;
+
+    public static TripMemberFragment newInstance(Trip trip) {
+        TripMemberFragment fragment = new TripMemberFragment();
+        Bundle extras = new Bundle();
+        extras.putParcelable(TRIP_ARG, trip);
+        fragment.setArguments(extras);
+        return fragment;
     }
 
     public  TripMemberFragment(){}
@@ -47,11 +55,19 @@ public class TripMemberFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        context = container.getContext();
+
+        if (getArguments() != null) {
+            trip = getArguments().getParcelable(TRIP_ARG);
+        }
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_trip_member, container, false);
 
@@ -60,7 +76,7 @@ public class TripMemberFragment extends Fragment {
         members = new ArrayList<>();
         memberAdapter = new TripMemberAdapter(members, callbackMember);
 
-        rvMembers.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvMembers.setLayoutManager(new LinearLayoutManager(context));
         rvMembers.setAdapter(memberAdapter);
 
         loadMembers();
@@ -113,11 +129,14 @@ public class TripMemberFragment extends Fragment {
             e.printStackTrace();
         }
 
+    }
 
+    public Trip getTrip() {
+        return trip;
+    }
 
-
-
-
+    public void setTrip(Trip trip) {
+        this.getArguments().putParcelable(TRIP_ARG, trip);
     }
 
 }

@@ -1,11 +1,13 @@
 package me.vivh.socialtravelapp;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.PorterDuff;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
@@ -31,33 +33,122 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseLiveQueryClient;
+import com.parse.ParseQuery;
+import com.parse.SubscriptionHandling;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import me.vivh.socialtravelapp.model.Attraction;
 
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
 public class MapsFragment extends Fragment {
+    private OnFragmentInteractionListener mListener;
+    public interface OnFragmentInteractionListener {
+        void openAttractionDetails(@NonNull Attraction attraction);
+    }
+
+    Context context;
+
+    ArrayList<Attraction> attractions = new ArrayList();
     SupportMapFragment mapFragment;
-    FragmentActivity myContext;
     GoogleMap map;
+
+
+    Map<String,Attraction> dictionary = new Map<String, Attraction>() {
+        @Override
+        public int size() {
+            return 0;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return false;
+        }
+
+        @Override
+        public boolean containsKey(Object o) {
+            return false;
+        }
+
+        @Override
+        public boolean containsValue(Object o) {
+            return false;
+        }
+
+        @Override
+        public Attraction get(Object o) {
+            return null;
+        }
+
+        @Override
+        public Attraction put(String s, Attraction attraction) {
+            return null;
+        }
+
+        @Override
+        public Attraction remove(Object o) {
+            return null;
+        }
+
+        @Override
+        public void putAll(@NonNull Map<? extends String, ? extends Attraction> map) {
+
+        }
+
+        @Override
+        public void clear() {
+
+        }
+
+        @NonNull
+        @Override
+        public Set<String> keySet() {
+            return null;
+        }
+
+        @NonNull
+        @Override
+        public Collection<Attraction> values() {
+            return null;
+        }
+
+        @NonNull
+        @Override
+        public Set<Entry<String, Attraction>> entrySet() {
+            return null;
+        }
+    };
     //    Location location;
     private LocationRequest mLocationRequest;
     private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
     private long FASTEST_INTERVAL = 2000; /* 2 sec */
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
         startLocationUpdates();
-
         return inflater.inflate(R.layout.fragment_maps, parent, false);
+
     }
 
     @Override
@@ -84,6 +175,27 @@ public class MapsFragment extends Fragment {
                     map.setMyLocationEnabled(true);
                 }
             });
+
+            /*ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
+            ParseQuery<Attraction> parseQuery = ParseQuery.getQuery(Attraction.class);
+            SubscriptionHandling<Attraction> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
+            subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, new SubscriptionHandling.HandleEventCallback<Attraction>() {
+                @Override
+                public void onEvent(ParseQuery<Attraction> query, Attraction object) {
+                    attractions.add(object);
+                    populateMap(attractions);
+                }
+            });*/
+        }
+    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -113,7 +225,15 @@ public class MapsFragment extends Fragment {
                             LatLng latLng = new LatLng(lat, lng);
                             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
                             map.animateCamera(cameraUpdate);
-
+                            getAttractions();
+                            map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                @Override
+                                public boolean onMarkerClick(Marker marker) {
+                                    Attraction attraction = dictionary.get(marker.getTitle());
+                                    mListener.openAttractionDetails(attraction);
+                                    return false;
+                                }
+                            });
                         }
                     }
                 })
@@ -206,5 +326,43 @@ public class MapsFragment extends Fragment {
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         drawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+    // get a list of attractions from Parse
+    void getAttractions() {
+        ParseQuery<Attraction> query = ParseQuery.getQuery(Attraction.class);
+
+        query.orderByAscending("createdAt");
+        query.findInBackground(new FindCallback<Attraction>() {
+            @Override
+            public void done(List<Attraction> objects, ParseException e) {
+                map.clear();
+                if(e == null) {
+                    attractions.clear();
+                    attractions.addAll(objects);
+                    populateMap(attractions);
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    void populateMap(ArrayList<Attraction> arrayList) {
+        for(int i = 0; i < arrayList.size(); i++) {
+            Attraction attraction = (Attraction) arrayList.get(i);
+            dropPin(attraction);
+        }
+    }
+    void dropPin(Attraction attraction) {
+        MarkerOptions mp = new MarkerOptions();
+        ParseGeoPoint point = attraction.getPoint();
+        double lat = point.getLatitude();
+        double lng = point.getLongitude();
+        String name = attraction.getName();
+        String description = attraction.getDescription();
+        dictionary.put(name, attraction);
+        LatLng latLng = new LatLng(lat, lng);
+        mp.position(latLng);
+        mp.title(name);
+        map.addMarker(mp);
     }
 }
