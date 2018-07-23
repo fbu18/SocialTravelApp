@@ -48,8 +48,6 @@ public class ProfileFragment extends Fragment {
     Date today;
 
     ParseUser currentUser;
-    private int pastTrips;
-    private int upcomingTrips;
 
     private OnFragmentInteractionListener mListener;
     private Unbinder unbinder;
@@ -116,9 +114,6 @@ public class ProfileFragment extends Fragment {
         });
 
 
-        tvNumPastTrips.setText(String.format("%s", pastTrips));
-        tvUpcoming.setText(String.format("%s", upcomingTrips));
-
         return view;
     }
 
@@ -154,8 +149,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void done(List<Trip> objects, ParseException e) {
                 if(e == null){
-                    Log.d("ProfileFragment/objects", String.format("%s", objects.size()));
-                    pastTrips = objects.size();
+                    tvNumPastTrips.setText(String.format("%s", objects.size()));
                     pastTripArray.clear();
                     pastTripArray.addAll(objects);
                 }else{
@@ -175,7 +169,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void done(List<Trip> objects, ParseException e) {
                 if(e == null){
-                    upcomingTrips = objects.size();
+                    tvUpcoming.setText(String.format("%s", objects.size()));
                 }else{
                     Log.d("ProfileFragment", String.format("%s", objects.size()));
                 }
