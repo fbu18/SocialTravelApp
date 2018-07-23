@@ -1,9 +1,10 @@
 package me.vivh.socialtravelapp;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -39,13 +39,17 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.tvPoints) TextView tvPoints;
     @BindView(R.id.tvNumPastTrips) TextView tvNumPastTrips;
     @BindView(R.id.ivProfilePic) ImageView ivProfilePic;
+    @BindView(R.id.btnEditProfile) Button editProfileBtn;
+    @BindView(R.id.tvUpcoming) TextView tvUpcoming;
 
-    private ArrayList<Trip> pastTrips;
+    private ArrayList<Trip> pastTripArray;
 
     Calendar cal = new GregorianCalendar();
+    Date today;
 
     ParseUser currentUser;
-    int numTrips;
+    private int pastTrips;
+    private int upcomingTrips;
 
     private OnFragmentInteractionListener mListener;
     private Unbinder unbinder;
@@ -74,6 +78,10 @@ public class ProfileFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_profile, container, false);
         unbinder = ButterKnife.bind(this, view);
 
+        today = cal.getTime();
+        findPastTrips();
+        findUpcomingTrips();
+
         btnLogOut.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -81,8 +89,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        numTrips = 0;
-        pastTrips = new ArrayList<>();
+        pastTripArray = new ArrayList<>();
 
         currentUser = ParseUser.getCurrentUser();
 
@@ -90,14 +97,27 @@ public class ProfileFragment extends Fragment {
         tvHomeLoc.setText(currentUser.getString("home"));
         tvPoints.setText(currentUser.getNumber("points").toString());
 
-        Glide.with(getContext()).load(ParseUser.getCurrentUser().getParseFile("profilePic").getUrl())
+        String profilePicUrl = "";
+        if (currentUser.getParseFile("profilePic") != null) {
+            profilePicUrl = currentUser.getParseFile("profilePic").getUrl();
+        }
+        Glide.with(getContext()).load(profilePicUrl)
                 .apply(
                         RequestOptions.placeholderOf(R.drawable.ic_perm_identity_black_24dp)
                                 .circleCrop())
                 .into(ivProfilePic);
 
-        findPastTrips();
-        tvNumPastTrips.setText(String.format("%s", numTrips));
+        editProfileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ViewPager vp= (ViewPager) getActivity().findViewById(R.id.viewPager);
+                vp.setCurrentItem(9, false);
+            }
+        });
+
+
+        tvNumPastTrips.setText(String.format("%s", pastTrips));
+        tvUpcoming.setText(String.format("%s", upcomingTrips));
 
         return view;
     }
@@ -127,17 +147,38 @@ public class ProfileFragment extends Fragment {
 
     public void findPastTrips(){
 
-        Date today = cal.getTime();
-
-        ParseQuery<Trip> tripQuery = ParseQuery.getQuery("date");
+        final Trip.Query tripQuery = new Trip.Query();
         tripQuery.whereLessThan("date", today);
 
         tripQuery.findInBackground(new FindCallback<Trip>() {
             @Override
             public void done(List<Trip> objects, ParseException e) {
-                numTrips = objects.size();
-                pastTrips.clear();
-                pastTrips.addAll(objects);
+                if(e == null){
+                    Log.d("ProfileFragment/objects", String.format("%s", objects.size()));
+                    pastTrips = objects.size();
+                    pastTripArray.clear();
+                    pastTripArray.addAll(objects);
+                }else{
+                    Log.d("ProfileFragment", String.format("%s", objects.size()));
+                }
+            }
+        });
+    }
+
+    public void findUpcomingTrips(){
+
+
+        final Trip.Query tripQuery = new Trip.Query();
+        tripQuery.whereGreaterThan("date", today);
+
+        tripQuery.findInBackground(new FindCallback<Trip>() {
+            @Override
+            public void done(List<Trip> objects, ParseException e) {
+                if(e == null){
+                    upcomingTrips = objects.size();
+                }else{
+                    Log.d("ProfileFragment", String.format("%s", objects.size()));
+                }
             }
         });
     }

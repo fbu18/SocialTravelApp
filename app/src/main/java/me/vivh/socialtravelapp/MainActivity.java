@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         ProfileFragment.OnFragmentInteractionListener,
         AttractionDetailsFragment.OnFragmentInteractionListener, AttractionFragment.OnFragmentInteractionListener,
         AttractionAdapter.Callback, FeedFragment.OnFragmentInteractionListener,
-        TripListFragment.OnFragmentInteractionListener, TripAdapter.Callback, TripMemberAdapter.CallbackMember, MapsFragment.OnFragmentInteractionListener{
+        TripListFragment.OnFragmentInteractionListener, TripAdapter.Callback, TripMemberAdapter.CallbackMember,
+        MapsFragment.OnFragmentInteractionListener, ChatFragment.OnFragmentInteractionListener{
 
 
     private final List<Fragment> fragments = new ArrayList<>();
@@ -45,15 +46,15 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         ButterKnife.bind(this);
         fragments.add(new FeedFragment()); // index 0
         fragments.add(new ExploreFragment()); // index 1
-        // fragments.add(new FeedFragment()); // index 2 for testing w/o TripListFragment
         fragments.add(new TripListFragment()); // index 2
         fragments.add(new ProfileFragment()); // index 3
         fragments.add(new SuggestionFragment()); // index 4
         fragments.add(new MapsFragment()); // index 5
         fragments.add(new AttractionFragment()); // index 6
-        //fragments.add(new FeedFragment()); // index 7 for testing w/o TripDetailFragment
         fragments.add(new TripDetailFragment()); // index 7
         fragments.add(new AttractionDetailsFragment()); // index 8
+        fragments.add(new EditProfileFragment()); // index 9
+        fragments.add(new ChatFragment()); // index 10
 
         adapter = new BottomNavAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
@@ -117,6 +118,17 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    // handle chat button press
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.miChat) {
+            viewPager.setCurrentItem(10, false);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     static class BottomNavAdapter extends FragmentStatePagerAdapter {

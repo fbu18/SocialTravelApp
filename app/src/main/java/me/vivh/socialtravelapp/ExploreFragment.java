@@ -1,6 +1,7 @@
 package me.vivh.socialtravelapp;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,13 +15,19 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlacePhotoMetadata;
+import com.google.android.gms.location.places.PlacePhotoMetadataBuffer;
+import com.google.android.gms.location.places.PlacePhotoMetadataResponse;
+import com.google.android.gms.location.places.PlacePhotoResponse;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
-
-import java.lang.reflect.Field;
 
 import me.vivh.socialtravelapp.model.Attraction;
 
@@ -37,6 +44,7 @@ public class ExploreFragment extends Fragment {
 
     Button knowBtn;
     Button suggestBtn;
+    GeoDataClient mGeoDataClient;
 
     private OnFragmentInteractionListener mListener;
 
@@ -63,6 +71,8 @@ public class ExploreFragment extends Fragment {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_explore,
                 container, false);
+
+        mGeoDataClient = Places.getGeoDataClient(getActivity());
 
         knowBtn = (Button) rootView.findViewById(R.id.btnKnow);
         suggestBtn = (Button) rootView.findViewById(R.id.btnSuggest);
@@ -107,7 +117,8 @@ public class ExploreFragment extends Fragment {
                 new PlaceSelectionListener() {
                     @Override
                     public void onPlaceSelected(Place place) {
-                        // TODO: get image and description, convert types to strings?
+                        // TODO: get description, convert types to strings?
+                        String description = "One of Seattle's finest gems";
                         String id = place.getId();
                         String name;
                         String address;
@@ -115,12 +126,20 @@ public class ExploreFragment extends Fragment {
                         Double latitude;
                         Double longitude;
                         String website;
-                        Double rating = 0.0;
+                        Double rating;
                         String type;
                         Integer priceLevel;
 
                         try{ name = place.getName().toString();}
                         catch (Exception e) { name = "";}
+
+                        /*try {
+                            getPhotos(id);
+                            bitmap = bitmapArray.get(0);
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }*/
 
                         try{ address = place.getAddress().toString();}
                         catch (Exception e) { address = "42 Wallaby Way, Sydney, Australia";}
@@ -149,12 +168,26 @@ public class ExploreFragment extends Fragment {
                         try{ priceLevel = place.getPriceLevel();}
                         catch (Exception e) {  priceLevel = 0;}
 
-
                         String placeDetailsStr = name + "\n" + address + "\n" + phoneNumber + "\n"
                                 + latitude + ", " + longitude + "," + "\n" + website;
                         Log.i("OnPlaceSelected", placeDetailsStr);
-                        uploadAttraction(id, name, address, phoneNumber, latitude, longitude,
-                                website, rating, type, priceLevel);
+
+
+                        Attraction newAtt = new Attraction();
+                        newAtt.setId(id);
+                        newAtt.setName(name);
+                        newAtt.setAddress(address);
+                        newAtt.setPhoneNumber(phoneNumber);
+                        newAtt.setPoint(latitude, longitude);
+                        newAtt.setWebsite(website);
+                        newAtt.setRating(rating);
+                        newAtt.setType(type);
+                        newAtt.setPriceLevel(priceLevel);
+                        newAtt.setDescription(description);
+                        // set image in the retrieveUploadPhoto method so that upload is only
+                        // executed after photo request is complete
+                        retrieveUploadPhoto(id, newAtt);
+                        // TODO - transition to "join a group" fragment
                     }
 
                     @Override
@@ -181,7 +214,7 @@ public class ExploreFragment extends Fragment {
     public interface OnFragmentInteractionListener {
     }
 
-    public String convertPlaceTypetoString(int value) throws Exception {
+    /*public String convertPlaceTypetoString(int value) throws Exception {
         //TODO - implement this if we want to filter by category
         Field[] fields = Place.class.getDeclaredFields();
         String name;
@@ -192,31 +225,46 @@ public class ExploreFragment extends Fragment {
             }
         }
         throw new IllegalArgumentException("place value " + value + " not found.");
-    }
+    }*/
 
-    public void uploadAttraction(String id, String name, String address, String phoneNumber, Double latitude, Double longitude,
-                                 String website, Double rating, String type, Integer priceLevel){
-        Attraction newAtt = new Attraction();
-        newAtt.setId(id);
-        newAtt.setName(name);
-        newAtt.setAddress(address);
-        newAtt.setPhoneNumber(phoneNumber);
-        newAtt.setPoint(latitude, longitude);
-        newAtt.setWebsite(website);
-        newAtt.setRating(rating);
-        newAtt.setType(type);
-        newAtt.setPriceLevel(priceLevel);
 
-        newAtt.saveInBackground(new SaveCallback() {
+    // Request and upload image to Parse for the specified place.
+    // Uploading image is done here so it waits for request to complete.
+    private void retrieveUploadPhoto(String placeId, final Attraction attraction) {
+        final Task<PlacePhotoMetadataResponse> photoMetadataResponse = mGeoDataClient.getPlacePhotos(placeId);
+        photoMetadataResponse.addOnCompleteListener(new OnCompleteListener<PlacePhotoMetadataResponse>() {
             @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    // Attraction has been successfully created
-                    Toast.makeText( getContext(),"New attraction added!",Toast.LENGTH_LONG ).show();
-                } else {
-                    Toast.makeText( getContext(),"Failed to add new attraction :(",Toast.LENGTH_LONG ).show();
-                    e.printStackTrace();
-                }
+            public void onComplete(@NonNull Task<PlacePhotoMetadataResponse> task) {
+                // Get the list of photos.
+                PlacePhotoMetadataResponse photos = task.getResult();
+                // Get the PlacePhotoMetadataBuffer (metadata for all of the photos).
+                PlacePhotoMetadataBuffer photoMetadataBuffer = photos.getPhotoMetadata();
+                // Get the first photo in the list.
+                PlacePhotoMetadata photoMetadata = photoMetadataBuffer.get(0);
+                // Get the attribution text.
+                CharSequence attribution = photoMetadata.getAttributions();
+                // Get a full-size bitmap for the photo.
+                Task<PlacePhotoResponse> photoResponse = mGeoDataClient.getPhoto(photoMetadata);
+                photoResponse.addOnCompleteListener(new OnCompleteListener<PlacePhotoResponse>() {
+                    @Override
+                    public void onComplete(@NonNull Task<PlacePhotoResponse> task) {
+                        PlacePhotoResponse photo = task.getResult();
+                        Bitmap bitmap = photo.getBitmap();
+                        attraction.setBitmap(bitmap);
+                        attraction.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    // Attraction has been successfully created
+                                    Toast.makeText( getContext(),"New attraction added!",Toast.LENGTH_LONG ).show();
+                                } else {
+                                    Toast.makeText( getContext(),"Failed to add new attraction :(",Toast.LENGTH_LONG ).show();
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                });
             }
         });
     }

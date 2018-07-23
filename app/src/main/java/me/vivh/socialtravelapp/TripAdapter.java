@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -30,6 +29,10 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
     private Callback inputCallback;
     private List<Trip> mTrips;
     Context context;
+
+    public TripAdapter(List<Trip> trips) {
+        mTrips = trips;
+    }
 
     public TripAdapter(List<Trip> trips, Callback callback) {
         mTrips = trips;

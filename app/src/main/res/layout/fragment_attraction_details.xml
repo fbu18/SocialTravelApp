@@ -37,11 +37,24 @@
         android:layout_marginTop="5dp"
         app:srcCompat="@android:color/black" />
 
+    <Button
+        android:id="@+id/btnChoose"
+        android:layout_width="174dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/ivAttrPic"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/background_gradient"
+        android:text="Choose this attraction"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+
     <View
         android:id="@+id/profile_divider"
         android:layout_width="fill_parent"
         android:layout_height="2dip"
-        android:layout_below="@+id/ivAttrPic"
+        android:layout_below="@+id/btnChoose"
         android:layout_marginTop="15dp"
         android:background="@drawable/background_gradient" />
 

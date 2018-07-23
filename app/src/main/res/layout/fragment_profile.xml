@@ -18,7 +18,9 @@
         android:layout_alignTop="@+id/ivProfilePic"
         android:text="tvUserName"
         android:textAlignment="center"
-        android:textSize="24sp" />
+        android:textColor="@color/black_70_transparent"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/btnLogOut"
@@ -69,6 +71,7 @@
         android:layout_below="@+id/tvUserName"
         android:text="tvHomeLoc"
         android:textAlignment="center"
+        android:textColor="@color/black_50_transparent"
         android:textSize="18sp" />
 
     <TextView
@@ -76,18 +79,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvHomeLoc"
-        android:layout_centerHorizontal="true"
-        android:text="Points"
-        android:textSize="18sp"
+        android:layout_toEndOf="@+id/ivProfilePic"
+        android:layout_marginHorizontal="@dimen/pointsMargin"
+        android:text="Points:"
+        android:textSize="17sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvPoints"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/pointsText"
+        android:layout_alignEnd="@+id/pointsText"
         android:layout_below="@+id/pointsText"
-        android:text="TextView"
+        android:layout_marginTop="@dimen/pointsMargin"
+        android:text="0"
         android:textAlignment="center"
         android:textSize="24sp" />
 
@@ -95,21 +100,44 @@
         android:id="@+id/pastTripsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_below="@+id/tvHomeLoc"
-        android:layout_marginEnd="16dp"
-        android:text="Past Trips: "
-        android:textSize="18sp"
+        android:layout_marginHorizontal="@dimen/pointsMargin"
+        android:layout_toEndOf="@+id/pointsText"
+        android:text="Past: "
+        android:textSize="17sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvNumPastTrips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/pastTripsText"
+        android:layout_alignEnd="@+id/pastTripsText"
         android:layout_below="@+id/pointsText"
-        android:text="TextView"
+        android:layout_marginTop="@dimen/pointsMargin"
+        android:text="0"
         android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/upcomingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvHomeLoc"
+        android:layout_marginHorizontal="@dimen/pointsMargin"
+        android:layout_toEndOf="@+id/pastTripsText"
+        android:text="Future:"
+        android:textAlignment="center"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvUpcoming"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/upcomingText"
+        android:layout_below="@+id/pointsText"
+        android:layout_marginTop="@dimen/pointsMargin"
+        android:text="0"
         android:textSize="24sp" />
 
 

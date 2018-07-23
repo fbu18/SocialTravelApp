@@ -35,6 +35,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
     implementation 'com.parse.bolts:bolts-android:1.4.0'
     implementation 'com.parse:parse-android:1.17.3'
+    implementation 'com.parse:parse-livequery-android:1.0.4' // for Parse Live Queries
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     // for logging API calls to LogCat
     implementation 'com.jakewharton:butterknife:8.4.0'
