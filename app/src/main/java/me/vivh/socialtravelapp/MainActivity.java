@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         ProfileFragment.OnFragmentInteractionListener,
         AttractionDetailsFragment.OnFragmentInteractionListener, AttractionFragment.OnFragmentInteractionListener,
         AttractionAdapter.Callback, FeedFragment.OnFragmentInteractionListener,
-        TripListFragment.OnFragmentInteractionListener, TripAdapter.Callback, TripMemberAdapter.CallbackMember, MapsFragment.OnFragmentInteractionListener{
+        TripListFragment.OnFragmentInteractionListener, TripAdapter.Callback, TripMemberAdapter.CallbackMember,
+        MapsFragment.OnFragmentInteractionListener, ChatFragment.OnFragmentInteractionListener{
 
 
     private final List<Fragment> fragments = new ArrayList<>();
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         fragments.add(new TripDetailFragment()); // index 7
         fragments.add(new AttractionDetailsFragment()); // index 8
         fragments.add(new EditProfileFragment()); // index 9
+        fragments.add(new ChatFragment()); // index 10
 
         adapter = new BottomNavAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
@@ -124,8 +126,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         int id = item.getItemId();
 
         if (id == R.id.miChat) {
-            Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-            startActivity(intent);
+            viewPager.setCurrentItem(10, false);
         }
         return super.onOptionsItemSelected(item);
     }

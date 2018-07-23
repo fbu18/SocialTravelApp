@@ -1,13 +1,16 @@
 package me.vivh.socialtravelapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -25,14 +28,21 @@ import com.parse.SubscriptionHandling;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Unbinder;
 import me.vivh.socialtravelapp.model.Message;
 
-public class ChatActivity extends AppCompatActivity {
-    static final String TAG = ChatActivity.class.getSimpleName();
+
+public class ChatFragment extends Fragment {
+
+    static final String TAG = "ChatFragment";
     static final String USER_ID_KEY = "userId";
     static final String BODY_KEY = "body";
     RecyclerView rvChat;
     static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
+
+    //Message message;
+    Context context;
+    private Unbinder unbinder;
 
     ArrayList<Message> mMessages;
     ChatAdapter mAdapter;
@@ -54,16 +64,32 @@ public class ChatActivity extends AppCompatActivity {
         }
     };
 
+    private OnFragmentInteractionListener mListener;
+
+    public ChatFragment() {
+        // Required empty public constructor
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        context = container.getContext();
+        // Inflate the layout for this fragment
+        final View view = inflater.inflate(R.layout.fragment_chat, container, false);
+
         // User login
         if (ParseUser.getCurrentUser() != null) { // start with existing user
-            startWithCurrentUser();
+            startWithCurrentUser(view);
         } else { // If not logged in, login as a new anonymous user
-            login();
+            login(view);
         }
         //myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
 
@@ -84,7 +110,7 @@ public class ChatActivity extends AppCompatActivity {
                         mMessages.add(0, object);
 
                         // RecyclerView updates need to be run on the UI thread
-                        runOnUiThread(new Runnable() {
+                        getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 mAdapter.notifyDataSetChanged();
@@ -95,7 +121,7 @@ public class ChatActivity extends AppCompatActivity {
                 });
 
         // Lookup the swipe container view
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -110,43 +136,72 @@ public class ChatActivity extends AppCompatActivity {
                 android.R.color.holo_red_light);
 
         refreshMessages();
+        return view;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+    }
 
     // Create an anonymous user using ParseAnonymousUtils and set sUserId
-    void login() {
+    void login(final View view) {
         ParseAnonymousUtils.logIn(new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Anonymous login failed: ", e);
                 } else {
-                    startWithCurrentUser();
+                    startWithCurrentUser(view);
                 }
             }
         });
     }
 
     // Get the userId from the cached currentUser object
-    void startWithCurrentUser() {
-        setupMessagePosting();
+    void startWithCurrentUser(View view) {
+        setupMessagePosting(view);
     }
 
     // Setup button event handler which posts the entered message to Parse
-    void setupMessagePosting() {
+    void setupMessagePosting(View view) {
         // Find the text field and button
-        etMessage = (EditText) findViewById(R.id.etMessage);
-        btSend = (Button) findViewById(R.id.btSend);
-        rvChat = (RecyclerView) findViewById(R.id.rvChat);
+        etMessage = (EditText) view.findViewById(R.id.etMessage);
+        btSend = (Button) view.findViewById(R.id.btSend);
+        rvChat = (RecyclerView) view.findViewById(R.id.rvChat);
         mMessages = new ArrayList<>();
         mFirstLoad = true;
         final String userId = ParseUser.getCurrentUser().getObjectId();
-        mAdapter = new ChatAdapter(ChatActivity.this, userId, mMessages);
+        mAdapter = new ChatAdapter(getContext(), userId, mMessages);
         rvChat.setAdapter(mAdapter);
 
         // associate the LayoutManager with the RecylcerView
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ChatActivity.this);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvChat.setLayoutManager(linearLayoutManager);
 
         // When send button is clicked, create message object on Parse
@@ -161,7 +216,7 @@ public class ChatActivity extends AppCompatActivity {
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
+                        Toast.makeText(getContext(), "Successfully created message on Parse",
                                 Toast.LENGTH_SHORT).show();
                         refreshMessages();
                     }
@@ -202,6 +257,4 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }
