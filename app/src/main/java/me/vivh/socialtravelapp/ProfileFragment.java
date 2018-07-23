@@ -144,6 +144,7 @@ public class ProfileFragment extends Fragment {
 
         final Trip.Query tripQuery = new Trip.Query();
         tripQuery.whereLessThan("date", today);
+        tripQuery.whereEqualTo("user", currentUser);
 
         tripQuery.findInBackground(new FindCallback<Trip>() {
             @Override
@@ -164,6 +165,7 @@ public class ProfileFragment extends Fragment {
 
         final Trip.Query tripQuery = new Trip.Query();
         tripQuery.whereGreaterThan("date", today);
+        tripQuery.whereEqualTo("user", currentUser);
 
         tripQuery.findInBackground(new FindCallback<Trip>() {
             @Override

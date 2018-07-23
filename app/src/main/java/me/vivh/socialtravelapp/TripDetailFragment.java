@@ -138,6 +138,7 @@ public class TripDetailFragment extends Fragment {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
                     case R.id.action_members:
+                        ((TripMemberFragment)fragments.get(0)).setTrip(trip);
                         vpTrip.setCurrentItem(0);
                         return true;
                     case R.id.action_photos:
