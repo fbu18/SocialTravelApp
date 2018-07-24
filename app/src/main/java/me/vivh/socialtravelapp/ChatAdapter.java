@@ -16,7 +16,6 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.List;
 
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.vivh.socialtravelapp.model.Message;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
@@ -62,7 +61,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                 .apply(
                         RequestOptions.placeholderOf(R.drawable.background_gradient)
                                 .fitCenter()
-                                .transform(new RoundedCornersTransformation(25, 0)))
+                                .circleCrop())
                 .into(profileView);
     }
 
