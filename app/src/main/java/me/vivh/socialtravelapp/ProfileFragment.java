@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,20 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.vivh.socialtravelapp.model.Trip;
 
 
 public class ProfileFragment extends Fragment {
@@ -27,8 +37,15 @@ public class ProfileFragment extends Fragment {
     TextView tvUsername;
     @BindView(R.id.tvHomeLoc) TextView tvHomeLoc;
     @BindView(R.id.tvPoints) TextView tvPoints;
-    @BindView(R.id.btnEditProfile) Button editProfileBtn;
+    @BindView(R.id.tvNumPastTrips) TextView tvNumPastTrips;
     @BindView(R.id.ivProfilePic) ImageView ivProfilePic;
+    @BindView(R.id.btnEditProfile) Button editProfileBtn;
+    @BindView(R.id.tvUpcoming) TextView tvUpcoming;
+
+    private ArrayList<Trip> pastTripArray;
+
+    Calendar cal = new GregorianCalendar();
+    Date today;
 
     ParseUser currentUser;
 
@@ -59,12 +76,18 @@ public class ProfileFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_profile, container, false);
         unbinder = ButterKnife.bind(this, view);
 
+        today = cal.getTime();
+        findPastTrips();
+        findUpcomingTrips();
+
         btnLogOut.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 mListener.logout();
             }
         });
+
+        pastTripArray = new ArrayList<>();
 
         currentUser = ParseUser.getCurrentUser();
 
@@ -77,8 +100,9 @@ public class ProfileFragment extends Fragment {
             profilePicUrl = currentUser.getParseFile("profilePic").getUrl();
         }
         Glide.with(getContext()).load(profilePicUrl)
-                .apply(new RequestOptions().placeholder(R.drawable.user_outline_24))
-                .apply(RequestOptions.circleCropTransform())
+                .apply(
+                        RequestOptions.placeholderOf(R.drawable.ic_perm_identity_black_24dp)
+                                .circleCrop())
                 .into(ivProfilePic);
 
         editProfileBtn.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +112,7 @@ public class ProfileFragment extends Fragment {
                 vp.setCurrentItem(9, false);
             }
         });
+
 
         return view;
     }
@@ -113,6 +138,45 @@ public class ProfileFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    public void findPastTrips(){
+
+        final Trip.Query tripQuery = new Trip.Query();
+        tripQuery.whereLessThan("date", today);
+        tripQuery.whereEqualTo("user", currentUser);
+
+        tripQuery.findInBackground(new FindCallback<Trip>() {
+            @Override
+            public void done(List<Trip> objects, ParseException e) {
+                if(e == null){
+                    tvNumPastTrips.setText(String.format("%s", objects.size()));
+                    pastTripArray.clear();
+                    pastTripArray.addAll(objects);
+                }else{
+                    Log.d("ProfileFragment", String.format("%s", objects.size()));
+                }
+            }
+        });
+    }
+
+    public void findUpcomingTrips(){
+
+
+        final Trip.Query tripQuery = new Trip.Query();
+        tripQuery.whereGreaterThan("date", today);
+        tripQuery.whereEqualTo("user", currentUser);
+
+        tripQuery.findInBackground(new FindCallback<Trip>() {
+            @Override
+            public void done(List<Trip> objects, ParseException e) {
+                if(e == null){
+                    tvUpcoming.setText(String.format("%s", objects.size()));
+                }else{
+                    Log.d("ProfileFragment", String.format("%s", objects.size()));
+                }
+            }
+        });
     }
 
     /**

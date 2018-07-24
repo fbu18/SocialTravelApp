@@ -3,6 +3,7 @@ package me.vivh.socialtravelapp;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -49,15 +50,10 @@ public class TripMemberFragment extends Fragment {
         return fragment;
     }
 
-    public  TripMemberFragment(){}
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-
+    public TripMemberFragment(){
+        super();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,19 +94,12 @@ public class TripMemberFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
 
     public void loadMembers(){
-//
-//        List<ParseUser> users = trip.getList("user");
 
         try{
             ParseRelation relation = trip.getRelation("user");
@@ -136,7 +125,12 @@ public class TripMemberFragment extends Fragment {
     }
 
     public void setTrip(Trip trip) {
-        this.getArguments().putParcelable(TRIP_ARG, trip);
+        this.trip = trip;
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(TRIP_ARG, trip);
+    }
 }
