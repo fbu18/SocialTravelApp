@@ -7,6 +7,7 @@ import com.parse.ParseObject;
 
 import me.vivh.socialtravelapp.model.Attraction;
 import me.vivh.socialtravelapp.model.Message;
+import me.vivh.socialtravelapp.model.Photo;
 import me.vivh.socialtravelapp.model.Trip;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -25,6 +26,7 @@ public class ParseApp extends Application{
         ParseObject.registerSubclass(Attraction.class);
         ParseObject.registerSubclass(Trip.class);
         ParseObject.registerSubclass(Message.class);
+        ParseObject.registerSubclass(Photo.class);
 
 
         // Use for monitoring Parse network traffic

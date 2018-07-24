@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
 
     @Override
     public void openTripDetail(@NonNull Trip trip) {
-        ((TripDetailFragment)fragments.get(TRIP_DETAIL_INDEX)).trip = trip;
+        ((TripDetailFragment)fragments.get(TRIP_DETAIL_INDEX)).setTrip(trip);
         viewPager.setCurrentItem(TRIP_DETAIL_INDEX, false);
     }
 
