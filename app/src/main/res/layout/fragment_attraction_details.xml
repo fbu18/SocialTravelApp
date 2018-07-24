@@ -133,6 +133,8 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/ivAttrPhoneNumber"
+        android:autoLink="all"
+        android:linksClickable="true"
         android:text="(999) 999-9999"
         android:textColor="@android:color/black" />
 
