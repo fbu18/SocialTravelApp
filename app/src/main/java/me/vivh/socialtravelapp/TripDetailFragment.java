@@ -149,4 +149,8 @@ public class TripDetailFragment extends Fragment {
             }
         });
     }
+
+    public void setTrip(Trip trip) {
+        this.trip = trip;
+    }
 }
