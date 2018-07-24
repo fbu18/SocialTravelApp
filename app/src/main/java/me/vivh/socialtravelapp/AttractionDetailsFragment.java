@@ -82,6 +82,14 @@ public class AttractionDetailsFragment extends Fragment {
                 listener.openTripBrowse(attraction);
             }
         });
+
+        tvAttrPhoneNumber.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                listener.dialPhone(attraction.getPhoneNumber());
+            }
+        });
         return view;
     }
 
@@ -110,5 +118,7 @@ public class AttractionDetailsFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void openTripBrowse(Attraction attraction);
+
+        void dialPhone(String phoneNumber);
     }
 }
