@@ -44,6 +44,7 @@ import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -66,70 +67,7 @@ public class MapsFragment extends Fragment {
     GoogleMap map;
 
 
-    Map<String,Attraction> dictionary = new Map<String, Attraction>() {
-        @Override
-        public int size() {
-            return 0;
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return false;
-        }
-
-        @Override
-        public boolean containsKey(Object o) {
-            return false;
-        }
-
-        @Override
-        public boolean containsValue(Object o) {
-            return false;
-        }
-
-        @Override
-        public Attraction get(Object o) {
-            return null;
-        }
-
-        @Override
-        public Attraction put(String s, Attraction attraction) {
-            return null;
-        }
-
-        @Override
-        public Attraction remove(Object o) {
-            return null;
-        }
-
-        @Override
-        public void putAll(@NonNull Map<? extends String, ? extends Attraction> map) {
-
-        }
-
-        @Override
-        public void clear() {
-
-        }
-
-        @NonNull
-        @Override
-        public Set<String> keySet() {
-            return null;
-        }
-
-        @NonNull
-        @Override
-        public Collection<Attraction> values() {
-            return null;
-        }
-
-        @NonNull
-        @Override
-        public Set<Entry<String, Attraction>> entrySet() {
-            return null;
-        }
-    };
+    Map<String,Attraction> dictionary = new HashMap<String, Attraction>();
     //    Location location;
     private LocationRequest mLocationRequest;
     private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
