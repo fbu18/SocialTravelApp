@@ -1,6 +1,7 @@
 package me.vivh.socialtravelapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -267,5 +268,12 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
 
     public static int getCHAT_INDEX() {
         return CHAT_INDEX;
+    }
+
+    @Override
+    public void dialPhone(String phoneNumber) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + phoneNumber));
+        startActivity(intent);
     }
 }

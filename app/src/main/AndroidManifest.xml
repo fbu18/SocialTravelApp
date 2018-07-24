@@ -11,6 +11,7 @@
 
     <!-- - requesting the WRITE_EXTERNAL_STORAGE permission will also include READ_EXTERNAL_STORAGE permission -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
 
     <application
         android:name=".ParseApp"
