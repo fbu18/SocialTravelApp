@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,31 +31,44 @@ public class TripBrowseFragment extends Fragment {
     List<Trip> trips = new ArrayList<>();
     TripAdapter tripAdapter;
     Attraction attraction;
+    TripAdapter.Callback callback;
     @BindView(R.id.rvBrowse) RecyclerView rvBrowse;
+    @BindView(R.id.swiperefreshBrowse) SwipeRefreshLayout swipeContainer;
     private Unbinder unbinder;
+
     public TripBrowseFragment() {
         // Required empty public constructor
     }
 
-    @Override
+    /*@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
+*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_trip_browse, container, false);
         unbinder = ButterKnife.bind(this, view);
-
         trips = new ArrayList<>();
-        tripAdapter = new TripAdapter(trips);
+
+        tripAdapter = new TripAdapter(trips, callback);
         rvBrowse.setAdapter(tripAdapter);
         rvBrowse.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
-        loadTopTrips();
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                loadTopTrips();
+                swipeContainer.setRefreshing(false);
+            }
+        });
 
         return view;
     }
@@ -62,11 +76,18 @@ public class TripBrowseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof TripAdapter.Callback) {
+            callback = (TripAdapter.Callback) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
     }
 
     @Override
@@ -74,11 +95,18 @@ public class TripBrowseFragment extends Fragment {
         super.onDetach();
         unbinder.unbind();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadTopTrips();
+    }
+
     public void loadTopTrips(){
 
 
         final Trip.Query tripsQuery = new Trip.Query();
-        tripsQuery.whereEqualTo("attraction", attraction).include("attraction");
+        tripsQuery.whereEqualTo("attraction", attraction)/*.include("attraction")*/;
         tripsQuery.findInBackground(new FindCallback<Trip>() {
             @Override
             public void done(List<Trip> objects, ParseException e) {

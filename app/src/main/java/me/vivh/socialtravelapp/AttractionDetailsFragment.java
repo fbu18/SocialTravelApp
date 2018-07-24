@@ -34,7 +34,7 @@ public class AttractionDetailsFragment extends Fragment {
     @BindView(R.id.tvAttrAddress) TextView tvAttrAddress;
     @BindView(R.id.tvAttrPhoneNumber) TextView tvAttrPhoneNumber;
     @BindView(R.id.tvAttrWebsite) TextView tvAttrWebsite;
-    @BindView(R.id.btnTrip) Button btnTrip;
+    @BindView(R.id.btnChoose) Button btnTrip;
 
     private final List<Attraction> attractions = new ArrayList<>();
     Attraction attraction;
@@ -79,6 +79,7 @@ public class AttractionDetailsFragment extends Fragment {
         btnTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String n = attraction.getName();
                 listener.openTripBrowse(attraction);
             }
         });

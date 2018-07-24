@@ -43,7 +43,6 @@
         android:layout_height="30dp"
         android:layout_below="@+id/ivAttrPic"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
         android:background="@drawable/background_gradient"
         android:text="Choose this attraction"
         android:textAllCaps="false"
@@ -142,14 +141,6 @@
         android:layout_alignTop="@+id/tvAttrPhoneNumber"
         android:layout_marginStart="12dp"
         android:src="@drawable/ic_call_black_24dp" />
-
-    <Button
-        android:id="@+id/btnTrip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/ivAttrPic"
-        android:layout_alignParentEnd="true"
-        android:text="Browse Trips" />
 
 
 </RelativeLayout>

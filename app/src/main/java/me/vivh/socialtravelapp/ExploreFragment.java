@@ -80,8 +80,7 @@ public class ExploreFragment extends Fragment {
         suggestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ViewPager vp= (ViewPager) getActivity().findViewById(R.id.viewPager);
-                vp.setCurrentItem(MainActivity.getSUGGESTIONS_INDEX(), false);
+                mListener.openSuggestion();
 
             }
         });
@@ -212,6 +211,7 @@ public class ExploreFragment extends Fragment {
      * activity.
      */
     public interface OnFragmentInteractionListener {
+        void openSuggestion();
     }
 
     /*public String convertPlaceTypetoString(int value) throws Exception {

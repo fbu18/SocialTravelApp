@@ -219,6 +219,10 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         ((ChatFragment)fragments.get(CHAT_INDEX)).trip = trip;
         viewPager.setCurrentItem(CHAT_INDEX, false);
     }
+    @Override
+    public void openSuggestion() {
+        viewPager.setCurrentItem(SUGGESTIONS_INDEX);
+    }
 
 
     public static int getEXPLORE_INDEX() {
