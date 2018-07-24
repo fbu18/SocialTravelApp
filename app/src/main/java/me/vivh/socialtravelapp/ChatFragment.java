@@ -97,13 +97,28 @@ public class ChatFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_chat, container, false);
 
+        // Lookup the swipe container view
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshMessages();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
         // User login
         if (ParseUser.getCurrentUser() != null) { // start with existing user
             startWithCurrentUser(view);
         } else { // If not logged in, login as a new anonymous user
             login(view);
         }
-        //myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
+        myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
 
         ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
 
@@ -114,7 +129,6 @@ public class ChatFragment extends Fragment {
         ParseQuery<Message> parseQuery = ParseQuery.getQuery(Message.class);
         // This query can even be more granular (i.e. only refresh if the entry was added by some other user)
         parseQuery.whereEqualTo(TRIP_KEY, trip);
-
 
         // Connect to Parse server
         SubscriptionHandling<Message> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
@@ -137,22 +151,7 @@ public class ChatFragment extends Fragment {
                     }
                 });
 
-        // Lookup the swipe container view
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
-        // Setup refresh listener which triggers new data loading
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshMessages();
-            }
-        });
-        // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
 
-        refreshMessages();
         return view;
     }
 
@@ -166,6 +165,7 @@ public class ChatFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
+
 
     @Override
     public void onDetach() {
@@ -219,6 +219,7 @@ public class ChatFragment extends Fragment {
                 Message message = new Message();
                 message.setBody(data);
                 message.setUser(ParseUser.getCurrentUser());
+                message.setTrip(trip);
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
