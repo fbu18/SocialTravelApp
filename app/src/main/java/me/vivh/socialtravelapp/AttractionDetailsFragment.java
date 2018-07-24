@@ -2,10 +2,13 @@ package me.vivh.socialtravelapp;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -31,12 +34,12 @@ public class AttractionDetailsFragment extends Fragment {
     @BindView(R.id.tvAttrAddress) TextView tvAttrAddress;
     @BindView(R.id.tvAttrPhoneNumber) TextView tvAttrPhoneNumber;
     @BindView(R.id.tvAttrWebsite) TextView tvAttrWebsite;
+    @BindView(R.id.btnTrip) Button btnTrip;
 
     private final List<Attraction> attractions = new ArrayList<>();
     Attraction attraction;
     Context context;
     private Unbinder unbinder;
-
     private AttractionDetailsFragment.OnFragmentInteractionListener listener;
 
     public AttractionDetailsFragment() {
@@ -72,8 +75,16 @@ public class AttractionDetailsFragment extends Fragment {
         }catch(Exception e){
             e.printStackTrace();
         }
+
+        btnTrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.openTripBrowse(attraction);
+            }
+        });
         return view;
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -98,5 +109,6 @@ public class AttractionDetailsFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
+        void openTripBrowse(Attraction attraction);
     }
 }

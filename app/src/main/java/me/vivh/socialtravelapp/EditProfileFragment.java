@@ -39,7 +39,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class EditProfileFragment extends Fragment {
 
-    public final String APP_TAG = "MyCustomApp2";
+    public final String APP_TAG = "MyCustomApp";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo";
     File photoFile;
@@ -92,11 +92,16 @@ public class EditProfileFragment extends Fragment {
         postBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ParseUser currUser = ParseUser.getCurrentUser();
-                final File file = photoFile;
-                parseFile = new ParseFile(file);
+                try {
+                    final ParseUser currUser = ParseUser.getCurrentUser();
+                    final File file = photoFile;
+                    parseFile = new ParseFile(file);
 
-                postPhoto(parseFile, currUser);
+                    postPhoto(parseFile, currUser);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(), "Please take a new picture first", Toast.LENGTH_LONG).show();
+                }
             }
         });
         return rootView;
