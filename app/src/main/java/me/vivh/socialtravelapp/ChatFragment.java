@@ -59,7 +59,7 @@ public class ChatFragment extends Fragment {
     private SwipeRefreshLayout swipeContainer;
 
     // Create a handler which can run code periodically
-    static final int POLL_INTERVAL = 1000; // milliseconds
+    static final int POLL_INTERVAL = 250; // milliseconds
     Handler myHandler = new Handler();  // android.os.Handler
     Runnable mRefreshMessagesRunnable = new Runnable() {
         @Override
