@@ -130,6 +130,13 @@
         android:layout_marginStart="12dp"
         android:src="@drawable/ic_call_black_24dp" />
 
+    <Button
+        android:id="@+id/btnTrip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ivAttrPic"
+        android:layout_alignParentEnd="true"
+        android:text="Browse Trips" />
 
 
 </RelativeLayout>

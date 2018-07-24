@@ -31,6 +31,17 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         AttractionAdapter.Callback, FeedFragment.OnFragmentInteractionListener,
         TripListFragment.OnFragmentInteractionListener, TripAdapter.Callback, TripMemberAdapter.CallbackMember, MapsFragment.OnFragmentInteractionListener{
 
+    public static final int FEED_INDEX = 0;
+    public static final int EXPLORE_INDEX = 1;
+    public static final int TRIP_LIST_INDEX = 2;
+    public static final int PROFILE_INDEX = 3;
+    public static final int SUGGESTIONS_INDEX = 4;
+    public static final int MAPS_INDEX = 5;
+    public static final int ATTRACTION_INDEX = 6;
+    public static final int TRIP_DETAIL_INDEX = 7;
+    public static final int ATTRACTION_DETAILS_INDEX = 8;
+    public static final int TRIP_BROWSE_INDEX = 9;
+
 
     private final List<Fragment> fragments = new ArrayList<>();
     private BottomNavAdapter adapter;
@@ -54,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         //fragments.add(new FeedFragment()); // index 7 for testing w/o TripDetailFragment
         fragments.add(new TripDetailFragment()); // index 7
         fragments.add(new AttractionDetailsFragment()); // index 8
+        fragments.add(new TripBrowseFragment());
 
         adapter = new BottomNavAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
@@ -95,18 +107,16 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
                     case R.id.action_feed:
-                        viewPager.setCurrentItem(0, false);
+                        viewPager.setCurrentItem(FEED_INDEX, false);
                         return true;
                     case R.id.action_explore:
-                        viewPager.setCurrentItem(1, false);
+                        viewPager.setCurrentItem(EXPLORE_INDEX, false);
                         return true;
                     case R.id.action_trips:
-                        viewPager.setCurrentItem(2, false);
+                        viewPager.setCurrentItem(TRIP_LIST_INDEX, false);
                         return true;
                     case R.id.action_profile:
-
-                        viewPager.setCurrentItem(3);
-                        viewPager.setCurrentItem(3, false);
+                        viewPager.setCurrentItem(PROFILE_INDEX, false);
                         return true;
                     default:
                         return false;
@@ -147,8 +157,8 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
 
     @Override
     public void openTripDetail(@NonNull Trip trip) {
-        ((TripDetailFragment)fragments.get(7)).trip = trip;
-        viewPager.setCurrentItem(7, false);
+        ((TripDetailFragment)fragments.get(TRIP_DETAIL_INDEX)).trip = trip;
+        viewPager.setCurrentItem(TRIP_DETAIL_INDEX, false);
     }
 
     @Override
@@ -164,13 +174,57 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     }
 
     public void openAttractionDetails(@NonNull Attraction attraction) {
-        ((AttractionDetailsFragment)fragments.get(8)).attraction = attraction;
-        viewPager.setCurrentItem(8, false);
+        ((AttractionDetailsFragment)fragments.get(ATTRACTION_DETAILS_INDEX)).attraction = attraction;
+        viewPager.setCurrentItem(ATTRACTION_DETAILS_INDEX, false);
     }
 
     @Override
     public void openMemberDetail(@NonNull ParseUser user) {
 
     }
+    @Override
+    public void openTripBrowse(@NonNull Attraction attraction) {
+        ((TripBrowseFragment) fragments.get(TRIP_BROWSE_INDEX)).setAttraction(attraction);
+        viewPager.setCurrentItem(TRIP_BROWSE_INDEX);
+    }
 
+    public static int getFEED_INDEX() {
+        return FEED_INDEX;
+    }
+
+    public static int getEXPLORE_INDEX() {
+        return EXPLORE_INDEX;
+    }
+
+    public static int getTRIP_LIST_INDEX() {
+        return TRIP_LIST_INDEX;
+    }
+
+    public static int getPROFILE_INDEX() {
+        return PROFILE_INDEX;
+    }
+
+    public static int getSUGGESTIONS_INDEX() {
+        return SUGGESTIONS_INDEX;
+    }
+
+    public static int getMAPS_INDEX() {
+        return MAPS_INDEX;
+    }
+
+    public static int getATTRACTION_INDEX() {
+        return ATTRACTION_INDEX;
+    }
+
+    public static int getTRIP_DETAIL_INDEX() {
+        return TRIP_DETAIL_INDEX;
+    }
+
+    public static int getATTRACTION_DETAILS_INDEX() {
+        return ATTRACTION_DETAILS_INDEX;
+    }
+
+    public static int getTRIP_BROWSE_INDEX() {
+        return TRIP_BROWSE_INDEX;
+    }
 }

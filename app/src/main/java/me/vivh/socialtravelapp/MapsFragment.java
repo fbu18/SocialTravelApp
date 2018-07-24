@@ -64,6 +64,7 @@ import static com.google.android.gms.location.LocationServices.getFusedLocationP
 
 public class MapsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
+
     public interface OnFragmentInteractionListener {
         void openAttractionDetails(@NonNull Attraction attraction);
     }
@@ -366,3 +367,4 @@ public class MapsFragment extends Fragment {
         map.addMarker(mp);
     }
 }
+
