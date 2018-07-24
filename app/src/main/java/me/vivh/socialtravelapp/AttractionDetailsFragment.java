@@ -75,6 +75,7 @@ public class AttractionDetailsFragment extends Fragment {
         }catch(Exception e){
             e.printStackTrace();
         }
+
         btnTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

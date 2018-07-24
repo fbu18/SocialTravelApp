@@ -6,7 +6,10 @@ import com.parse.Parse;
 import com.parse.ParseObject;
 
 import me.vivh.socialtravelapp.model.Attraction;
+import me.vivh.socialtravelapp.model.Message;
 import me.vivh.socialtravelapp.model.Trip;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 public class ParseApp extends Application{
 
@@ -17,8 +20,20 @@ public class ParseApp extends Application{
         // Enable Local Datastore.
         Parse.enableLocalDatastore(this);
 
+
+
         ParseObject.registerSubclass(Attraction.class);
         ParseObject.registerSubclass(Trip.class);
+        ParseObject.registerSubclass(Message.class);
+
+
+        // Use for monitoring Parse network traffic
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        // Can be Level.BASIC, Level.HEADERS, or Level.BODY
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        builder.networkInterceptors().add(httpLoggingInterceptor);
+
 
         final Parse.Configuration configuration = new Parse.Configuration.Builder(this)
                 .applicationId("travelapp")
