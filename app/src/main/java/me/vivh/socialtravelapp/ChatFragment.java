@@ -30,6 +30,9 @@ import java.util.List;
 
 import butterknife.Unbinder;
 import me.vivh.socialtravelapp.model.Message;
+import me.vivh.socialtravelapp.model.Trip;
+
+import static me.vivh.socialtravelapp.model.Message.TRIP_KEY;
 
 
 public class ChatFragment extends Fragment {
@@ -44,8 +47,10 @@ public class ChatFragment extends Fragment {
     Context context;
     private Unbinder unbinder;
 
+    Trip trip;
+
     ArrayList<Message> mMessages;
-    ChatAdapter mAdapter;
+    ChatAdapter chatAdapter;
     // Keep track of initial load to scroll to the bottom of the ListView
     boolean mFirstLoad;
 
@@ -70,10 +75,17 @@ public class ChatFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static ChatFragment newInstance(Trip trip) {
+        ChatFragment fragment = new ChatFragment();
+        Bundle extras = new Bundle();
+        extras.putParcelable("trip", trip);
+        fragment.setArguments(extras);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
 
@@ -95,9 +107,14 @@ public class ChatFragment extends Fragment {
 
         ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
 
+        if (getArguments() != null) {
+            trip = getArguments().getParcelable("trip");
+        }
+
         ParseQuery<Message> parseQuery = ParseQuery.getQuery(Message.class);
         // This query can even be more granular (i.e. only refresh if the entry was added by some other user)
-        // parseQuery.whereNotEqualTo(USER_ID_KEY, ParseUser.getCurrentUser().getObjectId());
+        parseQuery.whereEqualTo(TRIP_KEY, trip);
+
 
         // Connect to Parse server
         SubscriptionHandling<Message> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
@@ -113,7 +130,7 @@ public class ChatFragment extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                mAdapter.notifyDataSetChanged();
+                                chatAdapter.notifyDataSetChanged();
                                 rvChat.scrollToPosition(0);
                             }
                         });
@@ -156,16 +173,6 @@ public class ChatFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
     }
 
@@ -197,8 +204,8 @@ public class ChatFragment extends Fragment {
         mMessages = new ArrayList<>();
         mFirstLoad = true;
         final String userId = ParseUser.getCurrentUser().getObjectId();
-        mAdapter = new ChatAdapter(getContext(), userId, mMessages);
-        rvChat.setAdapter(mAdapter);
+        chatAdapter = new ChatAdapter(getContext(), userId, mMessages);
+        rvChat.setAdapter(chatAdapter);
 
         // associate the LayoutManager with the RecylcerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -212,7 +219,6 @@ public class ChatFragment extends Fragment {
                 Message message = new Message();
                 message.setBody(data);
                 message.setUser(ParseUser.getCurrentUser());
-                //message.setUserId(ParseUser.getCurrentUser().getObjectId());
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -230,6 +236,7 @@ public class ChatFragment extends Fragment {
     void refreshMessages() {
         // Construct query to execute
         ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
+        query.whereEqualTo(TRIP_KEY, trip);
         // Configure limit and sort order
         query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
 
@@ -245,7 +252,7 @@ public class ChatFragment extends Fragment {
                     mMessages.addAll(messages);
                     // Now we call setRefreshing(false) to signal refresh has finished
                     swipeContainer.setRefreshing(false);
-                    mAdapter.notifyDataSetChanged(); // update adapter
+                    chatAdapter.notifyDataSetChanged(); // update adapter
                     // Scroll to the bottom of the list on initial load
                     if (mFirstLoad) {
                         rvChat.scrollToPosition(0);

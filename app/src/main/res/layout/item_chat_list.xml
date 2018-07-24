@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="80dp">
 
     <ImageView
-        android:id="@+id/ivProfile"
+        android:id="@+id/ivAttractionPic"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_alignParentLeft="true"
@@ -15,17 +15,18 @@
         app:srcCompat="@drawable/ic_card_travel_black_24dp" />
 
     <TextView
-        android:id="@+id/tvUser"
+        android:id="@+id/tvGroupName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/ivProfile"
-        android:layout_toRightOf="@+id/ivProfile"
+        android:layout_toEndOf="@+id/ivAttractionPic"
+        android:layout_toRightOf="@+id/ivAttractionPic"
+        android:textStyle="bold"
         android:text="TextView" />
 
     <TextView
         android:id="@+id/tvDate"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
@@ -33,12 +34,17 @@
         android:text="TextView" />
 
     <TextView
-        android:id="@+id/tvMessage"
+        android:id="@+id/tvMembers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvUser"
-        android:layout_toEndOf="@+id/ivProfile"
-        android:layout_toRightOf="@+id/ivProfile"
-        android:text="TextView"
-        android:layout_alignBottom="@+id/ivProfile" />
+        android:layout_below="@+id/tvGroupName"
+        android:layout_toEndOf="@+id/ivAttractionPic"
+        android:layout_toRightOf="@+id/ivAttractionPic"
+        android:text="Chat with fellow explorers"
+        android:layout_alignBottom="@+id/ivAttractionPic" />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

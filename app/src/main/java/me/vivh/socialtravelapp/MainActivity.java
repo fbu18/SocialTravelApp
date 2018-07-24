@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         AttractionDetailsFragment.OnFragmentInteractionListener, AttractionFragment.OnFragmentInteractionListener,
         AttractionAdapter.Callback, FeedFragment.OnFragmentInteractionListener,
         TripListFragment.OnFragmentInteractionListener, TripAdapter.Callback, TripMemberAdapter.CallbackMember,
-        MapsFragment.OnFragmentInteractionListener, ChatFragment.OnFragmentInteractionListener{
+        MapsFragment.OnFragmentInteractionListener,
+        ChatFragment.OnFragmentInteractionListener, ChatListAdapter.Callback, ChatListFragment.OnFragmentInteractionListener{
 
 
     private final List<Fragment> fragments = new ArrayList<>();
@@ -54,7 +55,8 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         fragments.add(new TripDetailFragment()); // index 7
         fragments.add(new AttractionDetailsFragment()); // index 8
         fragments.add(new EditProfileFragment()); // index 9
-        fragments.add(new ChatFragment()); // index 10
+        fragments.add(new ChatListFragment()); // index 10
+        fragments.add(new ChatFragment()); // index 11
 
         adapter = new BottomNavAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
@@ -181,6 +183,12 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     @Override
     public void openMemberDetail(@NonNull ParseUser user) {
 
+    }
+
+    @Override
+    public void openChat(@NonNull Trip trip) {
+        ((ChatFragment)fragments.get(11)).trip = trip;
+        viewPager.setCurrentItem(11, false);
     }
 
 }
