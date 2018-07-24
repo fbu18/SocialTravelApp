@@ -40,11 +40,10 @@ public class TripBrowseFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /*@Override
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -56,7 +55,7 @@ public class TripBrowseFragment extends Fragment {
         tripAdapter = new TripAdapter(trips, callback);
         rvBrowse.setAdapter(tripAdapter);
         rvBrowse.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        loadTopTrips();
 
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -93,13 +92,13 @@ public class TripBrowseFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        unbinder.unbind();
+        callback = null;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        loadTopTrips();
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     public void loadTopTrips(){

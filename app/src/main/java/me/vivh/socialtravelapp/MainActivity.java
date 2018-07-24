@@ -208,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     @Override
     public void openTripBrowse(@NonNull Attraction attraction) {
         ((TripBrowseFragment) fragments.get(TRIP_BROWSE_INDEX)).setAttraction(attraction);
+        ((TripBrowseFragment) fragments.get(TRIP_BROWSE_INDEX)).loadTopTrips();
         viewPager.setCurrentItem(TRIP_BROWSE_INDEX);
     }
 
