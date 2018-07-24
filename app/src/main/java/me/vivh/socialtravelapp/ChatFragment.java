@@ -127,7 +127,7 @@ public class ChatFragment extends Fragment {
         }
 
         ParseQuery<Message> parseQuery = ParseQuery.getQuery(Message.class);
-        // This query can even be more granular (i.e. only refresh if the entry was added by some other user)
+        // filter query to messages only for this trip
         parseQuery.whereEqualTo(TRIP_KEY, trip);
 
         // Connect to Parse server

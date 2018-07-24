@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         int id = item.getItemId();
 
         if (id == R.id.miChat) {
-            viewPager.setCurrentItem(getCHAT_LIST_INDEX(), false);
+            viewPager.setCurrentItem(CHAT_LIST_INDEX, false);
         }
         return super.onOptionsItemSelected(item);
     }

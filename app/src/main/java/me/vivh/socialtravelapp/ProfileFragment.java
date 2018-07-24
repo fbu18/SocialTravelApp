@@ -109,7 +109,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ViewPager vp= (ViewPager) getActivity().findViewById(R.id.viewPager);
-                vp.setCurrentItem(9, false);
+                vp.setCurrentItem(MainActivity.getEDIT_PROFILE_INDEX(), false);
             }
         });
 
