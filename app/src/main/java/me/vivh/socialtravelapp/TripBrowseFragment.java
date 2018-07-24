@@ -28,7 +28,7 @@ import me.vivh.socialtravelapp.model.Trip;
 
 public class TripBrowseFragment extends Fragment {
     List<Trip> trips = new ArrayList<>();
-    TripBrowseAdapter tripAdapter;
+    TripAdapter tripAdapter;
     Attraction attraction;
     @BindView(R.id.rvBrowse) RecyclerView rvBrowse;
     private Unbinder unbinder;
@@ -49,7 +49,7 @@ public class TripBrowseFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
 
         trips = new ArrayList<>();
-        tripAdapter = new TripBrowseAdapter(trips);
+        tripAdapter = new TripAdapter(trips);
         rvBrowse.setAdapter(tripAdapter);
         rvBrowse.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -78,8 +78,7 @@ public class TripBrowseFragment extends Fragment {
 
 
         final Trip.Query tripsQuery = new Trip.Query();
-        tripsQuery.whereEqualTo("user", ParseUser.getCurrentUser()).include("user");
-
+        tripsQuery.whereEqualTo("attraction", attraction).include("attraction");
         tripsQuery.findInBackground(new FindCallback<Trip>() {
             @Override
             public void done(List<Trip> objects, ParseException e) {
