@@ -51,6 +51,18 @@
         android:textColor="@color/black_40_transparent"
         android:textSize="16sp" />
 
+    <Button
+        android:id="@+id/btnCheckIn"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_below="@+id/tvDescription"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/background_gradient"
+        android:text="Check In"
+        android:textStyle="bold"
+        android:textColor="@android:color/white" />
+
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/tripNavigation"
         android:layout_width="match_parent"

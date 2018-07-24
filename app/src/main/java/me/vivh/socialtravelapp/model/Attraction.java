@@ -106,9 +106,7 @@ public class Attraction extends ParseObject {
     public String getPhoneNumber() {
         return getString(KEY_PHONE);
     }
-    public void setPhoneNumber(String number) {
-        put(KEY_PHONE, number);
-    }
+    public void setPhoneNumber(String number) { put(KEY_PHONE, number); }
 
     public String getType() { return getString(KEY_TYPE); }
     public void setType(String type) {

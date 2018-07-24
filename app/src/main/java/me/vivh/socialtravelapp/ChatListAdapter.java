@@ -60,7 +60,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         viewHolder.tvGroupName.setText(trip.getName());
         viewHolder.tvDate.setText(trip.getDateString());
         viewHolder.tvDescription.setText(trip.getDescription());
-        viewHolder.tvMembers.setText("Send a message to your TripMates!");
+        viewHolder.tvMembers.setText("Chat with your fellow explorers!");
 
 
         try{
