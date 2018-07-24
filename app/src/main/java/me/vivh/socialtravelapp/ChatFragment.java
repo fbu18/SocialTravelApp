@@ -106,6 +106,7 @@ public class ChatFragment extends Fragment {
                 refreshMessages();
             }
         });
+
         // Configure the refreshing colors
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
@@ -207,7 +208,7 @@ public class ChatFragment extends Fragment {
         chatAdapter = new ChatAdapter(getContext(), userId, mMessages);
         rvChat.setAdapter(chatAdapter);
 
-        // associate the LayoutManager with the RecylcerView
+        // associate the LayoutManager with the RecyclerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvChat.setLayoutManager(linearLayoutManager);
 

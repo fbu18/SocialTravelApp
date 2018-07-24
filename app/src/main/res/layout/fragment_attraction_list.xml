@@ -16,7 +16,7 @@ android:layout_height="match_parent">
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context=".AttractionFragment"
+        tools:context=".AttractionListFragment"
         tools:listitem="@layout/item_attraction" />
 
 </android.support.v4.widget.SwipeRefreshLayout>

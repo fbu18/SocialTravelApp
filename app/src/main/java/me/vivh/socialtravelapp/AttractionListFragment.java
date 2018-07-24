@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.vivh.socialtravelapp.model.Attraction;
 
-public class AttractionFragment extends Fragment {
+public class AttractionListFragment extends Fragment {
 
     ArrayList<Attraction> attractions;
     RecyclerView rvAttractions;
@@ -37,11 +37,11 @@ public class AttractionFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public AttractionFragment() {
+    public AttractionListFragment() {
     }
 
-    public static AttractionFragment newInstance(String param1, String param2) {
-        AttractionFragment fragment = new AttractionFragment();
+    public static AttractionListFragment newInstance(String param1, String param2) {
+        AttractionListFragment fragment = new AttractionListFragment();
         return fragment;
     }
 

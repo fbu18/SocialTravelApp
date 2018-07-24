@@ -26,7 +26,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
     private ChatListAdapter.Callback inputCallback;
     private List<Trip> mChats;
-    private List<String> mMembers;
     Context context;
 
 

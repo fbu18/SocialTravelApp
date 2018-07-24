@@ -1,7 +1,6 @@
 package me.vivh.socialtravelapp;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +38,14 @@ public class TripBrowseFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /*public static TripBrowseFragment newInstance(Attraction attr) {
+        TripBrowseFragment fragment = new TripBrowseFragment();
+        Bundle extras = new Bundle();
+        extras.putParcelable("attraction", attr);
+        fragment.setArguments(extras);
+        return fragment;
+    }
+    */
     /*@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,14 +63,13 @@ public class TripBrowseFragment extends Fragment {
         rvBrowse.setAdapter(tripAdapter);
         rvBrowse.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        loadTopTrips();
+
 
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
                 loadTopTrips();
                 swipeContainer.setRefreshing(false);
             }
@@ -103,8 +108,6 @@ public class TripBrowseFragment extends Fragment {
     }
 
     public void loadTopTrips(){
-
-
         final Trip.Query tripsQuery = new Trip.Query();
         tripsQuery.whereEqualTo("attraction", attraction)/*.include("attraction")*/;
         tripsQuery.findInBackground(new FindCallback<Trip>() {

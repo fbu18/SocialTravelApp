@@ -45,7 +45,7 @@ public class SuggestionFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.menu_explore, menu);
-        fragments.add(new AttractionFragment());
+        fragments.add(new AttractionListFragment());
         fragments.add(new MapsFragment());
         adapter = new MainActivity.BottomNavAdapter(getChildFragmentManager(), fragments);
         viewPager.setAdapter(adapter);

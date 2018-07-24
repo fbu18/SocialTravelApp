@@ -2,8 +2,6 @@ package me.vivh.socialtravelapp;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,12 +32,8 @@ public class AttractionDetailsFragment extends Fragment {
     @BindView(R.id.tvAttrAddress) TextView tvAttrAddress;
     @BindView(R.id.tvAttrPhoneNumber) TextView tvAttrPhoneNumber;
     @BindView(R.id.tvAttrWebsite) TextView tvAttrWebsite;
-<<<<<<< HEAD
     @BindView(R.id.btnChoose) Button btnTrip;
-=======
-    @BindView(R.id.btnTrip) Button btnTrip;
     @BindView(R.id.ivAttrPhoneNumber) ImageView ivAttrPhoneNumber;
->>>>>>> 25465e7b1d1faa0468a67ed8a8e995017c48944f
 
     private final List<Attraction> attractions = new ArrayList<>();
     Attraction attraction;

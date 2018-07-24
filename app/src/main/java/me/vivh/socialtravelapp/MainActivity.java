@@ -28,7 +28,7 @@ import me.vivh.socialtravelapp.model.Trip;
 
 public class MainActivity extends AppCompatActivity implements ExploreFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener,
-        AttractionDetailsFragment.OnFragmentInteractionListener, AttractionFragment.OnFragmentInteractionListener,
+        AttractionDetailsFragment.OnFragmentInteractionListener, AttractionListFragment.OnFragmentInteractionListener,
         AttractionAdapter.Callback, FeedFragment.OnFragmentInteractionListener,
         TripListFragment.OnFragmentInteractionListener, TripAdapter.Callback, TripMemberAdapter.CallbackMember,
         MapsFragment.OnFragmentInteractionListener,
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         fragments.add(new ProfileFragment()); // index 3
         fragments.add(new SuggestionFragment()); // index 4
         fragments.add(new MapsFragment()); // index 5
-        fragments.add(new AttractionFragment()); // index 6
+        fragments.add(new AttractionListFragment()); // index 6
         fragments.add(new TripDetailFragment()); // index 7
         fragments.add(new AttractionDetailsFragment()); // index 8
         fragments.add(new TripBrowseFragment()); // index 9
@@ -207,8 +207,8 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     }
     @Override
     public void openTripBrowse(@NonNull Attraction attraction) {
-        ((TripBrowseFragment) fragments.get(TRIP_BROWSE_INDEX)).setAttraction(attraction);
-        viewPager.setCurrentItem(TRIP_BROWSE_INDEX);
+        ((TripBrowseFragment) fragments.get(TRIP_BROWSE_INDEX)).attraction = attraction;
+        viewPager.setCurrentItem(TRIP_BROWSE_INDEX, false);
     }
 
     public static int getFEED_INDEX() {
