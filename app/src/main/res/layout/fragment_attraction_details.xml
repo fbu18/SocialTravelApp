@@ -111,6 +111,8 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="5dp"
         android:text="www.website.com"
+        android:autoLink="all"
+        android:linksClickable="true"
         android:textColor="@android:color/black" />
 
     <ImageView
