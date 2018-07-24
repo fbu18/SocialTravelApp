@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         AttractionDetailsFragment.OnFragmentInteractionListener, AttractionFragment.OnFragmentInteractionListener,
         AttractionAdapter.Callback, FeedFragment.OnFragmentInteractionListener,
         TripListFragment.OnFragmentInteractionListener, TripAdapter.Callback, TripMemberAdapter.CallbackMember,
-        MapsFragment.OnFragmentInteractionListener, ChatFragment.OnFragmentInteractionListener{
+        MapsFragment.OnFragmentInteractionListener,
+        ChatFragment.OnFragmentInteractionListener, ChatListAdapter.Callback, ChatListFragment.OnFragmentInteractionListener{
 
     public static final int FEED_INDEX = 0;
     public static final int EXPLORE_INDEX = 1;
@@ -42,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     public static final int TRIP_DETAIL_INDEX = 7;
     public static final int ATTRACTION_DETAILS_INDEX = 8;
     public static final int TRIP_BROWSE_INDEX = 9;
+    public static final int EDIT_PROFILE_INDEX = 10;
+    public static final int CHAT_LIST_INDEX = 11;
+    public static final int CHAT_INDEX = 12;
 
 
     private final List<Fragment> fragments = new ArrayList<>();
@@ -64,10 +68,10 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         fragments.add(new AttractionFragment()); // index 6
         fragments.add(new TripDetailFragment()); // index 7
         fragments.add(new AttractionDetailsFragment()); // index 8
-        fragments.add(new TripBrowseFragment());
-
-        fragments.add(new EditProfileFragment()); // index 9
-        fragments.add(new ChatFragment()); // index 10
+        fragments.add(new TripBrowseFragment()); // index 9
+        fragments.add(new EditProfileFragment()); // index 10
+        fragments.add(new ChatListFragment()); // index 11
+        fragments.add(new ChatFragment()); // index 12
 
         adapter = new BottomNavAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
@@ -139,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         int id = item.getItemId();
 
         if (id == R.id.miChat) {
-            viewPager.setCurrentItem(10, false);
+            viewPager.setCurrentItem(CHAT_LIST_INDEX, false);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -160,6 +164,11 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         @Override
         public Fragment getItem(int position) {
             return fragments.get(position);
+        }
+
+        @Override
+        public int getItemPosition(@NonNull Object object) {
+            return super.getItemPosition(object);
         }
 
         @Override
@@ -205,6 +214,13 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         return FEED_INDEX;
     }
 
+    @Override
+    public void openChat(@NonNull Trip trip) {
+        ((ChatFragment)fragments.get(CHAT_INDEX)).trip = trip;
+        viewPager.setCurrentItem(CHAT_INDEX, false);
+    }
+
+
     public static int getEXPLORE_INDEX() {
         return EXPLORE_INDEX;
     }
@@ -239,5 +255,17 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
 
     public static int getTRIP_BROWSE_INDEX() {
         return TRIP_BROWSE_INDEX;
+    }
+
+    public static int getEDIT_PROFILE_INDEX() {
+        return EDIT_PROFILE_INDEX;
+    }
+
+    public static int getCHAT_LIST_INDEX() {
+        return CHAT_LIST_INDEX;
+    }
+
+    public static int getCHAT_INDEX() {
+        return CHAT_INDEX;
     }
 }

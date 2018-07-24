@@ -12,12 +12,12 @@ public class Message extends ParseObject {
     public static final String USER_KEY = "user";
     public static final String BODY_KEY = "body";
     public static final String PROFILE_PIC_KEY = "profilePic";
+    public static final String TRIP_KEY = "trip";
 
     public ParseUser getUser() { return getParseUser(USER_KEY); }
     public void setUser(ParseUser parseUser) { put(USER_KEY, parseUser); }
 
     public String getUserId() { return getUser().getObjectId(); }
-    //public void setUserId(String userId) { put(USER_ID_KEY, userId); }
 
     public String getBody() {
         return getString(BODY_KEY);
@@ -25,6 +25,11 @@ public class Message extends ParseObject {
     public void setBody(String body) {
         put(BODY_KEY, body);
     }
+
+    public Trip getTrip() { return (Trip) getParseObject(TRIP_KEY); }
+    public void setTrip(Trip trip) { put(TRIP_KEY, trip); }
+
+    public String getTripId() { return getTrip().getObjectId(); }
 
     public ParseFile getProfilePic() {
         ParseFile profilePic = null;

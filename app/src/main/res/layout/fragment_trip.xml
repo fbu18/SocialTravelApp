@@ -11,17 +11,52 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvTrips"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvTrips"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Upcoming Trips"
+                android:textAlignment="center"
+                android:textColor="@color/black_60_transparent"
+                android:layout_margin="5dp"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvUpcomingTrips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Past Trips"
+                android:textAlignment="center"
+                android:textColor="@color/black_60_transparent"
+                android:textSize="18sp"
+                android:layout_margin="5dp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvPastTrips"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+        </ScrollView>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

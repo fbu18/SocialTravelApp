@@ -1,12 +1,17 @@
 package me.vivh.socialtravelapp.model;
 
+import android.util.Log;
+
+import com.parse.FindCallback;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -48,6 +53,27 @@ public class Trip extends ParseObject {
 
     public List<ParseUser> getMembers(){
         return getList(KEY_USER);
+    }
+
+    public List<String> getMemberNames(){
+        final List members = new ArrayList<String>();
+        try{
+            ParseRelation<ParseUser> relation = getRelation(KEY_USER);
+            ParseQuery query = relation.getQuery();
+            query.findInBackground(new FindCallback<ParseUser>() {
+                @Override
+                public void done(List<ParseUser> parseUsers, ParseException e) {
+                    for (ParseUser parseUser : parseUsers)
+                    {
+                        members.add(parseUser.getUsername());
+                    }
+                    Log.d("relation", members.toString());
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return members;
     }
 
     public void setDescription(String description) {

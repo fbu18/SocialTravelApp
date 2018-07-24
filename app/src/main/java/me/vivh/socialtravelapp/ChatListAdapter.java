@@ -13,56 +13,54 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.parse.ParseException;
 
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.vivh.socialtravelapp.model.Trip;
 
-public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
-
+public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHolder>{
     interface Callback{
-        void openTripDetail(@NonNull Trip trip);
+        void openChat(@NonNull Trip trip);
     }
 
-    private Callback inputCallback;
-    private List<Trip> mTrips;
+    private ChatListAdapter.Callback inputCallback;
+    private List<Trip> mChats;
     Context context;
 
-    public TripAdapter(List<Trip> trips) {
-        mTrips = trips;
-    }
 
-    public TripAdapter(List<Trip> trips, Callback callback) {
-        mTrips = trips;
+    public ChatListAdapter(List<Trip> trips, ChatListAdapter.Callback callback) {
+        mChats = trips;
         inputCallback = callback;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ChatListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View view = inflater.inflate(R.layout.item_trip, viewGroup, false);
-        final ViewHolder viewHolder = new ViewHolder(view);
+        View view = inflater.inflate(R.layout.item_chat_list, viewGroup, false);
+        final ChatListAdapter.ViewHolder viewHolder = new ChatListAdapter.ViewHolder(view);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                inputCallback.openTripDetail(mTrips.get(viewHolder.getAdapterPosition()));
+                inputCallback.openChat(mChats.get(viewHolder.getAdapterPosition()));
             }
         });
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        Trip trip = mTrips.get(i);
+    public void onBindViewHolder(@NonNull ChatListAdapter.ViewHolder viewHolder, int i) {
+        Trip trip = mChats.get(i);
 
         viewHolder.tvGroupName.setText(trip.getName());
         viewHolder.tvDate.setText(trip.getDateString());
         viewHolder.tvDescription.setText(trip.getDescription());
+        viewHolder.tvMembers.setText(Arrays.toString(trip.getMemberNames().toArray()));
 
         try{
             String url = trip.getAttraction().fetchIfNeeded().getParseFile("image").getUrl();
@@ -83,6 +81,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         @BindView(R.id.tvDate) TextView tvDate;
         @BindView(R.id.ivAttractionPic) ImageView ivAttractionPic;
         @BindView(R.id.tvDescription) TextView tvDescription;
+        @BindView(R.id.tvMembers) TextView tvMembers;
 
         public ViewHolder(View itemView){
 
@@ -93,17 +92,17 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return mTrips.size();
+        return mChats.size();
     }
 
     public void clear() {
-        mTrips.clear();
+        mChats.clear();
         notifyDataSetChanged();
     }
 
     // Add a list of items -- change to type used
     public void addAll(List<Trip> list) {
-        mTrips.addAll(list);
+        mChats.addAll(list);
         notifyDataSetChanged();
     }
 

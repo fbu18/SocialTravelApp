@@ -6,17 +6,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,10 +27,15 @@ import me.vivh.socialtravelapp.model.Trip;
 
 public class TripListFragment extends Fragment {
 
-    @BindView(R.id.rvTrips) RecyclerView rvTrips;
+    @BindView(R.id.rvPastTrips) RecyclerView rvPastTrips;
+    @BindView(R.id.rvUpcomingTrips) RecyclerView rvUpcomingTrips;
     @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
-    ArrayList<Trip> trips;
-    TripAdapter tripAdapter;
+    ArrayList<Trip> pastTrips;
+    TripAdapter pastTripAdapter;
+    ArrayList<Trip> upcomingTrips;
+    TripAdapter upcomingTripAdapter;
+    Calendar cal = new GregorianCalendar();
+    Date today;
 
     private OnFragmentInteractionListener mListener;
 
@@ -59,18 +65,28 @@ public class TripListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_trip, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        trips = new ArrayList<>();
-        tripAdapter = new TripAdapter(trips, callback);
+        today = cal.getTime();
 
-        rvTrips.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvTrips.setAdapter(tripAdapter);
+        pastTrips = new ArrayList<>();
+        pastTripAdapter = new TripAdapter(pastTrips, callback);
 
-        loadTopTrips();
+        upcomingTrips = new ArrayList<>();
+        upcomingTripAdapter = new TripAdapter(upcomingTrips, callback);
+
+        rvPastTrips.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvPastTrips.setAdapter(pastTripAdapter);
+
+        rvUpcomingTrips.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvUpcomingTrips.setAdapter(upcomingTripAdapter);
+
+        loadPastTrips();
+        loadUpcomingTrips();
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadTopTrips();
+                loadPastTrips();
+                loadUpcomingTrips();
                 swipeContainer.setRefreshing(false);
             }
         });
@@ -109,19 +125,41 @@ public class TripListFragment extends Fragment {
         unbinder.unbind();
     }
 
-    public void loadTopTrips(){
-
+    public void loadPastTrips(){
 
         final Trip.Query tripsQuery = new Trip.Query();
         tripsQuery.whereEqualTo("user", ParseUser.getCurrentUser()).include("user");
+        tripsQuery.whereLessThan("date", today);
 
         tripsQuery.findInBackground(new FindCallback<Trip>() {
             @Override
             public void done(List<Trip> objects, ParseException e) {
                 if (e==null){
-                    trips.clear();
-                    trips.addAll(objects);
-                    tripAdapter.notifyDataSetChanged();
+                    pastTrips.clear();
+                    pastTrips.addAll(objects);
+                    pastTripAdapter.notifyDataSetChanged();
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    public void loadUpcomingTrips(){
+
+
+        final Trip.Query tripsQuery = new Trip.Query();
+        tripsQuery.whereEqualTo("user", ParseUser.getCurrentUser()).include("user");
+        tripsQuery.whereGreaterThan("date", today);
+
+        tripsQuery.findInBackground(new FindCallback<Trip>() {
+            @Override
+            public void done(List<Trip> objects, ParseException e) {
+                if (e==null){
+                    upcomingTrips.clear();
+                    upcomingTrips.addAll(objects);
+                    upcomingTripAdapter.notifyDataSetChanged();
                 } else {
                     e.printStackTrace();
                 }
