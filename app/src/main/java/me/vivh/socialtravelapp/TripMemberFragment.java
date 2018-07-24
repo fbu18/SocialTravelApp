@@ -50,18 +50,10 @@ public class TripMemberFragment extends Fragment {
         return fragment;
     }
 
-    public  TripMemberFragment(){}
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-        if(savedInstanceState != null){
-            trip = getArguments().getParcelable(TRIP_ARG);
-        }
-
+    public TripMemberFragment(){
+        super();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,19 +94,12 @@ public class TripMemberFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
 
     public void loadMembers(){
-//
-//        List<ParseUser> users = trip.getList("user");
 
         try{
             ParseRelation relation = trip.getRelation("user");

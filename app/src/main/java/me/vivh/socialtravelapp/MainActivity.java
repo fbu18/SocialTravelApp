@@ -150,6 +150,11 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         }
 
         @Override
+        public int getItemPosition(@NonNull Object object) {
+            return super.getItemPosition(object);
+        }
+
+        @Override
         public int getCount() {
             return fragments.size();
         }

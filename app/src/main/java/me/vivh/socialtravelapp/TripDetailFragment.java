@@ -41,8 +41,6 @@ public class TripDetailFragment extends Fragment {
     Context context;
     private Unbinder unbinder;
     MainActivity.BottomNavAdapter adapter;
-    TripMemberFragment tripMemberFrag;
-    TripPhotosFragment tripPhotosFrag;
 
     private final List<Fragment> fragments = new ArrayList<>();
 
@@ -101,14 +99,15 @@ public class TripDetailFragment extends Fragment {
 
     private void setUpFragments(){
 
-        tripMemberFrag = TripMemberFragment.newInstance(trip);
-        tripPhotosFrag = TripPhotosFragment.newInstance(trip);
+        TripMemberFragment tripMemberFrag = TripMemberFragment.newInstance(trip);
+        TripPhotosFragment tripPhotosFrag = TripPhotosFragment.newInstance(trip);
 
         fragments.clear();
         fragments.add(tripMemberFrag);
         fragments.add(tripPhotosFrag);
         adapter = new MainActivity.BottomNavAdapter(getChildFragmentManager(), fragments);
         vpTrip.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         vpTrip.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
