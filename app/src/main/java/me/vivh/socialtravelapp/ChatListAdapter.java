@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.parse.ParseException;
 
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,6 +26,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
     private ChatListAdapter.Callback inputCallback;
     private List<Trip> mChats;
+    private List<String> mMembers;
     Context context;
 
 
@@ -41,7 +41,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View view = inflater.inflate(R.layout.item_chat_list, viewGroup, false);
+        final View view = inflater.inflate(R.layout.item_chat_list, viewGroup, false);
         final ChatListAdapter.ViewHolder viewHolder = new ChatListAdapter.ViewHolder(view);
 
         view.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +60,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         viewHolder.tvGroupName.setText(trip.getName());
         viewHolder.tvDate.setText(trip.getDateString());
         viewHolder.tvDescription.setText(trip.getDescription());
-        viewHolder.tvMembers.setText(Arrays.toString(trip.getMemberNames().toArray()));
+        viewHolder.tvMembers.setText("Send a message to your TripMates!");
+
 
         try{
             String url = trip.getAttraction().fetchIfNeeded().getParseFile("image").getUrl();
