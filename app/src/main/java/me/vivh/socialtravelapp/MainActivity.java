@@ -209,6 +209,9 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     public void openTripBrowse(@NonNull Attraction attraction) {
         ((TripBrowseFragment) fragments.get(TRIP_BROWSE_INDEX)).attraction = attraction;
         viewPager.setCurrentItem(TRIP_BROWSE_INDEX, false);
+        ((TripBrowseFragment) fragments.get(TRIP_BROWSE_INDEX)).setAttraction(attraction);
+        ((TripBrowseFragment) fragments.get(TRIP_BROWSE_INDEX)).loadTopTrips();
+        viewPager.setCurrentItem(TRIP_BROWSE_INDEX);
     }
 
     public static int getFEED_INDEX() {
