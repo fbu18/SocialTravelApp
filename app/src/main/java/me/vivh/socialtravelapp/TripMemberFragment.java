@@ -1,7 +1,6 @@
 package me.vivh.socialtravelapp;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
@@ -37,6 +35,7 @@ public class TripMemberFragment extends Fragment {
     private Trip trip;
     private TripMemberAdapter.CallbackMember callbackMember;
     private ArrayList<ParseUser> members;
+    private ArrayList<ParseUser> membersCheckedIn;
     private TripMemberAdapter memberAdapter;
     private Unbinder unbinder;
     Context context;
@@ -54,7 +53,6 @@ public class TripMemberFragment extends Fragment {
         super();
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,12 +68,15 @@ public class TripMemberFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
 
         members = new ArrayList<>();
-        memberAdapter = new TripMemberAdapter(members, callbackMember);
+        membersCheckedIn = new ArrayList<>();
+        memberAdapter = new TripMemberAdapter(members, membersCheckedIn, callbackMember);
 
         rvMembers.setLayoutManager(new LinearLayoutManager(context));
         rvMembers.setAdapter(memberAdapter);
 
+        loadMembersCheckedIn();
         loadMembers();
+
 
         return view;
 
@@ -100,7 +101,6 @@ public class TripMemberFragment extends Fragment {
     }
 
     public void loadMembers(){
-
         try{
             ParseRelation relation = trip.getRelation("user");
             ParseQuery query = relation.getQuery();
@@ -117,7 +117,25 @@ public class TripMemberFragment extends Fragment {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
 
+    public void loadMembersCheckedIn(){
+        try{
+            ParseRelation checkedInRelation = trip.getRelation("usersCheckedIn");
+            ParseQuery query = checkedInRelation.getQuery();
+
+            query.findInBackground(new FindCallback<ParseUser>() {
+                @Override
+                public void done(List<ParseUser> objects, ParseException e) {
+                    Log.d("relation", objects.toString());
+                    membersCheckedIn.clear();
+                    membersCheckedIn.addAll(objects);
+                    memberAdapter.notifyDataSetChanged();
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public Trip getTrip() {

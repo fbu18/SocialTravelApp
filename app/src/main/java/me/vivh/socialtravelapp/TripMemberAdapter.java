@@ -24,11 +24,13 @@ public class TripMemberAdapter extends RecyclerView.Adapter<TripMemberAdapter.Vi
 
     private TripMemberAdapter.CallbackMember inputCallback;
     private List<ParseUser> mMembers;
+    private List<ParseUser> mMembersCheckedIn;
     Context context;
     ParseUser user;
 
-    public TripMemberAdapter(List<ParseUser> members, TripMemberAdapter.CallbackMember callback) {
+    public TripMemberAdapter(List<ParseUser> members, List<ParseUser> membersCheckedIn, TripMemberAdapter.CallbackMember callback) {
         mMembers = members;
+        mMembersCheckedIn = membersCheckedIn;
         inputCallback = callback;
     }
 
@@ -56,6 +58,16 @@ public class TripMemberAdapter extends RecyclerView.Adapter<TripMemberAdapter.Vi
         ParseUser member = mMembers.get(i);
 
         viewHolder.tvUsername.setText(member.getUsername());
+
+        boolean isCheckedIn = false;
+        for (ParseUser memberCheckedIn : mMembersCheckedIn){
+            if (memberCheckedIn.getUsername().equals(member.getUsername())){
+                isCheckedIn = true;
+            }
+        }
+
+        if (isCheckedIn) { viewHolder.ivCheckedIn.setVisibility(View.VISIBLE); }
+        else { viewHolder.ivCheckedIn.setVisibility(View.GONE); }
     }
 
 
@@ -64,6 +76,7 @@ public class TripMemberAdapter extends RecyclerView.Adapter<TripMemberAdapter.Vi
         @BindView(R.id.ivProfilePic) ImageView ivProfilePic;
         @BindView(R.id.tvUsername) TextView tvUsername;
         @BindView(R.id.tvHomeLoc) TextView tvHomeLoc;
+        @BindView(R.id.ivCheckedIn) ImageView ivCheckedIn;
 
         public ViewHolder(View itemView){
             super(itemView);

@@ -30,4 +30,14 @@
         android:layout_below="@+id/tvUsername"
         android:layout_toEndOf="@+id/ivProfilePic"
         android:text="TextView" />
+
+    <ImageView
+        android:id="@+id/ivCheckedIn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_toRightOf="@id/ivProfilePic"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBottom="@id/ivProfilePic"
+        app:srcCompat="@drawable/ic_check_circle_black_24dp"
+        android:outlineSpotShadowColor="@color/green_0"/>
 </RelativeLayout>

@@ -1,20 +1,21 @@
 package me.vivh.socialtravelapp.model;
 
-import android.util.Log;
+import android.widget.Toast;
 
-import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static com.parse.Parse.getApplicationContext;
 
 @ParseClassName("Trip")
 public class Trip extends ParseObject {
@@ -25,6 +26,7 @@ public class Trip extends ParseObject {
     private static final String KEY_NAME = "name";
     private static final String KEY_DATE = "date";
     private static final String KEY_USER = "user";
+    private static final String KEY_CHECK_IN = "checkIn";
 
     public String getDescription() {
         return getString(KEY_DESCRIPTION);
@@ -55,7 +57,7 @@ public class Trip extends ParseObject {
         return getList(KEY_USER);
     }
 
-    public List<String> getMemberNames(){
+    /*public List<String> getMemberNames(){
         final List members = new ArrayList<String>();
         try{
             ParseRelation<ParseUser> relation = getRelation(KEY_USER);
@@ -74,7 +76,7 @@ public class Trip extends ParseObject {
             e.printStackTrace();
         }
         return members;
-    }
+    }*/
 
     public void setDescription(String description) {
         put(KEY_DESCRIPTION, description);
@@ -90,6 +92,19 @@ public class Trip extends ParseObject {
 
     public void setKeyAttraction(Attraction attraction){
         put(KEY_ATTRACTION, attraction);
+    }
+
+    public ParseRelation<ParseUser> getCheckIn(){ return getRelation(KEY_CHECK_IN); }
+    public void setCheckIn(ParseUser user){
+        ParseRelation<ParseUser> membersCheckedIn = getCheckIn();
+        membersCheckedIn.add(user);
+        put(KEY_CHECK_IN, membersCheckedIn);
+        saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Toast.makeText(getApplicationContext(),"You are checked in!",Toast.LENGTH_LONG ).show();
+            }
+        });
     }
 
     public static class Query extends ParseQuery<Trip> {

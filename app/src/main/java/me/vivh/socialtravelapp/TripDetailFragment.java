@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,7 @@ public class TripDetailFragment extends Fragment {
     Context context;
     private Unbinder unbinder;
     MainActivity.BottomNavAdapter adapter;
+    Boolean firstCheckIn = true;
 
     private final List<Fragment> fragments = new ArrayList<>();
 
@@ -78,7 +80,13 @@ public class TripDetailFragment extends Fragment {
         btnCheckIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Checked in!", Toast.LENGTH_LONG).show();
+                if (firstCheckIn){
+                    trip.setCheckIn(ParseUser.getCurrentUser());
+                    firstCheckIn = false;
+                }
+                else {
+                    Toast.makeText(getActivity(), "Already checked in!", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
