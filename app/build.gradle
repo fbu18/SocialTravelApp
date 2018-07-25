@@ -20,6 +20,7 @@ android {
 
 ext {
     supportLibVersion = '27.1.1'  // variable that can be referenced to keep support libs consistent
+    parseVersion = "1.17.3"
 }
 
 dependencies {
@@ -51,4 +52,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:15.0.1'
 
     implementation "com.android.support:support-core-utils:28"
+    implementation "com.parse:parse-android:$parseVersion"
+    // Add this line
+    implementation "com.parse:parse-fcm-android:$parseVersion"
 }
