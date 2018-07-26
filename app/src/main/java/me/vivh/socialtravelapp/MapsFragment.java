@@ -8,7 +8,6 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -46,11 +45,9 @@ import com.parse.ParseQuery;
 import com.parse.SubscriptionHandling;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import me.vivh.socialtravelapp.model.Attraction;
 
@@ -93,11 +90,7 @@ public class MapsFragment extends Fragment {
         ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
         ParseQuery<Attraction> parseQuery = ParseQuery.getQuery(Attraction.class);
         SubscriptionHandling<Attraction> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
-<<<<<<< Updated upstream
         subscriptionHandling.handleEvent(SubscriptionHandling.Event.UPDATE, new
-=======
-        subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, new
->>>>>>> Stashed changes
                 SubscriptionHandling.HandleEventCallback<Attraction>() {
                     @Override
                     public void onEvent(ParseQuery<Attraction> query, Attraction object) {

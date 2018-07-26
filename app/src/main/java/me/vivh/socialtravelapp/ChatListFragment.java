@@ -27,8 +27,9 @@ public class ChatListFragment extends Fragment {
     @BindView(R.id.rvChats) RecyclerView rvChats;
     @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
     ArrayList<Trip> trips;
-    private ArrayList<ParseUser> members;
     ChatListAdapter chatListAdapter;
+    ParseUser currentUser;
+    Context context;
 
     private ChatListFragment.OnFragmentInteractionListener mListener;
 
@@ -56,7 +57,9 @@ public class ChatListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chat_list, container, false);
-        unbinder = ButterKnife.bind(this, view);
+
+
+        setUpFragmentVariables(view);
 
         trips = new ArrayList<>();
         chatListAdapter = new ChatListAdapter(trips, callback);
@@ -66,19 +69,6 @@ public class ChatListFragment extends Fragment {
 
         loadTopTrips();
 
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadTopTrips();
-                swipeContainer.setRefreshing(false);
-            }
-        });
-
-        // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
 
         return view;
     }
@@ -126,5 +116,25 @@ public class ChatListFragment extends Fragment {
 
 
     public interface OnFragmentInteractionListener {
+    }
+
+    private void setUpFragmentVariables(View view){
+        context = getActivity();
+        currentUser = ParseUser.getCurrentUser();
+        unbinder = ButterKnife.bind(this, view);
+
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadTopTrips();
+                swipeContainer.setRefreshing(false);
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
     }
 }
