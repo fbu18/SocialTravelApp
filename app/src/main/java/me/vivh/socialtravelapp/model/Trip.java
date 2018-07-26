@@ -1,5 +1,6 @@
 package me.vivh.socialtravelapp.model;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.parse.ParseClassName;
@@ -70,7 +71,13 @@ public class Trip extends ParseObject {
     public void setCheckIn(final ParseUser user){
         ParseRelation<ParseUser> membersCheckedIn = getCheckIn();
         membersCheckedIn.add(user);
-        put(KEY_CHECK_IN, membersCheckedIn);
+        //put(KEY_CHECK_IN, membersCheckedIn);
+        this.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Log.d("Trip", "CHECKED IN");
+            }
+        });
 
         //Add number of points corresponding to attraction
         final int attractionPoints = getAttraction().getPoints();
