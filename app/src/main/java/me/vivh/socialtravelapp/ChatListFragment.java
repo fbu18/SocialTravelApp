@@ -125,7 +125,6 @@ public class ChatListFragment extends Fragment {
     }
 
 
-
     public interface OnFragmentInteractionListener {
     }
 }

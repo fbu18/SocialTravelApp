@@ -35,9 +35,7 @@
         android:id="@+id/ivCheckedIn"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_toRightOf="@id/ivProfilePic"
-        android:layout_marginLeft="10dp"
-        android:layout_alignBottom="@id/ivProfilePic"
-        app:srcCompat="@drawable/ic_check_circle_black_24dp"
-        android:outlineSpotShadowColor="@color/green_0"/>
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/user_checked_in" />
 </RelativeLayout>

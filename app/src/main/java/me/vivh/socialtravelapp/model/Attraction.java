@@ -25,6 +25,7 @@ public class Attraction extends ParseObject {
     private static final String KEY_WEBSITE = "website";
     private static final String KEY_TYPE = "type";
     private static final String KEY_PRICE = "priceLevel";
+    private static final String KEY_POINTS = "points";
 
 
     public String getId() { return getString(KEY_ID); }
@@ -120,6 +121,14 @@ public class Attraction extends ParseObject {
         if (priceLevel > -1 ) {
           put(KEY_PRICE, priceLevel);
         }
+    }
+
+    public int getPoints() {
+        if (getNumber(KEY_POINTS) == null){ return 1; }
+        else{ return (int) getNumber(KEY_POINTS); }
+    }
+    public void setPoints(int points) {
+        put(KEY_TYPE, points);
     }
 
 

@@ -9,12 +9,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.parse.ParseUser;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class TripMemberAdapter extends RecyclerView.Adapter<TripMemberAdapter.ViewHolder> {
 
@@ -65,9 +68,18 @@ public class TripMemberAdapter extends RecyclerView.Adapter<TripMemberAdapter.Vi
                 isCheckedIn = true;
             }
         }
-
         if (isCheckedIn) { viewHolder.ivCheckedIn.setVisibility(View.VISIBLE); }
         else { viewHolder.ivCheckedIn.setVisibility(View.GONE); }
+
+        String profilePicUrl = "";
+        if (member.getParseFile("profilePic") != null) {
+            profilePicUrl = member.getParseFile("profilePic").getUrl();
+        }
+        Glide.with(context).load(profilePicUrl)
+                .apply(
+                        RequestOptions.placeholderOf(R.drawable.ic_perm_identity_black_24dp)
+                                .transform(new RoundedCornersTransformation(25, 2)))
+                .into(viewHolder.ivProfilePic);
     }
 
 
