@@ -137,18 +137,21 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
             }
         });
 
-//        JSONObject payload = new JSONObject();
-//
-//        try {
-//            payload.put("sender", ParseInstallation.getCurrentInstallation().getInstallationId());
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        HashMap<String, String> data = new HashMap<>();
-//        data.put("customData", payload.toString());
-//
-//        ParseCloud.callFunctionInBackground("pushChannelTest", data);
+        JSONObject payload = new JSONObject();
+
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
+        try {
+            payload.put("sender", ParseInstallation.getCurrentInstallation().getInstallationId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        HashMap<String, String> data = new HashMap<>();
+        data.put("customData", "customData");
+        data.put("receiver", "kathy");
+
+        ParseCloud.callFunctionInBackground("pushNewMessage", data);
 
     }
 

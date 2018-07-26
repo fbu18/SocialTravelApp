@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseAnonymousUtils;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseLiveQueryClient;
 import com.parse.ParseQuery;
@@ -26,6 +27,7 @@ import com.parse.SaveCallback;
 import com.parse.SubscriptionHandling;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Unbinder;
@@ -227,9 +229,13 @@ public class ChatFragment extends Fragment {
                         Toast.makeText(getContext(), "Successfully created message on Parse",
                                 Toast.LENGTH_SHORT).show();
                         refreshMessages();
+
+                        HashMap<String, String> payload = new HashMap<>();
+                        payload.put("receiver", ParseUser.getCurrentUser().getUsername());
+                        payload.put("newData", "whaddup");
+                        ParseCloud.callFunctionInBackground("pushNewMessage", payload);
                     }
                 });
-                etMessage.setText(null);
             }
         });
     }

@@ -150,9 +150,14 @@ public class ProfileFragment extends Fragment {
             @Override
             public void done(List<Trip> objects, ParseException e) {
                 if(e == null){
-                    tvNumPastTrips.setText(String.format("%s", objects.size()));
-                    pastTripArray.clear();
-                    pastTripArray.addAll(objects);
+                    try{
+                        tvNumPastTrips.setText(String.format("%s", objects.size()));
+                        pastTripArray.clear();
+                        pastTripArray.addAll(objects);
+                    }catch(Exception d){
+                        d.printStackTrace();
+                    }
+
                 }else{
                     Log.d("ProfileFragment", String.format("%s", objects.size()));
                 }
