@@ -71,11 +71,11 @@ public class Trip extends ParseObject {
     public void setCheckIn(final ParseUser user){
         ParseRelation<ParseUser> membersCheckedIn = getCheckIn();
         membersCheckedIn.add(user);
-        //put(KEY_CHECK_IN, membersCheckedIn);
         this.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 Log.d("Trip", "CHECKED IN");
+                // TODO- add marker to TripMemberFragment
             }
         });
 
@@ -90,6 +90,31 @@ public class Trip extends ParseObject {
                 if (attractionPoints == 1) { pointsText = " point."; }
                 else { pointsText = " points."; }
                 Toast.makeText(getApplicationContext(),"Checked in! You have earned " + attractionPoints + pointsText,Toast.LENGTH_LONG ).show();
+            }
+        });
+    }
+    public void removeCheckIn(final ParseUser user){
+        ParseRelation<ParseUser> membersCheckedIn = getCheckIn();
+        membersCheckedIn.remove(user);
+        this.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Log.d("Trip", "CHECKED IN");
+                // TODO- add marker to TripMemberFragment
+            }
+        });
+
+        //Remove number of points corresponding to attraction
+        final int attractionPoints = getAttraction().getPoints();
+        int updatedPoints = ((int) user.get("points")) - attractionPoints;
+        user.put("points",updatedPoints);
+        user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                String pointsText; //whether or not the word is plural
+                if (attractionPoints == 1) { pointsText = " point."; }
+                else { pointsText = " points."; }
+                Toast.makeText(getApplicationContext(),"Unchecked in! You have lost " + attractionPoints + pointsText,Toast.LENGTH_LONG ).show();
             }
         });
     }
