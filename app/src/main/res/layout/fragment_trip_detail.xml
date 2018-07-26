@@ -77,7 +77,6 @@
         android:visibility="invisible"
         android:gravity="center"/>
 
-
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/tripNavigation"
         android:layout_width="match_parent"
