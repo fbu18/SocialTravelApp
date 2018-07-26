@@ -69,7 +69,6 @@
         android:text="Check In"
         android:textColor="@android:color/white"
         android:textStyle="bold" />
-<<<<<<< Updated upstream
 
     <ProgressBar
         android:id="@+id/pbLoading"
@@ -77,10 +76,6 @@
         android:layout_height="wrap_content"
         android:visibility="invisible"
         android:gravity="center"/>
-=======
->>>>>>> Stashed changes
-
-
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/tripNavigation"
         android:layout_width="match_parent"

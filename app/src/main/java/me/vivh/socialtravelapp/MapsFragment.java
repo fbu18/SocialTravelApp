@@ -93,11 +93,7 @@ public class MapsFragment extends Fragment {
         ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
         ParseQuery<Attraction> parseQuery = ParseQuery.getQuery(Attraction.class);
         SubscriptionHandling<Attraction> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
-<<<<<<< Updated upstream
         subscriptionHandling.handleEvent(SubscriptionHandling.Event.UPDATE, new
-=======
-        subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, new
->>>>>>> Stashed changes
                 SubscriptionHandling.HandleEventCallback<Attraction>() {
                     @Override
                     public void onEvent(ParseQuery<Attraction> query, Attraction object) {

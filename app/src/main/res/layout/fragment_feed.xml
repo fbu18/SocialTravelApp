@@ -5,6 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".FeedFragment">
 
-    
+
 
 </android.support.v4.widget.SwipeRefreshLayout>
