@@ -15,16 +15,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.parse.LogOutCallback;
-import com.parse.ParseCloud;
 import com.parse.ParseException;
-import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -240,8 +234,9 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
 
     @Override
     public void openChat(@NonNull Trip trip) {
-        ((ChatFragment)fragments.get(CHAT_INDEX)).trip = trip;
-        viewPager.setCurrentItem(CHAT_INDEX, false);
+        final Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+        intent.putExtra("trip",trip);
+        startActivity(intent);
     }
     @Override
     public void openSuggestion() {
