@@ -52,6 +52,14 @@
         android:textSize="16sp" />
 
     <Button
+        android:id="@+id/btnJoin"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@drawable/background_gradient"
+        android:text="Join Group"
+        android:textColor="#ffffff" />
+
+    <Button
         android:id="@+id/btnCheckIn"
         android:layout_width="match_parent"
         android:layout_height="35dp"
@@ -59,8 +67,8 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/background_gradient"
         android:text="Check In"
-        android:textStyle="bold"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
 
 
     <android.support.design.widget.BottomNavigationView

@@ -106,7 +106,12 @@ public class Trip extends ParseObject {
             }
         });
     }
-
+    public void joinTrip(ParseUser user) {
+        Trip trip = this;
+        ParseRelation relation = trip.getRelation("user");
+        relation.add(user);
+        trip.saveInBackground();
+    }
     public static class Query extends ParseQuery<Trip> {
         public Query() {
             super(Trip.class);

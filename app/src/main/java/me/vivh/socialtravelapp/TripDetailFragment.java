@@ -37,6 +37,7 @@ public class TripDetailFragment extends Fragment {
     @BindView(R.id.vpTrip) ViewPager vpTrip;
     @BindView(R.id.tripNavigation) BottomNavigationView tripNavigation;
     @BindView(R.id.btnCheckIn) Button btnCheckIn;
+    @BindView(R.id.btnJoin) Button btnJoin;
 
     Trip trip;
     Context context;
@@ -87,6 +88,15 @@ public class TripDetailFragment extends Fragment {
                 else {
                     Toast.makeText(getActivity(), "Already checked in!", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+        btnJoin.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                ParseUser user = ParseUser.getCurrentUser();
+                trip.joinTrip(user);
+                Toast.makeText(getActivity(), "Joined Group", Toast.LENGTH_LONG).show();
             }
         });
 

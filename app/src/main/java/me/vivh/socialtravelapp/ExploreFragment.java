@@ -241,9 +241,11 @@ public class ExploreFragment extends Fragment {
                 PlacePhotoMetadataBuffer photoMetadataBuffer = photos.getPhotoMetadata();
                 // Get the first photo in the list.
                 PlacePhotoMetadata photoMetadata = photoMetadataBuffer.get(0);
+
                 // Get the attribution text.
                 CharSequence attribution = photoMetadata.getAttributions();
                 // Get a full-size bitmap for the photo.
+
                 Task<PlacePhotoResponse> photoResponse = mGeoDataClient.getPhoto(photoMetadata);
                 photoResponse.addOnCompleteListener(new OnCompleteListener<PlacePhotoResponse>() {
                     @Override
