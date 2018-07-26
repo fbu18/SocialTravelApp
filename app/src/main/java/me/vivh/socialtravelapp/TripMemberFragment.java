@@ -91,7 +91,6 @@ public class TripMemberFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-
     }
 
     @Override
@@ -108,7 +107,7 @@ public class TripMemberFragment extends Fragment {
             query.findInBackground(new FindCallback<ParseUser>() {
                 @Override
                 public void done(List<ParseUser> objects, ParseException e) {
-                    Log.d("relation", objects.toString());
+                    Log.d("relation", "Members" + objects.toString());
                     members.clear();
                     members.addAll(objects);
                     memberAdapter.notifyDataSetChanged();
@@ -122,12 +121,12 @@ public class TripMemberFragment extends Fragment {
     public void loadMembersCheckedIn(){
         try{
             ParseRelation checkedInRelation = trip.getRelation("usersCheckedIn");
-            ParseQuery query = checkedInRelation.getQuery();
+            ParseQuery checkedInQuery = checkedInRelation.getQuery();
 
-            query.findInBackground(new FindCallback<ParseUser>() {
+            checkedInQuery.findInBackground(new FindCallback<ParseUser>() {
                 @Override
                 public void done(List<ParseUser> objects, ParseException e) {
-                    Log.d("relation", objects.toString());
+                    Log.d("relation", "Members checked in" + objects.toString());
                     membersCheckedIn.clear();
                     membersCheckedIn.addAll(objects);
                     memberAdapter.notifyDataSetChanged();

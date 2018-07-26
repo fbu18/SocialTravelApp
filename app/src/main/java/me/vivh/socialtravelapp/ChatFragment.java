@@ -119,7 +119,7 @@ public class ChatFragment extends Fragment {
         } else { // If not logged in, login as a new anonymous user
             login(view);
         }
-        myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
+        //myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
 
         ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
 
@@ -135,7 +135,7 @@ public class ChatFragment extends Fragment {
         SubscriptionHandling<Message> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
 
         // Listen for CREATE events
-        subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, new
+        subscriptionHandling.handleEvent(SubscriptionHandling.Event.UPDATE, new
                 SubscriptionHandling.HandleEventCallback<Message>() {
                     @Override
                     public void onEvent(ParseQuery<Message> query, Message object) {
