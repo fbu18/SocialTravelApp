@@ -40,14 +40,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseLiveQueryClient;
 import com.parse.ParseQuery;
+import com.parse.SubscriptionHandling;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import me.vivh.socialtravelapp.model.Attraction;
 
@@ -72,10 +72,34 @@ public class MapsFragment extends Fragment {
     private LocationRequest mLocationRequest;
     private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
     private long FASTEST_INTERVAL = 2000; /* 2 sec */
+
+//    static final int POLL_INTERVAL = 250; // milliseconds
+//    Handler myHandler = new Handler();  // android.os.Handler
+//    Runnable mRefreshPins = new Runnable() {
+//        @Override
+//        public void run() {
+//            populateMap(attractions);
+//            myHandler.postDelayed(this, POLL_INTERVAL);
+//        }
+//    };
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
         startLocationUpdates();
+        ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
+        ParseQuery<Attraction> parseQuery = ParseQuery.getQuery(Attraction.class);
+        SubscriptionHandling<Attraction> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
+        subscriptionHandling.handleEvent(SubscriptionHandling.Event.UPDATE, new
+                SubscriptionHandling.HandleEventCallback<Attraction>() {
+                    @Override
+                    public void onEvent(ParseQuery<Attraction> query, Attraction object) {
+                        map.clear();
+                        attractions.add(object);
+                        populateMap(attractions);
+                    }
+                });
+//        myHandler.postDelayed(mRefreshPins, POLL_INTERVAL);
         return inflater.inflate(R.layout.fragment_maps, parent, false);
 
     }
@@ -105,16 +129,6 @@ public class MapsFragment extends Fragment {
                 }
             });
 
-            /*ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
-            ParseQuery<Attraction> parseQuery = ParseQuery.getQuery(Attraction.class);
-            SubscriptionHandling<Attraction> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
-            subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, new SubscriptionHandling.HandleEventCallback<Attraction>() {
-                @Override
-                public void onEvent(ParseQuery<Attraction> query, Attraction object) {
-                    attractions.add(object);
-                    populateMap(attractions);
-                }
-            });*/
         }
     }
     @Override

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -183,6 +182,7 @@ public class ExploreFragment extends Fragment {
                         newAtt.setType(type);
                         newAtt.setPriceLevel(priceLevel);
                         newAtt.setDescription(description);
+                        newAtt.setPoints(1);
                         // set image in the retrieveUploadPhoto method so that upload is only
                         // executed after photo request is complete
                         retrieveUploadPhoto(id, newAtt);
@@ -241,9 +241,11 @@ public class ExploreFragment extends Fragment {
                 PlacePhotoMetadataBuffer photoMetadataBuffer = photos.getPhotoMetadata();
                 // Get the first photo in the list.
                 PlacePhotoMetadata photoMetadata = photoMetadataBuffer.get(0);
+
                 // Get the attribution text.
                 CharSequence attribution = photoMetadata.getAttributions();
                 // Get a full-size bitmap for the photo.
+
                 Task<PlacePhotoResponse> photoResponse = mGeoDataClient.getPhoto(photoMetadata);
                 photoResponse.addOnCompleteListener(new OnCompleteListener<PlacePhotoResponse>() {
                     @Override

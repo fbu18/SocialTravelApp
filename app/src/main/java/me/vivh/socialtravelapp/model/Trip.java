@@ -1,5 +1,6 @@
 package me.vivh.socialtravelapp.model;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.parse.ParseClassName;
@@ -12,7 +13,6 @@ import com.parse.SaveCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import static com.parse.Parse.getApplicationContext;
@@ -26,14 +26,20 @@ public class Trip extends ParseObject {
     private static final String KEY_NAME = "name";
     private static final String KEY_DATE = "date";
     private static final String KEY_USER = "user";
-    private static final String KEY_CHECK_IN = "checkIn";
+    private static final String KEY_CHECK_IN = "usersCheckedIn";
 
     public String getDescription() {
         return getString(KEY_DESCRIPTION);
     }
+    public void setDescription(String description) {
+        put(KEY_DESCRIPTION, description);
+    }
 
     public String getName(){
         return getString(KEY_NAME);
+    }
+    public void setName(String name){
+        put(KEY_NAME, name);
     }
 
     public Date getDate(){
@@ -53,39 +59,6 @@ public class Trip extends ParseObject {
         return (Attraction) getParseObject(KEY_ATTRACTION);
     }
 
-    public List<ParseUser> getMembers(){
-        return getList(KEY_USER);
-    }
-
-    /*public List<String> getMemberNames(){
-        final List members = new ArrayList<String>();
-        try{
-            ParseRelation<ParseUser> relation = getRelation(KEY_USER);
-            ParseQuery query = relation.getQuery();
-            query.findInBackground(new FindCallback<ParseUser>() {
-                @Override
-                public void done(List<ParseUser> parseUsers, ParseException e) {
-                    for (ParseUser parseUser : parseUsers)
-                    {
-                        members.add(parseUser.getUsername());
-                    }
-                    Log.d("relation", members.toString());
-                }
-            });
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return members;
-    }*/
-
-    public void setDescription(String description) {
-        put(KEY_DESCRIPTION, description);
-    }
-
-    public void setName(String name){
-        put(KEY_NAME, name);
-    }
-
     public void setDate(Date date){
         put(KEY_DATE, date);
     }
@@ -95,18 +68,62 @@ public class Trip extends ParseObject {
     }
 
     public ParseRelation<ParseUser> getCheckIn(){ return getRelation(KEY_CHECK_IN); }
-    public void setCheckIn(ParseUser user){
+    public void setCheckIn(final ParseUser user){
         ParseRelation<ParseUser> membersCheckedIn = getCheckIn();
         membersCheckedIn.add(user);
-        put(KEY_CHECK_IN, membersCheckedIn);
-        saveInBackground(new SaveCallback() {
+        this.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                Toast.makeText(getApplicationContext(),"You are checked in!",Toast.LENGTH_LONG ).show();
+                Log.d("Trip", "CHECKED IN");
+                // TODO- add marker to TripMemberFragment
+            }
+        });
+
+        //Add number of points corresponding to attraction
+        final int attractionPoints = getAttraction().getPoints();
+        int updatedPoints = ((int) user.get("points")) + attractionPoints;
+        user.put("points",updatedPoints);
+        user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                String pointsText; //whether or not the word is plural
+                if (attractionPoints == 1) { pointsText = " point."; }
+                else { pointsText = " points."; }
+                Toast.makeText(getApplicationContext(),"Checked in! You have earned " + attractionPoints + pointsText,Toast.LENGTH_LONG ).show();
             }
         });
     }
+    public void removeCheckIn(final ParseUser user){
+        ParseRelation<ParseUser> membersCheckedIn = getCheckIn();
+        membersCheckedIn.remove(user);
+        this.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Log.d("Trip", "CHECKED IN");
+                // TODO- add marker to TripMemberFragment
+            }
+        });
 
+        //Remove number of points corresponding to attraction
+        final int attractionPoints = getAttraction().getPoints();
+        int updatedPoints = ((int) user.get("points")) - attractionPoints;
+        user.put("points",updatedPoints);
+        user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                String pointsText; //whether or not the word is plural
+                if (attractionPoints == 1) { pointsText = " point."; }
+                else { pointsText = " points."; }
+                Toast.makeText(getApplicationContext(),"Unchecked in! You have lost " + attractionPoints + pointsText,Toast.LENGTH_LONG ).show();
+            }
+        });
+    }
+    public void joinTrip(ParseUser user) {
+        Trip trip = this;
+        ParseRelation relation = trip.getRelation("user");
+        relation.add(user);
+        trip.saveInBackground();
+    }
     public static class Query extends ParseQuery<Trip> {
         public Query() {
             super(Trip.class);
