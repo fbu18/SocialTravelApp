@@ -6,15 +6,21 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -42,6 +48,8 @@ public class TripDetailFragment extends Fragment {
     private Unbinder unbinder;
     MainActivity.BottomNavAdapter adapter;
     Boolean alreadyCheckedIn = false;
+    private ArrayList<ParseUser> membersCheckedIn;
+
 
     private final List<Fragment> fragments = new ArrayList<>();
 
@@ -60,8 +68,9 @@ public class TripDetailFragment extends Fragment {
 
         context = container.getContext();
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_trip_detail, container, false);
+        final View view = inflater.inflate(R.layout.fragment_trip_detail, container, false);
         unbinder = ButterKnife.bind(this, view);
+        membersCheckedIn = new ArrayList<>();
 
         try{
             tvTripName.setText(trip.getName());
@@ -79,18 +88,41 @@ public class TripDetailFragment extends Fragment {
         btnCheckIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!alreadyCheckedIn){
-                    trip.setCheckIn(ParseUser.getCurrentUser());
-                    alreadyCheckedIn = true;
-                    //TODO - reload TripMemberFragment to show marker
-                    setUpFragments();
-                }
-                else {
-                    trip.removeCheckIn(ParseUser.getCurrentUser());
-                    alreadyCheckedIn = false;
-                    setUpFragments();
-                    //Toast.makeText(getActivity(), "Already checked in!", Toast.LENGTH_LONG).show();
-                }
+                // on some click or some loading we need to wait for...
+                final ProgressBar pb = (ProgressBar) view.findViewById(R.id.pbLoading);
+                pb.setVisibility(ProgressBar.VISIBLE);
+
+                ParseRelation checkedInRelation = trip.getRelation("usersCheckedIn");
+                ParseQuery checkedInQuery = checkedInRelation.getQuery();
+
+                checkedInQuery.findInBackground(new FindCallback<ParseUser>() {
+                    @Override
+                    public void done(List<ParseUser> objects, ParseException e) {
+                        Log.d("relation", "Members checked in" + objects.toString());
+                        membersCheckedIn.clear();
+                        membersCheckedIn.addAll(objects);
+
+                        if (membersCheckedIn.contains(ParseUser.getCurrentUser())){
+                            alreadyCheckedIn = true;
+                        }
+
+                        if (!alreadyCheckedIn){
+                            trip.setCheckIn(ParseUser.getCurrentUser());
+                            alreadyCheckedIn = true;
+                        }
+                        else {
+                            trip.removeCheckIn(ParseUser.getCurrentUser());
+                            alreadyCheckedIn = false;
+                            //Toast.makeText(getActivity(), "Already checked in!", Toast.LENGTH_LONG).show();
+                        }
+                        // reload TripMemberFragment to show marker
+                        setUpFragments();
+                        pb.setVisibility(ProgressBar.INVISIBLE);
+
+                    }
+                });
+
+
             }
         });
 
