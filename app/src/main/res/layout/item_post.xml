@@ -35,11 +35,10 @@
     <ImageView
         android:id="@+id/ivPostImage"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="300dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="2dp"
         android:layout_below="@+id/tvPostDate"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         app:srcCompat="@color/black" />
 
     <TextView
