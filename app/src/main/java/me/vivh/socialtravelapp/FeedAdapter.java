@@ -18,6 +18,7 @@ import com.parse.ParseUser;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -61,6 +62,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
         viewHolder.tvDescription.setText(description);
         ParseFile profilePic = (ParseFile) post.getParseUser("user").get("profilePic");
         String profileUrl = (String) profilePic.getUrl();
+        String date = post.getDate("date").toString();
+        viewHolder.tvDate.setText(date);
         Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop()).into(viewHolder.ivProfile);
         if(post.getImage() != null) {
             String url = post.getImage().getUrl();
@@ -80,6 +83,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
         @BindView(R.id.tvPostUsername) TextView tvUser;
         @BindView(R.id.tvPostDescription) TextView tvDescription;
         @BindView(R.id.ivPostProfile) ImageView ivProfile;
+        @BindView(R.id.tvPostDate) TextView tvDate;
         public ViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this, itemView);

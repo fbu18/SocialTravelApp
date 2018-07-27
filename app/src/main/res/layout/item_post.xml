@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_gradient">
+    android:layout_marginBottom="2dp"
+    android:background="#ffffff">
 
     <ImageView
         android:id="@+id/ivPostProfile"
@@ -33,10 +34,20 @@
 
     <ImageView
         android:id="@+id/ivPostImage"
-        android:layout_width="1000dp"
-        android:layout_height="200dp"
-        android:layout_below="@+id/ivPostProfile"
-        android:layout_toEndOf="@+id/ivPostProfile"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="2dp"
+        android:layout_below="@+id/tvPostDate"
+        android:scaleType="fitCenter"
         app:srcCompat="@color/black" />
+
+    <TextView
+        android:id="@+id/tvPostDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvPostDescription"
+        android:layout_below="@+id/tvPostDescription"
+        android:text="Date" />
 
 </RelativeLayout>
