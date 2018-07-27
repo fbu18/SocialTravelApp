@@ -115,7 +115,6 @@ public class ExploreFragment extends Fragment {
                 new PlaceSelectionListener() {
                     @Override
                     public void onPlaceSelected(Place place) {
-                        // TODO: get description, convert types to strings?
                         String description = "One of Seattle's finest gems";
                         String id = place.getId();
                         String name;
@@ -130,14 +129,6 @@ public class ExploreFragment extends Fragment {
 
                         try{ name = place.getName().toString();}
                         catch (Exception e) { name = "";}
-
-                        /*try {
-                            getPhotos(id);
-                            bitmap = bitmapArray.get(0);
-                        }
-                        catch (Exception e) {
-                            e.printStackTrace();
-                        }*/
 
                         try{ address = place.getAddress().toString();}
                         catch (Exception e) { address = "42 Wallaby Way, Sydney, Australia";}
@@ -186,7 +177,6 @@ public class ExploreFragment extends Fragment {
                         // set image in the retrieveUploadPhoto method so that upload is only
                         // executed after photo request is complete
                         retrieveUploadPhoto(id, newAtt);
-                        // TODO - transition to "join a group" fragment
                     }
 
                     @Override
@@ -212,6 +202,7 @@ public class ExploreFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         void openSuggestion();
+        void openAttractionDetails(Attraction attraction);
     }
 
     /*public String convertPlaceTypetoString(int value) throws Exception {
@@ -259,6 +250,7 @@ public class ExploreFragment extends Fragment {
                                 if (e == null) {
                                     // Attraction has been successfully created
                                     Toast.makeText( getContext(),"New attraction added!",Toast.LENGTH_LONG ).show();
+                                    mListener.openAttractionDetails(attraction);
                                 } else {
                                     Toast.makeText( getContext(),"Failed to add new attraction :(",Toast.LENGTH_LONG ).show();
                                     e.printStackTrace();

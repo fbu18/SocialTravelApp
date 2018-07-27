@@ -128,7 +128,7 @@ public class Attraction extends ParseObject {
         else{ return (int) getNumber(KEY_POINTS); }
     }
     public void setPoints(int points) {
-        put(KEY_TYPE, points);
+        put(KEY_POINTS, points);
     }
 
 
