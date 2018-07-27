@@ -3,11 +3,13 @@ package me.vivh.socialtravelapp;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 import me.vivh.socialtravelapp.model.Attraction;
 import me.vivh.socialtravelapp.model.Message;
 import me.vivh.socialtravelapp.model.Photo;
+import me.vivh.socialtravelapp.model.Post;
 import me.vivh.socialtravelapp.model.Trip;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -27,6 +29,7 @@ public class ParseApp extends Application{
         ParseObject.registerSubclass(Trip.class);
         ParseObject.registerSubclass(Message.class);
         ParseObject.registerSubclass(Photo.class);
+        ParseObject.registerSubclass(Post.class);
 
 
         // Use for monitoring Parse network traffic

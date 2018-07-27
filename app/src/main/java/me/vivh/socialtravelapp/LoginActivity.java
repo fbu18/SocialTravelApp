@@ -11,8 +11,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         if(currentUser != null){
+            addUsernameToParseInstallation(currentUser.getUsername());
             final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -44,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 final String username = etUsername.getText().toString();
                 final String password = etPassword.getText().toString();
+
                 login(username,password);
             }
         });
@@ -51,11 +56,14 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void login(String username, String password){
+    private void login(final String username, String password){
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if(e == null){
+
+                    addUsernameToParseInstallation(username);
+
                     Log.d("LoginActivity", "Login successful.");
                     Toast.makeText(LoginActivity.this, "Login successful.", Toast.LENGTH_LONG).show();
                     final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -67,5 +75,10 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void addUsernameToParseInstallation(String username){
+        ParseInstallation.getCurrentInstallation().put("username", username);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
     }
 }

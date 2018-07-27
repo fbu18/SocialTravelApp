@@ -3,13 +3,33 @@ package me.vivh.socialtravelapp;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+import me.vivh.socialtravelapp.model.Post;
+
 
 public class FeedFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
+    @BindView(R.id.FeedSwipeRefresh) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.rvFeed) RecyclerView rvFeed;
+    FeedAdapter feedAdapter;
+    List<Post> posts;
+    private Unbinder unbinder;
 
     public FeedFragment() {
         // Required empty public constructor
@@ -30,8 +50,22 @@ public class FeedFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_feed, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        posts = new ArrayList<>();
+        feedAdapter = new FeedAdapter(posts);
+        rvFeed.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvFeed.setAdapter(feedAdapter);
+        loadTopPosts();
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadTopPosts();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_feed, container, false);
+        return view;
     }
 
 
@@ -52,6 +86,12 @@ public class FeedFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -63,5 +103,22 @@ public class FeedFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+    }
+    public void loadTopPosts() {
+        Post.Query query = new Post.Query();
+        query.include("username");
+
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> objects, ParseException e) {
+                if(e == null) {
+                    posts.clear();
+                    posts.addAll(objects);
+                    feedAdapter.notifyDataSetChanged();
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
