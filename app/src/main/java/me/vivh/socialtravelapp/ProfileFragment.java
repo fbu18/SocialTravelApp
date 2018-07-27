@@ -40,6 +40,7 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.tvNumPastTrips) TextView tvNumPastTrips;
     @BindView(R.id.ivProfilePic) ImageView ivProfilePic;
     @BindView(R.id.btnEditProfile) Button editProfileBtn;
+    @BindView(R.id.btnLeaderboard) Button leaderboardBtn;
     @BindView(R.id.tvUpcoming) TextView tvUpcoming;
 
     private ArrayList<Trip> pastTripArray;
@@ -110,6 +111,14 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 ViewPager vp= (ViewPager) getActivity().findViewById(R.id.viewPager);
                 vp.setCurrentItem(MainActivity.getEDIT_PROFILE_INDEX(), false);
+            }
+        });
+
+        leaderboardBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ViewPager vp= (ViewPager) getActivity().findViewById(R.id.viewPager);
+                vp.setCurrentItem(MainActivity.getLEADERBOARD_INDEX(), false);
             }
         });
 

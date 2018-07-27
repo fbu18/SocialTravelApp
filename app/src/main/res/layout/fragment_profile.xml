@@ -9,6 +9,15 @@
     android:background="@android:color/white"
     tools:context=".ProfileFragment">
 
+    <Button
+        android:id="@+id/btnLeaderboard"
+        android:layout_width="236dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="199dp"
+        android:text="Leaderboard (TEMPBTN)" />
+
     <TextView
         android:id="@+id/tvUserName"
         android:layout_width="245dp"
