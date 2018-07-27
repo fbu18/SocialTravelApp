@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="270dp"
     android:id="@+id/item_attraction_layout"
     android:clickable="false"
     android:focusable="false"
@@ -39,10 +39,8 @@
         android:id="@+id/ivAttrPic"
         android:layout_width="140dp"
         android:layout_height="150dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_below="@id/rbVoteAverage"
+        android:layout_alignStart="@+id/tvAttrName"
+        android:layout_centerVertical="true"
         app:srcCompat="@drawable/background_gradient" />
 
     <TextView
@@ -78,6 +76,27 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_alignParentRight="true" />
+
+    <TextView
+        android:id="@+id/tvPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/rbVoteAverage"
+        android:layout_alignBottom="@+id/rbVoteAverage"
+        android:layout_marginLeft="15dp"
+        android:text="1"
+        android:textColor="@color/grey_5"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/ivImage"
+        android:layout_width="13dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvPoints"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/tvPoints"
+        app:srcCompat="@drawable/ic_explore_black_24dp" />
+
 
 </RelativeLayout>
 

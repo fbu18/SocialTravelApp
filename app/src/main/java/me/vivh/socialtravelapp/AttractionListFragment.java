@@ -119,6 +119,7 @@ public class AttractionListFragment extends Fragment {
     public void loadTopAttractions(){
         final Attraction.Query attractionsQuery = new Attraction.Query();
         attractionsQuery.getTop().withName();
+        attractionsQuery.orderByAscending("points");
 
         attractionsQuery.findInBackground(new FindCallback<Attraction>() {
             @Override

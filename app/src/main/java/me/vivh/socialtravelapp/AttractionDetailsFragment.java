@@ -34,6 +34,7 @@ public class AttractionDetailsFragment extends Fragment {
     @BindView(R.id.tvAttrWebsite) TextView tvAttrWebsite;
     @BindView(R.id.btnChoose) Button btnTrip;
     @BindView(R.id.ivAttrPhoneNumber) ImageView ivAttrPhoneNumber;
+    @BindView(R.id.tvPoints) TextView tvPoints;
 
     private final List<Attraction> attractions = new ArrayList<>();
     Attraction attraction;
@@ -65,6 +66,7 @@ public class AttractionDetailsFragment extends Fragment {
             rbVoteAverage.setNumStars((int) Math.round(attraction.getRating()));
             tvAttrPhoneNumber.setText(attraction.getPhoneNumber());
             tvAttrWebsite.setText(attraction.getWebsite());
+            tvPoints.setText(String.valueOf(attraction.getPoints()));
             Glide.with(context).load(attraction.getImage().getUrl())
                     .apply(
                             RequestOptions.placeholderOf(R.drawable.background_gradient)
