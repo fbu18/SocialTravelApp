@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.LiveQueryException;
-import com.parse.LogInCallback;
-import com.parse.ParseAnonymousUtils;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseLiveQueryClient;
@@ -54,7 +52,7 @@ public class ChatActivity extends AppCompatActivity {
     private ArrayList<ParseUser>  members = new ArrayList<>();
 
     // Create a handler which can run code periodically
-    static final int POLL_INTERVAL = 1000; // milliseconds
+    static final int POLL_INTERVAL = 700; // milliseconds
     Handler myHandler = new Handler();  // android.os.Handler
     Runnable mRefreshMessagesRunnable = new Runnable() {
         @Override
@@ -73,7 +71,7 @@ public class ChatActivity extends AppCompatActivity {
         setupMessagePosting();
 
         trip = getIntent().getParcelableExtra("trip");
-        //queryMembers();
+        queryMembers();
 
         parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
         subscribeToMessages();
@@ -94,6 +92,8 @@ public class ChatActivity extends AppCompatActivity {
                 android.R.color.holo_red_light);
 
         refreshMessages();
+        //TODO- be able to remove this
+        //myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
     }
 
 
@@ -171,17 +171,17 @@ public class ChatActivity extends AppCompatActivity {
     // Query messages from Parse so we can load them into the chat adapter
     private void refreshMessages() {
         // Construct query to execute
-        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
-        query.whereEqualTo(TRIP_KEY, trip);
+        ParseQuery<Message> messageQuery = ParseQuery.getQuery(Message.class);
+        messageQuery.whereEqualTo(TRIP_KEY, trip);
         // Configure limit and sort order
-        query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
+        messageQuery.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
 
 
         // get the latest 50 messages, order will show up oldest to newest of this group
-        query.orderByDescending("createdAt");
+        messageQuery.orderByDescending("createdAt");
         // Execute query to fetch all messages from Parse asynchronously
         // This is equivalent to a SELECT query with SQL
-        query.findInBackground(new FindCallback<Message>() {
+        messageQuery.findInBackground(new FindCallback<Message>() {
             public void done(List<Message> messages, ParseException e) {
                 if (e == null) {
                     mMessages.clear();
@@ -238,7 +238,7 @@ public class ChatActivity extends AppCompatActivity {
         SubscriptionHandling<Message> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
 
         // Listen for events
-        subscriptionHandling.handleEvent(SubscriptionHandling.Event.UPDATE, new
+        subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, new
                 SubscriptionHandling.HandleEventCallback<Message>() {
                     @Override
                     public void onEvent(ParseQuery<Message> query, Message object) {
@@ -248,8 +248,7 @@ public class ChatActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                //mAdapter.notifyDataSetChanged();
-                                mAdapter.notifyItemInserted(mMessages.size() - 1);
+                                mAdapter.notifyDataSetChanged();
                                 Log.d("Messages", "a message has been loaded!");
                                 rvChat.scrollToPosition(0);
                             }
@@ -259,7 +258,7 @@ public class ChatActivity extends AppCompatActivity {
         subscriptionHandling.handleError(new SubscriptionHandling.HandleErrorCallback<Message>() {
             @Override
             public void onError(ParseQuery<Message> query, LiveQueryException exception) {
-                Log.d("Live Query", "Callback failed");
+                Log.d("Messages", "Callback failed");
             }
         });
     }
