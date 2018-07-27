@@ -15,14 +15,17 @@ import android.widget.Toast;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseAnonymousUtils;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseLiveQueryClient;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SubscriptionHandling;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import me.vivh.socialtravelapp.model.Message;
@@ -46,6 +49,7 @@ public class ChatActivity extends AppCompatActivity {
     EditText etMessage;
     Button btSend;
     private SwipeRefreshLayout swipeContainer;
+    private ArrayList<ParseUser>  members = new ArrayList<>();
 
     // Create a handler which can run code periodically
     static final int POLL_INTERVAL = 1000; // milliseconds
@@ -77,6 +81,8 @@ public class ChatActivity extends AppCompatActivity {
 
         ParseQuery<Message> parseQuery = ParseQuery.getQuery(Message.class);
         parseQuery.whereEqualTo(TRIP_KEY, trip);
+
+        queryMembers();
 
         // Connect to Parse server
         SubscriptionHandling<Message> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
@@ -166,6 +172,7 @@ public class ChatActivity extends AppCompatActivity {
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
+                        sendPushNotification();
                         Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
                                 Toast.LENGTH_SHORT).show();
                         refreshMessages();
@@ -176,6 +183,41 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    private void queryMembers(){
+
+        try{
+            ParseRelation relation = trip.getRelation("user");
+            ParseQuery query = relation.getQuery();
+
+            query.findInBackground(new FindCallback<ParseUser>() {
+                @Override
+                public void done(List<ParseUser> objects, ParseException e) {
+                    Log.d("relation", "Members" + objects.toString());
+                    members.clear();
+                    members.addAll(objects);
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void sendPushNotification(){
+
+        ParseUser currentUser = ParseUser.getCurrentUser();
+
+        for(int i = 0; i < members.size(); i++){
+            ParseUser otherUser = members.get(i);
+            if(otherUser != currentUser){
+                HashMap<String, String> payload = new HashMap<>();
+
+                payload.put("receiver", otherUser.getUsername());
+                payload.put("newData", "New Message");
+                ParseCloud.callFunctionInBackground("pushNewMessage", payload);
+            }
+        }
+
+    }
     // Query messages from Parse so we can load them into the chat adapter
     void refreshMessages() {
         // Construct query to execute

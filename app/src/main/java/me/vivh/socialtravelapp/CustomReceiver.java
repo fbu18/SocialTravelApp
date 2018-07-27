@@ -29,32 +29,6 @@ public class CustomReceiver extends BroadcastReceiver {
         }
     }
 
-//    private void processPush(Context context, Intent intent) {
-//        String action = intent.getAction();
-//        Log.d(TAG, "got action " + action);
-//        if (action.equals(intentAction)) {
-//            try {
-//                JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
-//                Log.d(TAG, "got action " + action + " with:");
-//                // Iterate the parse keys if needed
-//                Iterator<String> itr = json.keys();
-//                while (itr.hasNext()) {
-//                    String key = itr.next();
-//                    String body = json.getString(key);
-//                    Log.d(TAG, "..." + key + " => " + body);
-//                    // Extract custom push data
-//                    if (key.equals("mydata")) {
-//                        // create a local notification
-//                        Log.d(TAG, "mydata was sent");
-//                        createNotification(context, R.drawable.ic_sms_black_24dp, "SocialTravelApp", body);
-//                    }
-//                }
-//            } catch (JSONException ex) {
-//                Log.d(TAG, "JSON failed!");
-//            }
-//        }
-//    }
-
     public static final int NOTIFICATION_ID = 45;
     public static final String CHANNEL_ID = "my_channel_01";
     // Create a local dashboard notification to tell user about the event
