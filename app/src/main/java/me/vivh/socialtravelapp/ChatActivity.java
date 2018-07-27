@@ -13,8 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
-import com.parse.LogInCallback;
-import com.parse.ParseAnonymousUtils;
+import com.parse.LiveQueryException;
 import com.parse.ParseException;
 import com.parse.ParseLiveQueryClient;
 import com.parse.ParseQuery;
@@ -37,6 +36,7 @@ public class ChatActivity extends AppCompatActivity {
     RecyclerView rvChat;
     static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
     Trip trip;
+    ParseLiveQueryClient parseLiveQueryClient;
 
     ArrayList<Message> mMessages;
     ChatAdapter mAdapter;
@@ -63,41 +63,13 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        // User login
-        if (ParseUser.getCurrentUser() != null) { // start with existing user
-            startWithCurrentUser();
-        } else { // If not logged in, login as a new anonymous user
-            login();
-        }
+
+        setupMessagePosting();
 
         trip = getIntent().getParcelableExtra("trip");
-        //myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
 
-        ParseLiveQueryClient parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
-
-        ParseQuery<Message> parseQuery = ParseQuery.getQuery(Message.class);
-        parseQuery.whereEqualTo(TRIP_KEY, trip);
-
-        // Connect to Parse server
-        SubscriptionHandling<Message> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
-
-        // Listen for events
-        subscriptionHandling.handleEvent(SubscriptionHandling.Event.UPDATE, new
-                SubscriptionHandling.HandleEventCallback<Message>() {
-                    @Override
-                    public void onEvent(ParseQuery<Message> query, Message object) {
-                        mMessages.add(0, object);
-
-                        // RecyclerView updates need to be run on the UI thread
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mAdapter.notifyDataSetChanged();
-                                rvChat.scrollToPosition(0);
-                            }
-                        });
-                    }
-                });
+        parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
+        subscribeToMessages();
 
         // Lookup the swipe container view
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
@@ -118,28 +90,8 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
-
-    // Create an anonymous user using ParseAnonymousUtils and set sUserId
-    void login() {
-        ParseAnonymousUtils.logIn(new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Anonymous login failed: ", e);
-                } else {
-                    startWithCurrentUser();
-                }
-            }
-        });
-    }
-
-    // Get the userId from the cached currentUser object
-    void startWithCurrentUser() {
-        setupMessagePosting();
-    }
-
     // Setup button event handler which posts the entered message to Parse
-    void setupMessagePosting() {
+    private void setupMessagePosting() {
         // Find the text field and button
         etMessage = (EditText) findViewById(R.id.etMessage);
         btSend = (Button) findViewById(R.id.btSend);
@@ -148,11 +100,8 @@ public class ChatActivity extends AppCompatActivity {
         mFirstLoad = true;
         final String userId = ParseUser.getCurrentUser().getObjectId();
         mAdapter = new ChatAdapter(ChatActivity.this, userId, mMessages);
+        setUpRecyclerView();
         rvChat.setAdapter(mAdapter);
-
-        // associate the LayoutManager with the RecylcerView
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ChatActivity.this);
-        rvChat.setLayoutManager(linearLayoutManager);
 
         // When send button is clicked, create message object on Parse
         btSend.setOnClickListener(new View.OnClickListener() {
@@ -177,7 +126,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     // Query messages from Parse so we can load them into the chat adapter
-    void refreshMessages() {
+    private void refreshMessages() {
         // Construct query to execute
         ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
         query.whereEqualTo(TRIP_KEY, trip);
@@ -186,13 +135,13 @@ public class ChatActivity extends AppCompatActivity {
 
 
         // get the latest 50 messages, order will show up oldest to newest of this group
-        query.orderByAscending("createdAt");
+        query.orderByDescending("createdAt");
         // Execute query to fetch all messages from Parse asynchronously
         // This is equivalent to a SELECT query with SQL
         query.findInBackground(new FindCallback<Message>() {
             public void done(List<Message> messages, ParseException e) {
                 if (e == null) {
-                    mMessages.clear();
+                    /*mMessages.clear();
                     mMessages.addAll(messages);
                     // Now we call setRefreshing(false) to signal refresh has finished
                     swipeContainer.setRefreshing(false);
@@ -201,6 +150,14 @@ public class ChatActivity extends AppCompatActivity {
                     if (mFirstLoad) {
                         rvChat.scrollToPosition(0);
                         mFirstLoad = false;
+                    }*/
+                    for (int i = 0; i < messages.size(); ++i) {
+                        Message message = messages.get(i);
+                        mMessages.add(message);
+                        mAdapter.notifyItemInserted(mMessages.size() - 1);
+                        rvChat.scrollToPosition(0);
+                        Log.d("Messages", "a message has been loaded!");
+                        swipeContainer.setRefreshing(false);
                     }
                 } else {
                     Log.e("message", "Error Loading Messages" + e);
@@ -208,6 +165,63 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void setUpRecyclerView() {
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ChatActivity.this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        rvChat.setLayoutManager(linearLayoutManager);
+        rvChat.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if (bottom != oldBottom) {
+                    rvChat.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            rvChat.smoothScrollToPosition(0);
+
+                        }
+                    }, 50);
+                }
+            }
+        });
+    }
+
+    private void subscribeToMessages() {
+        ParseQuery<Message> parseQuery = ParseQuery.getQuery(Message.class);
+        parseQuery.whereEqualTo(TRIP_KEY, trip);
+
+        // Connect to Parse server
+        SubscriptionHandling<Message> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
+
+        // Listen for events
+        subscriptionHandling.handleEvent(SubscriptionHandling.Event.UPDATE, new
+                SubscriptionHandling.HandleEventCallback<Message>() {
+                    @Override
+                    public void onEvent(ParseQuery<Message> query, Message object) {
+                        mMessages.add(0, object);
+
+                        // RecyclerView updates need to be run on the UI thread
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //mAdapter.notifyDataSetChanged();
+                                mAdapter.notifyItemInserted(mMessages.size() - 1);
+                                Log.d("Messages", "a message has been loaded!");
+                                rvChat.scrollToPosition(0);
+                            }
+                        });
+                    }
+                });
+        subscriptionHandling.handleError(new SubscriptionHandling.HandleErrorCallback<Message>() {
+            @Override
+            public void onError(ParseQuery<Message> query, LiveQueryException exception) {
+                Log.d("Live Query", "Callback failed");
+            }
+        });
+    }
+
+
 
 
 }

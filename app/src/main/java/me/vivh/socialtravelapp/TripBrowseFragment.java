@@ -1,7 +1,6 @@
 package me.vivh.socialtravelapp;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +51,8 @@ public class TripBrowseFragment extends Fragment {
         trips = new ArrayList<>();
 
         tripAdapter = new TripAdapter(trips, callback);
-        rvBrowse.setAdapter(tripAdapter);
         rvBrowse.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvBrowse.setAdapter(tripAdapter);
         loadTopTrips();
 
         // Setup refresh listener which triggers new data loading
