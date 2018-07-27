@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 import org.w3c.dom.Text;
@@ -58,11 +59,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
         String description = post.getDescription();
         viewHolder.tvUser.setText(name);
         viewHolder.tvDescription.setText(description);
+        ParseFile profilePic = (ParseFile) post.getParseUser("user").get("profilePic");
+        String profileUrl = (String) profilePic.getUrl();
+        Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop()).into(viewHolder.ivProfile);
         if(post.getImage() != null) {
             String url = post.getImage().getUrl();
             Glide.with(context).load(url).apply(
-                    RequestOptions.placeholderOf(R.drawable.background_gradient)
-                            .circleCrop()).into(viewHolder.imageView);
+                    RequestOptions.placeholderOf(R.drawable.background_gradient)).into(viewHolder.imageView);
         }
     }
 
@@ -76,6 +79,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
         @BindView(R.id.ivPostImage) ImageView imageView;
         @BindView(R.id.tvPostUsername) TextView tvUser;
         @BindView(R.id.tvPostDescription) TextView tvDescription;
+        @BindView(R.id.ivPostProfile) ImageView ivProfile;
         public ViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this, itemView);
