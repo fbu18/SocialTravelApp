@@ -2,31 +2,41 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_gradient">
+
+    <ImageView
+        android:id="@+id/ivPostProfile"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@color/black" />
 
     <TextView
         android:id="@+id/tvPostUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="31dp"
+        android:layout_marginLeft="5dp"
+        android:layout_toEndOf="@+id/ivPostProfile"
         android:text="Username" />
-
-    <ImageView
-        android:id="@+id/ivPostImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="161dp"
-        app:srcCompat="@color/black_10_transparent" />
 
     <TextView
         android:id="@+id/tvPostDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/tvPostUsername"
+        android:layout_marginLeft="5dp"
+        android:layout_toEndOf="@+id/ivPostProfile"
         android:text="Description" />
+
+    <ImageView
+        android:id="@+id/ivPostImage"
+        android:layout_width="1000dp"
+        android:layout_height="200dp"
+        android:layout_below="@+id/ivPostProfile"
+        android:layout_toEndOf="@+id/ivPostProfile"
+        app:srcCompat="@color/black" />
+
 </RelativeLayout>

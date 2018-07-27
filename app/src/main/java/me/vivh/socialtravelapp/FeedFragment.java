@@ -107,6 +107,7 @@ public class FeedFragment extends Fragment {
     public void loadTopPosts() {
         Post.Query query = new Post.Query();
         query.include("username");
+        query.include("profilePic");
 
         query.findInBackground(new FindCallback<Post>() {
             @Override
