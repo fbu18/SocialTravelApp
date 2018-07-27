@@ -21,12 +21,7 @@ public class CustomReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent == null) {
-            Log.d(TAG, "Receiver intent null");
-        } else {
-            // Parse push message and handle accordingly
             createNotification(context, R.drawable.ic_sms_black_24dp, "SocialTravelApp", "New Message");
-        }
     }
 
     public static final int NOTIFICATION_ID = 45;
@@ -34,7 +29,7 @@ public class CustomReceiver extends BroadcastReceiver {
     // Create a local dashboard notification to tell user about the event
     private void createNotification(Context context, int iconRes, String title, String body) {
         // Create an explicit intent for MainActivity of app
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, ChatActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 

@@ -15,10 +15,17 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.parse.LogOutCallback;
+import com.parse.Parse;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;

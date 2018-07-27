@@ -78,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void addUsernameToParseInstallation(String username){
+        ParseInstallation.getCurrentInstallation().getInstallationId();
         ParseInstallation.getCurrentInstallation().put("username", username);
         ParseInstallation.getCurrentInstallation().saveInBackground();
     }
