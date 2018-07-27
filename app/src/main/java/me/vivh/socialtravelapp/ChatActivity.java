@@ -162,7 +162,7 @@ public class ChatActivity extends AppCompatActivity {
                 HashMap<String, String> payload = new HashMap<>();
 
                 payload.put("receiver", otherUser);
-                payload.put("newData", "New Message");
+                payload.put("customData", "New Message");
                 ParseCloud.callFunctionInBackground("pushNewMessage", payload);
             }
         }
