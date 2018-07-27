@@ -154,14 +154,14 @@ public class ChatActivity extends AppCompatActivity {
 
     private void sendPushNotification(){
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
+        String currentUser = ParseUser.getCurrentUser().getUsername();
 
         for(int i = 0; i < members.size(); i++){
-            ParseUser otherUser = members.get(i);
-            if(otherUser != currentUser){
+            String otherUser = (members.get(i)).getUsername();
+            if(!otherUser.equals(currentUser)){
                 HashMap<String, String> payload = new HashMap<>();
 
-                payload.put("receiver", otherUser.getUsername());
+                payload.put("receiver", otherUser);
                 payload.put("newData", "New Message");
                 ParseCloud.callFunctionInBackground("pushNewMessage", payload);
             }
