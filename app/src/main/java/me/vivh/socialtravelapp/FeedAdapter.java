@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -23,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.vivh.socialtravelapp.model.Post;
 
 /**
@@ -69,6 +71,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
             String url = post.getImage().getUrl();
             Glide.with(context).load(url).apply(
                     RequestOptions.placeholderOf(R.drawable.background_gradient)).into(viewHolder.imageView);
+        } else {
+            viewHolder.imageView.setVisibility(View.GONE);
         }
     }
 
