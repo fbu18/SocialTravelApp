@@ -31,9 +31,18 @@ import me.vivh.socialtravelapp.model.Post;
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
     List<Post> mPosts = new ArrayList<>();
     Context context;
-    public FeedAdapter(List<Post> posts){
-        mPosts = posts;
+
+    interface Callback{
+        void openMemberProfile(ParseUser user);
     }
+
+    private Callback callback;
+
+    public FeedAdapter(List<Post> posts, Callback inputCallback){
+        mPosts = posts;
+        callback = inputCallback;
+    }
+
     @NonNull
     @Override
     public FeedAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -42,6 +51,19 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
         View view = inflater.inflate(R.layout.item_post, viewGroup, false);
         final ViewHolder viewHolder = new ViewHolder(view);
 
+        viewHolder.ivProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callback.openMemberProfile(mPosts.get(viewHolder.getAdapterPosition()).getUser());
+            }
+        });
+
+        viewHolder.tvUser.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                callback.openMemberProfile(mPosts.get(viewHolder.getAdapterPosition()).getUser());
+            }
+        });
 
         return viewHolder;
     }
