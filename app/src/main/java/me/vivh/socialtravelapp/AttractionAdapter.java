@@ -64,6 +64,7 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.Vi
         @BindView(R.id.tvAttrAddress) TextView tvAttrAddress;
         @BindView(R.id.tvAttrPhoneNumber) TextView tvAttrPhoneNumber;
         @BindView(R.id.tvWebsite) TextView tvWebsite;
+        @BindView(R.id.tvPoints) TextView tvPoints;
 
 
         public ViewHolder(View itemView) {
@@ -83,6 +84,7 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.Vi
             holder.tvAttrAddress.setText(attraction.getAddress());
             holder.tvAttrPhoneNumber.setText(attraction.getPhoneNumber());
             holder.tvWebsite.setText(attraction.getWebsite());
+            holder.tvPoints.setText(String.valueOf(attraction.getPoints()));
             Glide.with(context).load(attraction.getImage().getUrl())
                     .apply(
                             RequestOptions.placeholderOf(R.drawable.background_gradient)

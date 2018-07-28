@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/tvAttrName"
-        android:layout_width="match_parent"
+        android:layout_width="314dp"
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
@@ -18,15 +18,36 @@
         android:textColor="@android:color/black"
         android:textSize="25sp" />
 
+    <TextView
+        android:id="@+id/tvPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvAttrName"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/tvAttrName"
+        android:text="1"
+        android:textColor="@color/grey_7"
+        android:textSize="24sp" />
+
+    <ImageView
+        android:id="@+id/ivImage"
+        android:layout_width="65dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="3dp"
+        android:layout_toRightOf="@+id/tvPoints"
+        app:srcCompat="@drawable/ic_explore_black_24dp" />
+
     <RatingBar
         android:id="@+id/rbVoteAverage"
         style="@style/Widget.AppCompat.RatingBar.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/tvAttrName"
-        android:layout_alignParentStart="true"
+        android:layout_alignStart="@+id/tvAttrName"
         android:numStars="5"
         android:stepSize="0.5" />
+
 
     <ImageView
         android:id="@+id/ivAttrPic"
@@ -42,6 +63,7 @@
         android:layout_width="174dp"
         android:layout_height="30dp"
         android:layout_below="@+id/ivAttrPic"
+        android:layout_marginTop="5dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/background_gradient"
         android:text="Choose this attraction"
@@ -121,6 +143,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignTop="@+id/tvAttrWebsite"
         android:layout_marginStart="12dp"
+        android:textColorLink="@color/blue_6"
         android:src="@drawable/ic_desktop_mac_black_24dp" />
 
     <TextView
