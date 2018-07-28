@@ -11,12 +11,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+import me.vivh.socialtravelapp.model.Message;
 import me.vivh.socialtravelapp.model.Trip;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHolder>{
@@ -54,23 +58,47 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ChatListAdapter.ViewHolder viewHolder, int i) {
-        Trip trip = mChats.get(i);
-
-        viewHolder.tvGroupName.setText(trip.getName());
-        viewHolder.tvDate.setText(trip.getDateString());
-        viewHolder.tvDescription.setText(trip.getDescription());
-        viewHolder.tvMembers.setText("Chat with your fellow explorers!");
+        Trip chatTrip = mChats.get(i);
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        viewHolder.tvGroupName.setText(chatTrip.getName());
+        viewHolder.tvDate.setText(chatTrip.getDateString());
+        viewHolder.tvDescription.setText(chatTrip.getDescription());
+        viewHolder.tvChatText.setText("Chat with your fellow explorers!");
 
 
         try{
-            String url = trip.getAttraction().fetchIfNeeded().getParseFile("image").getUrl();
+            String url = chatTrip.getAttraction().fetchIfNeeded().getParseFile("image").getUrl();
             Glide.with(context).load(url)
                     .apply(
                             RequestOptions.placeholderOf(R.drawable.background_gradient)
-                                    .circleCrop())
+                                    .fitCenter()
+                                    .transform(new RoundedCornersTransformation(10, 0)))
                     .into(viewHolder.ivAttractionPic);
         }catch(ParseException e){
             e.printStackTrace();
+        }
+
+        if (chatTrip.getLastMessage() == null) {
+            viewHolder.tvTimestamp.setText("");
+        } else {
+            final Message lastMessage = chatTrip.getLastMessage();
+            final ParseUser cUser = currentUser;
+            final ChatListAdapter.ViewHolder h = viewHolder;
+            lastMessage.fetchInBackground(new GetCallback<Message>() {
+                @Override
+                public void done(Message object, ParseException e) {
+                    if (object.getUser().getObjectId().equals(cUser.getObjectId())) {
+                        h.tvChatText.setText("You: " + lastMessage.getBody());
+                    } else {
+                        try {
+                            h.tvChatText.setText(object.getUsername()+ ": " + lastMessage.getBody());
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                    h.tvTimestamp.setText(lastMessage.getTimestamp());
+                }
+            });
         }
 
     }
@@ -81,7 +109,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         @BindView(R.id.tvDate) TextView tvDate;
         @BindView(R.id.ivAttractionPic) ImageView ivAttractionPic;
         @BindView(R.id.tvDescription) TextView tvDescription;
-        @BindView(R.id.tvMembers) TextView tvMembers;
+        @BindView(R.id.tvChatText) TextView tvChatText;
+        @BindView(R.id.tvTimestamp) TextView tvTimestamp;
 
         public ViewHolder(View itemView){
 
