@@ -49,31 +49,12 @@
         android:layout_toEndOf="@id/tvPostUsername"
         android:text="Date" />
 
-    <ToggleButton
-        android:id="@+id/tbLike"
+    <com.like.LikeButton
+        app:icon_type="heart"
+        app:icon_size="25dp"
+        android:id="@+id/star_button"
+        android:layout_below="@id/ivPostImage"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/ivPostImage"
-        android:text="ToggleButton"
-        android:textOff="" />
-
-    <ToggleButton
-        android:id="@+id/tbComment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivPostImage"
-        android:layout_toEndOf="@+id/tbLike"
-        android:text="ToggleButton"
-        android:textOff="" />
-
-    <ToggleButton
-        android:id="@+id/tbGo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivPostImage"
-        android:layout_toEndOf="@+id/tbComment"
-        android:text="ToggleButton"
-        android:textOff="" />
-
+        android:layout_height="wrap_content"/>
+    
 </RelativeLayout>
