@@ -296,6 +296,6 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
 
     @Override
     public void openMemberProfile(ParseUser user) {
-        viewPager.setCurrentItem(MEMBER_PROFILE_INDEX);
+        viewPager.setCurrentItem(MEMBER_PROFILE_INDEX, false);
     }
 }
