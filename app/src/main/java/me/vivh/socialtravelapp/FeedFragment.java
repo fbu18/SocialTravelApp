@@ -31,6 +31,8 @@ public class FeedFragment extends Fragment {
     List<Post> posts;
     private Unbinder unbinder;
 
+    private FeedAdapter.Callback callback;
+
     public FeedFragment() {
         // Required empty public constructor
     }
@@ -53,7 +55,7 @@ public class FeedFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
         unbinder = ButterKnife.bind(this, view);
         posts = new ArrayList<>();
-        feedAdapter = new FeedAdapter(posts);
+        feedAdapter = new FeedAdapter(posts, callback);
         rvFeed.setLayoutManager(new LinearLayoutManager(getContext()));
         rvFeed.setAdapter(feedAdapter);
         loadTopPosts();
@@ -72,8 +74,9 @@ public class FeedFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
+        if ((context instanceof OnFragmentInteractionListener) && (context instanceof FeedAdapter.Callback)) {
             mListener = (OnFragmentInteractionListener) context;
+            callback = (FeedAdapter.Callback) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");

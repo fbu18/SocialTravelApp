@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         AttractionAdapter.Callback, FeedFragment.OnFragmentInteractionListener,
         TripListFragment.OnFragmentInteractionListener, TripAdapter.Callback, TripMemberAdapter.CallbackMember,
         MapsFragment.OnFragmentInteractionListener,
-        ChatListAdapter.Callback, ChatListFragment.OnFragmentInteractionListener{
+        ChatListAdapter.Callback, ChatListFragment.OnFragmentInteractionListener, FeedAdapter.Callback{
 
     public static final int FEED_INDEX = 0;
     public static final int EXPLORE_INDEX = 1;
@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     public static final int EDIT_PROFILE_INDEX = 10;
     public static final int CHAT_LIST_INDEX = 11;
     public static final int LEADERBOARD_INDEX = 12;
+    public static final int MEMBER_PROFILE_INDEX = 13;
 
     private final List<Fragment> fragments = new ArrayList<>();
     private BottomNavAdapter adapter;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         fragments.add(new EditProfileFragment()); // index 10
         fragments.add(new ChatListFragment()); // index 11
         fragments.add(new LeaderboardFragment()); // index 12
+        fragments.add(new MemberProfileFragment()); //index 13
 
         adapter = new BottomNavAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
@@ -290,5 +292,10 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse("tel:" + phoneNumber));
         startActivity(intent);
+    }
+
+    @Override
+    public void openMemberProfile(ParseUser user) {
+        viewPager.setCurrentItem(MEMBER_PROFILE_INDEX);
     }
 }
