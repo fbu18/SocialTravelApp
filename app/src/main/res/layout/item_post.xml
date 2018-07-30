@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="2dp"
@@ -20,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="5dp"
+        android:textColor="@color/blue_5"
         android:layout_toEndOf="@+id/ivPostProfile"
         android:text="Username" />
 
@@ -27,18 +29,16 @@
         android:id="@+id/tvPostDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvPostUsername"
         android:layout_below="@+id/tvPostUsername"
-        android:layout_marginLeft="5dp"
-        android:layout_toEndOf="@+id/ivPostProfile"
         android:text="Description" />
 
     <ImageView
         android:id="@+id/ivPostImage"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_marginTop="2dp"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/tvPostDate"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ivPostProfile"
         android:scaleType="centerCrop"
         app:srcCompat="@color/black" />
 
@@ -46,8 +46,16 @@
         android:id="@+id/tvPostDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvPostDescription"
-        android:layout_below="@+id/tvPostDescription"
+        android:layout_marginLeft="5dp"
+        android:layout_toEndOf="@id/tvPostUsername"
         android:text="Date" />
+
+    <com.like.LikeButton
+        android:id="@+id/star_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivPostImage"
+        app:icon_size="25dp"
+        app:icon_type="heart" />
 
 </RelativeLayout>

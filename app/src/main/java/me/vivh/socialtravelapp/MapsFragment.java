@@ -166,7 +166,7 @@ public class MapsFragment extends Fragment {
                             double lat = location.getLatitude();
                             double lng = location.getLongitude();
                             LatLng latLng = new LatLng(lat, lng);
-                            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
+                            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 12);
                             map.animateCamera(cameraUpdate);
                             getAttractions();
                             map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {

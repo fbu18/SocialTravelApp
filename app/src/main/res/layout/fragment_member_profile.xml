@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MemberProfileFragment">
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="245dp"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/ivProfilePic"
+        android:text="tvUserName"
+        android:textAlignment="center"
+        android:textColor="@color/black_70_transparent"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/ivProfilePic"
+        android:layout_width="139dp"
+        android:layout_height="129dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="left"
+        android:layout_marginLeft="5dp"
+        android:layout_marginVertical="10dp"
+        android:src="@drawable/user_outline_24" />
+
+    <View
+        android:id="@+id/profile_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnEditProfile"
+        android:background="@drawable/background_gradient" />
+
+    <TextView
+        android:id="@+id/tvHomeLoc"
+        android:layout_width="245dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tvUserName"
+        android:text="tvHomeLoc"
+        android:textAlignment="center"
+        android:textColor="@color/black_50_transparent"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/pointsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvHomeLoc"
+        android:layout_toEndOf="@+id/ivProfilePic"
+        android:layout_marginHorizontal="@dimen/pointsMargin"
+        android:text="Points:"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/pointsText"
+        android:layout_below="@+id/pointsText"
+        android:layout_marginTop="@dimen/pointsMargin"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/pastTripsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvHomeLoc"
+        android:layout_marginHorizontal="@dimen/pointsMargin"
+        android:layout_toEndOf="@+id/pointsText"
+        android:text="Past: "
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvNumPastTrips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/pastTripsText"
+        android:layout_below="@+id/pointsText"
+        android:layout_marginTop="@dimen/pointsMargin"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/upcomingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvHomeLoc"
+        android:layout_marginHorizontal="@dimen/pointsMargin"
+        android:layout_toEndOf="@+id/pastTripsText"
+        android:text="Future:"
+        android:textAlignment="center"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvUpcoming"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/upcomingText"
+        android:layout_below="@+id/pointsText"
+        android:layout_marginTop="@dimen/pointsMargin"
+        android:text="0"
+        android:textSize="24sp" />
+
+</RelativeLayout>
