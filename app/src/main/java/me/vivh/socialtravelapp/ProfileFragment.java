@@ -92,19 +92,20 @@ public class ProfileFragment extends Fragment {
 
         currentUser = ParseUser.getCurrentUser();
 
-        tvUsername.setText(currentUser.getUsername());
-        tvHomeLoc.setText(currentUser.getString("home"));
-        tvPoints.setText(currentUser.getNumber("points").toString());
+        try {
+            tvUsername.setText(currentUser.getUsername());
+            tvHomeLoc.setText(currentUser.getString("home"));
+            tvPoints.setText(currentUser.getNumber("points").toString());
 
-        String profilePicUrl = "";
-        if (currentUser.getParseFile("profilePic") != null) {
-            profilePicUrl = currentUser.getParseFile("profilePic").getUrl();
+            String profilePicUrl = currentUser.getParseFile("profilePic").getUrl();
+            Glide.with(getContext()).load(profilePicUrl)
+                    .apply(
+                            RequestOptions.placeholderOf(R.drawable.ic_perm_identity_black_24dp)
+                                    .circleCrop())
+                    .into(ivProfilePic);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        Glide.with(getContext()).load(profilePicUrl)
-                .apply(
-                        RequestOptions.placeholderOf(R.drawable.ic_perm_identity_black_24dp)
-                                .circleCrop())
-                .into(ivProfilePic);
 
         editProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,6 +192,13 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        findUpcomingTrips();
+        findPastTrips();
     }
 
     /**

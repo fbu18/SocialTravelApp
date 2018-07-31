@@ -296,6 +296,14 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
 
     @Override
     public void openMemberProfile(ParseUser user) {
-        viewPager.setCurrentItem(MEMBER_PROFILE_INDEX);
+        String userId = user.getObjectId();
+        String currentId = ParseUser.getCurrentUser().getObjectId();
+        if(userId.equals(currentId)){
+            viewPager.setCurrentItem(PROFILE_INDEX, false);
+        }else{
+            ((MemberProfileFragment)fragments.get(MEMBER_PROFILE_INDEX)).setUser(user);
+            viewPager.setCurrentItem(MEMBER_PROFILE_INDEX, false);
+        }
+
     }
 }
