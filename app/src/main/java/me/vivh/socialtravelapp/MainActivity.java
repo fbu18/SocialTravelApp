@@ -302,4 +302,9 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
             viewPager.setCurrentItem(MEMBER_PROFILE_INDEX, false);
         }
     }
+
+    @Override
+    public void openEditProfile() {
+        viewPager.setCurrentItem(EDIT_PROFILE_INDEX, false);
+    }
 }

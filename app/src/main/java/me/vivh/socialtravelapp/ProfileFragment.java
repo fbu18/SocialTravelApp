@@ -112,8 +112,14 @@ public class ProfileFragment extends Fragment {
         editProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ViewPager vp= (ViewPager) getActivity().findViewById(R.id.viewPager);
-                vp.setCurrentItem(MainActivity.getEDIT_PROFILE_INDEX(), false);
+                mListener.openEditProfile();
+            }
+        });
+
+        ivProfilePic.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                mListener.openEditProfile();
             }
         });
 
@@ -188,7 +194,11 @@ public class ProfileFragment extends Fragment {
             @Override
             public void done(List<Trip> objects, ParseException e) {
                 if(e == null){
-                    tvUpcoming.setText(String.format("%s", objects.size()));
+                    try {
+                        tvUpcoming.setText(String.format("%s", objects.size()));
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
                 }else{
                     Log.d("ProfileFragment", String.format("%s", objects.size()));
                 }
@@ -216,5 +226,6 @@ public class ProfileFragment extends Fragment {
     public interface OnFragmentInteractionListener {
 
         void logout();
+        void openEditProfile();
     }
 }
