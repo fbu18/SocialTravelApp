@@ -36,10 +36,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(context);
 
         switch (viewType) {
-            case 0:
+            case 1:
                 View chatViewMe = inflater.inflate(R.layout.item_chat_me, parent, false);
                 return new ViewHolderMe(chatViewMe);
-            case 1:
+            case 0:
                 View chatViewOther = inflater.inflate(R.layout.item_chat_other, parent, false);
                 return new ViewHolderOther(chatViewOther);
         }
@@ -51,18 +51,16 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         Message message = mMessages.get(position);
 
-        //final boolean isMe = message.getUserId() != null && message.getUserId().equals(mUserId);
-        //int me = isMe ? 1 : 0;
-        //switch (me) {
+
 
         switch (holder.getItemViewType()) {
-            case 0:
+            case 1:
                 final ViewHolderMe viewHolderMe = (ViewHolderMe) holder;
                 viewHolderMe.mInfoMe.setText(message.getTimestamp());
                 viewHolderMe.mMessageMe.setText(message.getBody());
                 displayProfilePicture(message, viewHolderMe.mProfilePic);
                 break;
-            case 1:
+            case 0:
                 final ViewHolderOther viewHolderOther = (ViewHolderOther) holder;
                 viewHolderOther.mInfoOther.setText(message.getTimestamp());
                 viewHolderOther.mMessageOther.setText(message.getBody());
@@ -137,5 +135,16 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 .fitCenter()
                                 .circleCrop())
                 .into(profileView);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        Message message = mMessages.get(position);
+        final boolean isMe = message.getUserId() != null && message.getUserId().equals(mUserId);
+        if (isMe) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }
