@@ -1,8 +1,9 @@
 package me.vivh.socialtravelapp;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,10 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.vivh.socialtravelapp.model.Message;
 
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
+public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Message> mMessages;
     private Context mContext;
     private String mUserId;
@@ -29,40 +31,57 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         mContext = context;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View contactView = inflater.inflate(R.layout.item_chat, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(contactView);
-        return viewHolder;
+        switch (viewType) {
+            case 1:
+                View chatViewMe = inflater.inflate(R.layout.item_chat_me, parent, false);
+                return new ViewHolderMe(chatViewMe);
+            case 0:
+                View chatViewOther = inflater.inflate(R.layout.item_chat_other, parent, false);
+                return new ViewHolderOther(chatViewOther);
+        }
+        View chatViewMe = inflater.inflate(R.layout.item_chat_me, parent, false);
+        return new ViewHolderMe(chatViewMe);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         Message message = mMessages.get(position);
-        final boolean isMe = message.getUserId() != null && message.getUserId().equals(mUserId);
 
-        if (isMe) {
-            holder.imageMe.setVisibility(View.VISIBLE);
-            holder.imageOther.setVisibility(View.GONE);
-            holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
-        } else {
-            holder.imageOther.setVisibility(View.VISIBLE);
-            holder.imageMe.setVisibility(View.GONE);
-            holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+        switch (holder.getItemViewType()) {
+            case 1:
+                final ViewHolderMe viewHolderMe = (ViewHolderMe) holder;
+                viewHolderMe.mInfoMe.setText(message.getTimestamp());
+                viewHolderMe.mMessageMe.setText(message.getBody());
+                displayProfilePicture(message, viewHolderMe.mProfilePic);
+                if (message.getImage() != null) {
+                    viewHolderMe.mChatImageMe.setVisibility(View.VISIBLE);
+                    displayChatImage(message, viewHolderMe.mChatImageMe);
+                }
+                else {
+                    viewHolderMe.mChatImageMe.setVisibility(View.GONE);
+                }
+                break;
+            case 0:
+                final ViewHolderOther viewHolderOther = (ViewHolderOther) holder;
+                viewHolderOther.mInfoOther.setText(message.getTimestamp());
+                viewHolderOther.mMessageOther.setText(message.getBody());
+                displayProfilePicture(message, viewHolderOther.mProfilePic);
+                displayProfilePicture(message, viewHolderOther.mProfilePic);
+                if (message.getImage() != null) {
+                    viewHolderOther.mChatImageOther.setVisibility(View.VISIBLE);
+                    displayChatImage(message, viewHolderOther.mChatImageOther);
+                }
+                else {
+                    viewHolderOther.mChatImageOther.setVisibility(View.GONE);
+                }
+                break;
         }
-
-        final ImageView profileView = isMe ? holder.imageMe : holder.imageOther;
-        Glide.with(mContext).load(getProfileUrl(message.getUserId())).into(profileView);
-        holder.body.setText(message.getBody());
-        Glide.with(mContext).load(message.getProfilePic().getUrl())
-                .apply(
-                        RequestOptions.placeholderOf(R.drawable.background_gradient)
-                                .fitCenter()
-                                .circleCrop())
-                .into(profileView);
     }
 
     // Create a gravatar image based on the hash value obtained from userId
@@ -84,16 +103,34 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         return mMessages.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageOther;
-        ImageView imageMe;
-        TextView body;
 
-        public ViewHolder(View itemView) {
+    public class ViewHolderMe extends RecyclerView.ViewHolder {
+        TextView mMessageMe;
+        TextView mInfoMe;
+        ImageView mProfilePic;
+        ImageView mChatImageMe;
+
+        public ViewHolderMe(View itemView) {
             super(itemView);
-            imageOther = (ImageView)itemView.findViewById(R.id.ivProfileOther);
-            imageMe = (ImageView)itemView.findViewById(R.id.ivProfileMe);
-            body = (TextView)itemView.findViewById(R.id.tvBody);
+            mMessageMe = itemView.findViewById(R.id.tvMessageMe);
+            mInfoMe = itemView.findViewById(R.id.tvInfoMe);
+            mProfilePic = itemView.findViewById(R.id.ivProfilePic);
+            mChatImageMe = itemView.findViewById(R.id.ivChatImage);
+        }
+    }
+
+    public class ViewHolderOther extends RecyclerView.ViewHolder {
+        TextView mMessageOther;
+        TextView mInfoOther;
+        ImageView mProfilePic;
+        ImageView mChatImageOther;
+
+        public ViewHolderOther(View itemView) {
+            super(itemView);
+            mMessageOther = itemView.findViewById(R.id.tvMessageOther);
+            mInfoOther = itemView.findViewById(R.id.tvInfoOther);
+            mProfilePic = itemView.findViewById(R.id.ivProfilePic);
+            mChatImageOther = itemView.findViewById(R.id.ivChatImage);
         }
     }
 
@@ -107,5 +144,36 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     public void addAll(List<Message> list) {
         mMessages.addAll(list);
         notifyDataSetChanged();
+    }
+
+
+    private void displayProfilePicture(Message message, ImageView profileView) {
+        Glide.with(mContext).load(message.getProfilePic().getUrl())
+                .apply(
+                        RequestOptions.placeholderOf(R.drawable.background_gradient)
+                                .fitCenter()
+                                .circleCrop())
+                .into(profileView);
+    }
+
+    private void displayChatImage(Message message, ImageView chatImage) {
+        Log.d("ChatAdapter","Entered displayChatImage");
+        Glide.with(mContext).load(message.getImage().getUrl())
+                .apply(
+                        RequestOptions.placeholderOf(R.drawable.background_gradient)
+                                .fitCenter()
+                                .transform(new RoundedCornersTransformation(10, 0)))
+                .into(chatImage);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        Message message = mMessages.get(position);
+        final boolean isMe = message.getUserId() != null && message.getUserId().equals(mUserId);
+        if (isMe) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }

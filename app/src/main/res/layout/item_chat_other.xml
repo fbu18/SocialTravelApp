@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="10dp">
+
+    <RelativeLayout
+        android:id="@+id/layoutOther"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/message_container_other">
+
+
+        <TextView
+            android:id="@+id/tvInfoOther"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_toRightOf="@+id/ivProfilePic"
+            android:layout_margin="5dp"
+            android:text="August 15 at 10:06 AM"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:id="@+id/tvMessageOther"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvInfoOther"
+            android:layout_toRightOf="@+id/ivProfilePic"
+            android:layout_margin="5dp"
+            android:maxWidth="240dp"
+            android:textColor="@android:color/black" />
+
+
+        <ImageView
+            android:id="@+id/ivProfilePic"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentLeft="true" />
+
+        <ImageView
+            android:id="@+id/ivChatImage"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="1dp"
+            android:layout_toRightOf="@+id/ivProfilePic"
+            android:layout_below="@+id/tvMessageOther"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

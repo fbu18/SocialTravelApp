@@ -76,7 +76,7 @@ public class ChatListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof TripAdapter.Callback) {
+        if (context instanceof ChatListAdapter.Callback) {
             callback = (ChatListAdapter.Callback) context;
         } else {
             throw new RuntimeException(context.toString()

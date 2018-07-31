@@ -304,6 +304,5 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
             ((MemberProfileFragment)fragments.get(MEMBER_PROFILE_INDEX)).setUser(user);
             viewPager.setCurrentItem(MEMBER_PROFILE_INDEX, false);
         }
-
     }
 }

@@ -27,6 +27,7 @@ public class Trip extends ParseObject {
     private static final String KEY_DATE = "date";
     private static final String KEY_USER = "user";
     private static final String KEY_CHECK_IN = "usersCheckedIn";
+    public static final String KEY_LAST_MSG = "lastMessage";
 
     public String getDescription() {
         return getString(KEY_DESCRIPTION);
@@ -124,6 +125,18 @@ public class Trip extends ParseObject {
         relation.add(user);
         trip.saveInBackground();
     }
+
+    public String getLastMessageTimestamp() {
+        return getLastMessage().getTimestamp();
+    }
+
+    public Message getLastMessage() {
+        return (Message) getParseObject(KEY_LAST_MSG);
+    }
+    public void setLastMessage(Message msg) {
+        put(KEY_LAST_MSG, msg);
+    }
+
     public static class Query extends ParseQuery<Trip> {
         public Query() {
             super(Trip.class);

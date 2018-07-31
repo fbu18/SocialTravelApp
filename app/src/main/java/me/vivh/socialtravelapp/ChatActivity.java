@@ -119,6 +119,7 @@ public class ChatActivity extends AppCompatActivity {
                 message.setBody(data);
                 message.setUser(ParseUser.getCurrentUser());
                 message.setTrip(trip);
+                trip.setLastMessage(message);
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
