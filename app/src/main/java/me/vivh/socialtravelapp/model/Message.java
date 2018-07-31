@@ -18,6 +18,7 @@ public class Message extends ParseObject {
     public static final String BODY_KEY = "body";
     public static final String PROFILE_PIC_KEY = "profilePic";
     public static final String TRIP_KEY = "trip";
+    public static final String IMAGE_KEY = "image";
 
     public ParseUser getUser() { return getParseUser(USER_KEY); }
     public void setUser(ParseUser parseUser) { put(USER_KEY, parseUser); }
@@ -42,6 +43,13 @@ public class Message extends ParseObject {
 
     public Trip getTrip() { return (Trip) getParseObject(TRIP_KEY); }
     public void setTrip(Trip trip) { put(TRIP_KEY, trip); }
+
+    public ParseFile getImage() {
+        return getParseFile(IMAGE_KEY);
+    }
+    public void setImage(ParseFile image) {
+        put(IMAGE_KEY, image);
+    }
 
     public String getTimestamp() {
         Date date = getCreatedAt();

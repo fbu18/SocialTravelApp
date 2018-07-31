@@ -49,6 +49,20 @@
             android:layout_marginTop="5dp"
             android:layout_alignParentLeft="true" />
 
+        <ImageView
+            android:id="@+id/ivChatImage"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="1dp"
+            android:layout_toRightOf="@+id/ivProfilePic"
+            android:layout_below="@+id/tvMessageOther"
+            android:visibility="gone"/>
+
     </RelativeLayout>
 
 </RelativeLayout>
