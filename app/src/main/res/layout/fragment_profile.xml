@@ -9,15 +9,6 @@
     android:background="@android:color/white"
     tools:context=".ProfileFragment">
 
-    <Button
-        android:id="@+id/btnLeaderboard"
-        android:layout_width="236dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="199dp"
-        android:text="Leaderboard (TEMPBTN)" />
-
     <TextView
         android:id="@+id/tvUserName"
         android:layout_width="245dp"
@@ -28,17 +19,20 @@
         android:text="tvUserName"
         android:textAlignment="center"
         android:textColor="@color/black_70_transparent"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/btnLogOut"
-        android:layout_width="236dp"
-        android:layout_height="wrap_content"
+        android:layout_width="211dp"
+        android:layout_height="38dp"
         android:layout_alignBaseline="@+id/btnEditProfile"
         android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@id/btnEditProfile"
-        android:text="Log Out" />
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/blue_5"
+        android:text="Log Out"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
 
 
     <ImageView
@@ -49,27 +43,28 @@
         android:layout_alignParentTop="true"
         android:layout_gravity="left"
         android:layout_marginLeft="5dp"
-        android:layout_marginVertical="10dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/user_outline_24" />
 
-    <Button
+    <TextView
         android:id="@+id/btnEditProfile"
-        android:layout_width="139dp"
-        android:layout_height="26dp"
+        android:layout_width="143dp"
+        android:layout_height="16dp"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/ivProfilePic"
         android:layout_gravity="center"
-        android:background="@android:color/white"
-        android:layout_margin="10dp"
+        android:background="@color/white"
         android:text="Edit Profile"
-        android:textAllCaps="false" />
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/grey_9" />
 
     <View
         android:id="@+id/profile_divider"
         android:layout_width="fill_parent"
         android:layout_height="2dip"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/btnEditProfile"
+        android:layout_below="@+id/tvBio"
         android:background="@drawable/background_gradient" />
 
     <TextView
@@ -81,17 +76,17 @@
         android:text="tvHomeLoc"
         android:textAlignment="center"
         android:textColor="@color/black_50_transparent"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/pointsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvHomeLoc"
-        android:layout_toEndOf="@+id/ivProfilePic"
         android:layout_marginHorizontal="@dimen/pointsMargin"
+        android:layout_toEndOf="@+id/ivProfilePic"
         android:text="Points:"
-        android:textSize="17sp"
+        android:textSize="15sp"
         android:textStyle="bold" />
 
     <TextView
@@ -103,7 +98,7 @@
         android:layout_marginTop="@dimen/pointsMargin"
         android:text="0"
         android:textAlignment="center"
-        android:textSize="24sp" />
+        android:textSize="22sp" />
 
     <TextView
         android:id="@+id/pastTripsText"
@@ -113,7 +108,7 @@
         android:layout_marginHorizontal="@dimen/pointsMargin"
         android:layout_toEndOf="@+id/pointsText"
         android:text="Past: "
-        android:textSize="17sp"
+        android:textSize="15sp"
         android:textStyle="bold" />
 
     <TextView
@@ -125,7 +120,7 @@
         android:layout_marginTop="@dimen/pointsMargin"
         android:text="0"
         android:textAlignment="center"
-        android:textSize="24sp" />
+        android:textSize="22sp" />
 
     <TextView
         android:id="@+id/upcomingText"
@@ -136,7 +131,7 @@
         android:layout_toEndOf="@+id/pastTripsText"
         android:text="Future:"
         android:textAlignment="center"
-        android:textSize="17sp"
+        android:textSize="15sp"
         android:textStyle="bold" />
 
     <TextView
@@ -147,7 +142,24 @@
         android:layout_below="@+id/pointsText"
         android:layout_marginTop="@dimen/pointsMargin"
         android:text="0"
-        android:textSize="24sp" />
+        android:textSize="22sp" />
+
+    <fragment
+        android:id="@+id/fragment"
+        android:name="me.vivh.socialtravelapp.LeaderboardFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/profile_divider" />
+
+    <TextView
+        android:id="@+id/tvBio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnEditProfile"
+        android:layout_margin="10dp"
+        android:text="TextView" />
 
 
 </RelativeLayout>

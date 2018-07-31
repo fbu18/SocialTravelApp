@@ -40,6 +40,7 @@ public class MemberProfileFragment extends Fragment {
     @BindView(R.id.ivProfilePic)
     ImageView ivProfilePic;
     @BindView(R.id.tvUpcoming) TextView tvUpcoming;
+    @BindView(R.id.tvBio) TextView tvBio;
 
 
     private Unbinder unbinder;
@@ -77,25 +78,7 @@ public class MemberProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_member_profile, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        today = cal.getTime();
-
-        try {
-            tvPoints.setText(user.get("points").toString());
-            tvUsername.setText(user.getUsername());
-            tvHomeLoc.setText(user.getString("home"));
-
-            String profilePicUrl = user.getParseFile("profilePic").getUrl();
-            Glide.with(getContext()).load(profilePicUrl)
-                    .apply(
-                            RequestOptions.placeholderOf(R.drawable.ic_perm_identity_black_24dp)
-                                    .circleCrop())
-                    .into(ivProfilePic);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        findUpcomingTrips();
-        findPastTrips();
+        updateMemberInfo();
 
         return view;
     }
@@ -155,6 +138,35 @@ public class MemberProfileFragment extends Fragment {
 
     public void setUser(ParseUser user){
         this.user = user;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateMemberInfo();
+    }
+
+    public void updateMemberInfo(){
+        today = cal.getTime();
+
+        try {
+            tvPoints.setText(user.get("points").toString());
+            tvUsername.setText(user.getUsername());
+            tvHomeLoc.setText(user.getString("home"));
+            tvBio.setText(user.getString("bio"));
+
+            String profilePicUrl = user.getParseFile("profilePic").getUrl();
+            Glide.with(getContext()).load(profilePicUrl)
+                    .apply(
+                            RequestOptions.placeholderOf(R.drawable.ic_perm_identity_black_24dp)
+                                    .circleCrop())
+                    .into(ivProfilePic);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        findUpcomingTrips();
+        findPastTrips();
     }
 
 }

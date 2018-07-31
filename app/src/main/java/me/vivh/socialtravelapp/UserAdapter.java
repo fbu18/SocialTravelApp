@@ -1,6 +1,7 @@
 package me.vivh.socialtravelapp;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,11 +22,18 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private List<ParseUser> mUsers;
     Context context;
     boolean displayRank;
+    interface Callback{
+        void openMemberProfile(ParseUser user);
+    }
 
-    public UserAdapter(List<ParseUser> users, boolean rank) {
+    private Callback callback;
+
+    public UserAdapter(List<ParseUser> users, boolean rank, Callback inputCallback) {
         mUsers = users;
         displayRank = rank;
+        callback = inputCallback;
     }
+
 
     @Override
     public UserAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -38,6 +46,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     public void onBindViewHolder(final ViewHolder viewHolder, int position) {
         final ParseUser user = mUsers.get(position);
+
+        if((user.getObjectId()).equals(ParseUser.getCurrentUser().getObjectId())){
+            viewHolder.rlUser.setBackgroundColor(Color.LTGRAY);
+        }
         if (displayRank) {
             viewHolder.tvRank.setVisibility(View.VISIBLE);
             viewHolder.tvRank.setText(String.valueOf(position + 1));
@@ -53,7 +65,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
             @Override
             public void onClick(View v) {
-                //TODO -  bring to user profile
+                callback.openMemberProfile(user);
+
             }
         });
 
@@ -80,7 +93,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public TextView tvPoints;
         public ImageView ivProfilePic;
         public RelativeLayout rlUser;
-
 
         public ViewHolder(View itemView) {
             super(itemView);
