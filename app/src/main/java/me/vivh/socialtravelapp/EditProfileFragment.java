@@ -103,6 +103,7 @@ public class EditProfileFragment extends Fragment {
             public void onClick(View v) {
                 try {
                     final ParseUser currUser = ParseUser.getCurrentUser();
+                    // TODO - redirect to profile fragment after, even if photo not changed
                     if (etUsername.getText().toString() != null && !etUsername.getText().toString().isEmpty()) {
                         currentUser.put("username",etUsername.getText().toString());
                     }
@@ -120,6 +121,11 @@ public class EditProfileFragment extends Fragment {
                         final File file = photoFile;
                         parseFile = new ParseFile(file);
                         postPhoto(parseFile, currUser);
+                    } else {
+                        // TODO - redirect in a better way
+                        // replace existing fragment with profile fragment inside the frame
+                        ViewPager vp= (ViewPager) getActivity().findViewById(R.id.viewPager);
+                        vp.setCurrentItem(3, false);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -229,6 +235,7 @@ public class EditProfileFragment extends Fragment {
                     pb.setVisibility(ProgressBar.INVISIBLE);
                     Toast.makeText(getContext(),"Photo changed!",Toast.LENGTH_LONG).show();
 
+                    // TODO - redirect in a better way
                     // replace existing fragment with profile fragment inside the frame
                     ViewPager vp= (ViewPager) getActivity().findViewById(R.id.viewPager);
                     vp.setCurrentItem(3, false);
