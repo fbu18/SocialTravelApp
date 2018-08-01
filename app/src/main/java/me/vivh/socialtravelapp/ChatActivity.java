@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.LiveQueryException;
+import com.parse.ParseACL;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseLiveQueryClient;
@@ -68,6 +69,10 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        currentUser.setACL(new ParseACL(currentUser));
+        currentUser.saveInBackground();
+
         setupMessagePosting();
 
         trip = getIntent().getParcelableExtra("trip");
@@ -114,8 +119,10 @@ public class ChatActivity extends AppCompatActivity {
         btSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String data = etMessage.getText().toString();
                 Message message = new Message();
+
                 message.setBody(data);
                 message.setUser(ParseUser.getCurrentUser());
                 message.setTrip(trip);
@@ -123,11 +130,16 @@ public class ChatActivity extends AppCompatActivity {
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        sendPushNotification();
-                        Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
-                                Toast.LENGTH_SHORT).show();
-                        etMessage.setText(null);
-                        refreshMessages();
+                        if (e == null){
+                            sendPushNotification();
+                            Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
+                                    Toast.LENGTH_SHORT).show();
+                            etMessage.setText(null);
+                            refreshMessages();
+                        }
+                        else{
+                            e.printStackTrace();
+                        }
                     }
                 });
             }
