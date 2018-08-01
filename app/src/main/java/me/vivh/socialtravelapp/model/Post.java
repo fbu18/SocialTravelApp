@@ -18,6 +18,8 @@ public class Post extends ParseObject {
     private static String KEY_DESCRIPTION = "description";
     private static String KEY_IMAGE = "image";
     private static String KEY_USER = "user";
+    private static String KEY_TYPE = "type";
+    private static String KEY_LOCATION = "location";
 
     public String getDescription() {
         return getString(KEY_DESCRIPTION);
@@ -29,6 +31,14 @@ public class Post extends ParseObject {
 
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
+    }
+
+    public String getType() {
+        return getString(KEY_TYPE);
+    }
+
+    public Attraction getLocation() {
+        return (Attraction) get(KEY_LOCATION);
     }
 
     public void setDescription(String description) {

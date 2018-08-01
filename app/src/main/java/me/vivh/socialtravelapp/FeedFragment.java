@@ -20,6 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.vivh.socialtravelapp.model.CheckInPost;
 import me.vivh.socialtravelapp.model.Post;
 
 
@@ -29,6 +30,7 @@ public class FeedFragment extends Fragment {
     @BindView(R.id.rvFeed) RecyclerView rvFeed;
     FeedAdapter feedAdapter;
     List<Post> posts;
+    List<CheckInPost> checkIns;
     private Unbinder unbinder;
 
     private FeedAdapter.Callback callback;
@@ -108,11 +110,12 @@ public class FeedFragment extends Fragment {
     public interface OnFragmentInteractionListener {
     }
     public void loadTopPosts() {
-        Post.Query query = new Post.Query();
-        query.include("username");
-        query.include("profilePic");
+        Post.Query postQuery = new Post.Query();
+        CheckInPost.Query checkInQuery = new CheckInPost.Query();
+        postQuery.include("username");
+        postQuery.include("profilePic");
 
-        query.findInBackground(new FindCallback<Post>() {
+        postQuery.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> objects, ParseException e) {
                 if(e == null) {
@@ -122,6 +125,15 @@ public class FeedFragment extends Fragment {
                 } else {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        checkInQuery.findInBackground(new FindCallback<CheckInPost>() {
+            @Override
+            public void done(List<CheckInPost> objects, ParseException e) {
+                checkIns.clear();
+                checkIns.addAll(objects);
+                feedAdapter.notifyDataSetChanged();
             }
         });
     }
