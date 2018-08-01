@@ -87,16 +87,20 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
             lastMessage.fetchInBackground(new GetCallback<Message>() {
                 @Override
                 public void done(Message object, ParseException e) {
-                    if (object.getUser().getObjectId().equals(cUser.getObjectId())) {
-                        h.tvChatText.setText("You: " + lastMessage.getBody());
-                    } else {
-                        try {
-                            h.tvChatText.setText(object.getUsername()+ ": " + lastMessage.getBody());
-                        } catch (Exception e1) {
-                            e1.printStackTrace();
+                    try {
+                        if (object.getUser().getObjectId().equals(cUser.getObjectId())) {
+                            h.tvChatText.setText("You: " + lastMessage.getBody());
+                        } else {
+                            try {
+                                h.tvChatText.setText(object.getUsername()+ ": " + lastMessage.getBody());
+                            } catch (Exception e1) {
+                                e1.printStackTrace();
+                            }
                         }
+                        h.tvTimestamp.setText(lastMessage.getTimestamp());
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
                     }
-                    h.tvTimestamp.setText(lastMessage.getTimestamp());
                 }
             });
         }

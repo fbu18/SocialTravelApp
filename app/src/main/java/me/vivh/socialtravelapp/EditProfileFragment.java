@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -35,6 +36,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 import static android.app.Activity.RESULT_OK;
 
 public class EditProfileFragment extends Fragment {
@@ -43,13 +48,19 @@ public class EditProfileFragment extends Fragment {
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo";
     File photoFile;
-
-    Button cameraBtn;
-    ImageView ivPreview;
-    Button postBtn;
     ParseFile parseFile;
-    ProgressBar pb;
-    TextView tvUserName;
+    private boolean tookPhoto;
+
+    private Unbinder unbinder;
+    @BindView(R.id.btnCamera) Button cameraBtn;
+    @BindView(R.id.ivProfilePicPreview) ImageView ivPreview;
+    @BindView(R.id.btnSave) Button saveBtn;
+    @BindView(R.id.pbLoading) ProgressBar pb;
+    @BindView(R.id.tvUsername) TextView tvUsername;
+    @BindView(R.id.etUsername) EditText etUsername;
+    @BindView(R.id.etDisplayName) EditText etDisplayName;
+    @BindView(R.id.etHomeLoc) EditText etHomeLoc;
+    @BindView(R.id.etBio) EditText etBio;
 
 
     @Override
@@ -59,15 +70,13 @@ public class EditProfileFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_edit_profile,
                 container, false);
 
-        cameraBtn = (Button) rootView.findViewById(R.id.btnCamera);
-        ivPreview = (ImageView) rootView.findViewById(R.id.ivProfilePIcPreview);
-        postBtn = (Button) rootView.findViewById(R.id.btnPost);
-        pb = (ProgressBar) rootView.findViewById(R.id.pbLoading);
-        tvUserName = (TextView) rootView.findViewById(R.id.tvUserName);
+
+        unbinder = ButterKnife.bind(this, rootView);
+        tookPhoto = false;
 
         // load existing username and profile pic
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        tvUserName.setText(currentUser.getUsername());
+        final ParseUser currentUser = ParseUser.getCurrentUser();
+        tvUsername.setText(currentUser.getUsername());
         String profilePicUrl = "";
         if (currentUser.getParseFile("profilePic") != null) {
             profilePicUrl = currentUser.getParseFile("profilePic").getUrl();
@@ -89,15 +98,29 @@ public class EditProfileFragment extends Fragment {
         });
 
 
-        postBtn.setOnClickListener(new View.OnClickListener() {
+        saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     final ParseUser currUser = ParseUser.getCurrentUser();
-                    final File file = photoFile;
-                    parseFile = new ParseFile(file);
-
-                    postPhoto(parseFile, currUser);
+                    if (etUsername.getText().toString() != null && !etUsername.getText().toString().isEmpty()) {
+                        currentUser.put("username",etUsername.getText().toString());
+                    }
+                    if (etDisplayName.getText().toString() != null && !etDisplayName.getText().toString().isEmpty()) {
+                        currentUser.put("displayName",etDisplayName.getText().toString());
+                    }
+                    if (etHomeLoc.getText().toString() != null && !etHomeLoc.getText().toString().isEmpty()) {
+                        currentUser.put("home",etHomeLoc.getText().toString());
+                    }
+                    if (etBio.getText().toString() != null && !etBio.getText().toString().isEmpty()) {
+                        currentUser.put("bio",etBio.getText().toString());
+                    }
+                    if (tookPhoto){
+                        // save photo
+                        final File file = photoFile;
+                        parseFile = new ParseFile(file);
+                        postPhoto(parseFile, currUser);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(getActivity(), "Please take a new picture first", Toast.LENGTH_LONG).show();
@@ -187,6 +210,7 @@ public class EditProfileFragment extends Fragment {
 
                 // Load the taken image into a preview
                 ivPreview.setImageBitmap(resizedBitmap);
+                tookPhoto = true;
             } else { // Result was a failure
                 Toast.makeText(getActivity(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }

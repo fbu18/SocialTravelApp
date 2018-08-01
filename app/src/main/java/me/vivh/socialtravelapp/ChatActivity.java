@@ -126,10 +126,10 @@ public class ChatActivity extends AppCompatActivity {
                         sendPushNotification();
                         Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
                                 Toast.LENGTH_SHORT).show();
+                        etMessage.setText(null);
                         refreshMessages();
                     }
                 });
-                etMessage.setText(null);
             }
         });
     }
@@ -195,14 +195,6 @@ public class ChatActivity extends AppCompatActivity {
                         rvChat.scrollToPosition(0);
                         mFirstLoad = false;
                     }
-                    /*for (int i = 0; i < messages.size(); ++i) {
-                        Message message = messages.get(i);
-                        mMessages.add(message);
-                        mAdapter.notifyItemInserted(mMessages.size() - 1);
-                        rvChat.scrollToPosition(0);
-                        Log.d("Messages", "a message has been loaded!");
-                        swipeContainer.setRefreshing(false);
-                    }*/
                 } else {
                     Log.e("message", "Error Loading Messages" + e);
                 }

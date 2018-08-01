@@ -3,7 +3,6 @@ package me.vivh.socialtravelapp;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +32,7 @@ import me.vivh.socialtravelapp.model.Trip;
 public class ProfileFragment extends Fragment {
 
     @BindView(R.id.btnLogOut) Button btnLogOut;
-    @BindView(R.id.tvUserName)
-    TextView tvUsername;
+    @BindView(R.id.tvDisplayName) TextView tvDisplayName;
     @BindView(R.id.tvHomeLoc) TextView tvHomeLoc;
     @BindView(R.id.tvPoints) TextView tvPoints;
     @BindView(R.id.tvNumPastTrips) TextView tvNumPastTrips;
@@ -94,7 +92,7 @@ public class ProfileFragment extends Fragment {
         currentUser = ParseUser.getCurrentUser();
 
         try {
-            tvUsername.setText(currentUser.getUsername());
+            tvDisplayName.setText(currentUser.getString("displayName"));
             tvHomeLoc.setText(currentUser.getString("home"));
             tvPoints.setText(currentUser.getNumber("points").toString());
             tvBio.setText(currentUser.getString("bio"));
