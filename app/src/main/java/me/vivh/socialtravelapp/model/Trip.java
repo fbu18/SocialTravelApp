@@ -1,5 +1,6 @@
 package me.vivh.socialtravelapp.model;
 
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -119,11 +120,28 @@ public class Trip extends ParseObject {
             }
         });
     }
-    public void joinTrip(ParseUser user) {
+    public void joinTrip(ParseUser user, final Context context) {
         Trip trip = this;
         ParseRelation relation = trip.getRelation("user");
         relation.add(user);
-        trip.saveInBackground();
+        trip.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Toast.makeText(context, "Joined group.", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void leaveTrip(ParseUser user, final Context context){
+        Trip trip = this;
+        ParseRelation relation = trip.getRelation("user");
+        relation.remove(user);
+        trip.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Toast.makeText(context, "Left group.", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public String getLastMessageTimestamp() {

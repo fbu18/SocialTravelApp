@@ -1,6 +1,7 @@
 package me.vivh.socialtravelapp;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -133,9 +134,20 @@ public class TripDetailFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
+
                 ParseUser user = ParseUser.getCurrentUser();
-                trip.joinTrip(user);
-                Toast.makeText(getActivity(), "Joined Group", Toast.LENGTH_LONG).show();
+
+                if(btnJoin.getText().equals("Leave Group")){
+                    trip.leaveTrip(user, context);
+                    btnJoin.setText("Join Group");
+                    btnJoin.setBackgroundColor(Color.parseColor("#ff3897f0"));
+
+                }else{
+                    trip.joinTrip(user, context);
+                    btnJoin.setText("Leave Group");
+                    btnJoin.setBackgroundColor(Color.LTGRAY);
+                }
+
             }
         });
 

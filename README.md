@@ -7,10 +7,10 @@ Time spent: **5** weeks spent in total
 ## User Stories
 
 The following **required** functionality is completed:
-* [ ]	user can find attractions to go to
-* [ ]	gamification - provide incentive to user to do things
-* [ ] user can find people to connect with in area
-* [ ] feed with photos and check-in of friends and people in area
+* [x]	user can find attractions to go to
+* [x]	gamification - provide incentive to user to do things
+* [x] user can find people to connect with in area
+* [x] feed with photos and check-in of friends and people in area
 
 The following **optional** features are implemented:
 
