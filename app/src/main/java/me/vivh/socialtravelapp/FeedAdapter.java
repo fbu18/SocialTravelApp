@@ -11,8 +11,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -83,12 +85,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ViewHolderPost viewHolderPost = (ViewHolderPost) viewHolder;
                 Post post = (Post) mPosts.get(i);
                 ParseUser user = post.getUser();
-                String name = null;
-                try {
-                    name = user.fetchIfNeeded().getUsername();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String name = user.getUsername();
                 String description = post.getDescription();
                 viewHolderPost.tvUser.setText(name);
                 viewHolderPost.tvDescription.setText(description);
@@ -124,6 +121,11 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Glide.with(context).load(imageUrl)
                         .apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop())
                         .into(viewHolderCheckIn.profileImage);
+                ParseGeoPoint point = attraction.getPoint();
+                String lat = Double.toString(point.getLatitude());
+                String lng = Double.toString(point.getLongitude());
+                String mapUrl = "http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=15&scale=1&size=200x200&maptype=roadmap&format=png&visual_refresh=true";
+                Glide.with(context).load(mapUrl).apply(RequestOptions.placeholderOf(R.drawable.background_gradient)).into(viewHolderCheckIn.ivMap);
         }
     }
 
@@ -160,6 +162,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             TextView location;
             @BindView(R.id.tvCheckInDesc)
             TextView description;
+            @BindView(R.id.ivMap) ImageView ivMap;
 
             public ViewHolderCheckIn(@NonNull View itemView) {
                 super(itemView);
@@ -176,4 +179,5 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return 1;
             } else return 0;
         }
+
     }

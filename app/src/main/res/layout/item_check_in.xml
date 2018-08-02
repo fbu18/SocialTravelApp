@@ -3,13 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="2dp"
+    android:background="@color/background_white"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/ivCheckInProfile"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignBottom="@+id/tvCheckInDesc"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
@@ -22,14 +24,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/ivCheckInProfile"
-        android:text="User" />
+        android:text="User"
+        android:textColor="@color/blue_5" />
 
     <TextView
         android:id="@+id/tvCheckInLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="11dp"
         android:layout_toEndOf="@+id/textView"
         android:text="location" />
 
@@ -46,7 +48,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="11dp"
         android:layout_toEndOf="@+id/tvCheckInUser"
-        android:text="Checked into" />
+        android:text=" checked into " />
+
+    <ImageView
+        android:id="@+id/ivMap"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvCheckInDesc"
+        app:srcCompat="@drawable/mark" />
 </RelativeLayout>
