@@ -12,35 +12,29 @@
         android:id="@+id/ivCheckInProfile"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginRight="5dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         app:srcCompat="@drawable/user_outline_24" />
 
     <TextView
         android:id="@+id/tvCheckInUser"
-        android:layout_marginLeft="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/ivCheckInProfile"
         android:text="User"
-        android:textColor="@color/blue_5" />
+        android:textColor="@color/blue_5"
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/tvCheckInLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/textView"
-        android:text="location" />
-
-    <TextView
-        android:id="@+id/tvCheckInDesc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvCheckInUser"
         android:layout_below="@+id/tvCheckInUser"
-        android:text="Description" />
+        android:layout_toEndOf="@+id/ivCheckInProfile"
+        android:text="location"
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/textView"
@@ -48,13 +42,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/tvCheckInUser"
-        android:text=" checked into " />
+        android:text=" checked into "
+        android:textSize="25sp" />
 
     <ImageView
         android:id="@+id/ivMap"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="400dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/ivCheckInProfile"
+        android:layout_below="@+id/tvCheckInLocation"
         app:srcCompat="@drawable/mark" />
 </RelativeLayout>

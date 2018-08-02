@@ -115,7 +115,6 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Attraction attraction = checkIn.getLocation();
                 String location = attraction.getName();
                 viewHolderCheckIn.username.setText(checkUsername);
-                viewHolderCheckIn.description.setText(checkDesc);
                 viewHolderCheckIn.location.setText(location);
                 Glide.with(context).load(imageUrl)
                         .apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop())
@@ -160,8 +159,6 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             TextView username;
             @BindView(R.id.tvCheckInLocation)
             TextView location;
-            @BindView(R.id.tvCheckInDesc)
-            TextView description;
             @BindView(R.id.ivMap) ImageView ivMap;
 
             public ViewHolderCheckIn(@NonNull View itemView) {
