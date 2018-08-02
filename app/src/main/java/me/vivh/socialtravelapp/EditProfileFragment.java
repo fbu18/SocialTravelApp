@@ -52,6 +52,7 @@ public class EditProfileFragment extends Fragment {
     ParseFile parseFile;
     private boolean tookPhoto;
     private EditProfileFragment.OnFragmentInteractionListener mListener;
+    ParseUser currentUser;
 
     private Unbinder unbinder;
     @BindView(R.id.btnCamera) Button cameraBtn;
@@ -79,6 +80,7 @@ public class EditProfileFragment extends Fragment {
 
         unbinder = ButterKnife.bind(this, rootView);
         tookPhoto = false;
+        currentUser = ParseUser.getCurrentUser();
 
         // load existing username and profile pic
         final ParseUser currentUser = ParseUser.getCurrentUser();
@@ -91,6 +93,8 @@ public class EditProfileFragment extends Fragment {
                 .apply(new RequestOptions().placeholder(R.drawable.user_outline_24))
                 .apply(RequestOptions.circleCropTransform())
                 .into(ivPreview);
+
+        setCurrentInfo();
 
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +151,13 @@ public class EditProfileFragment extends Fragment {
             }
         });
         return rootView;
+    }
+
+    public void setCurrentInfo(){
+        etUsername.setText(currentUser.getUsername());
+        etDisplayName.setText(currentUser.getString("displayName"));
+        etHomeLoc.setText(currentUser.getString("home"));
+        etBio.setText(currentUser.getString("bio"));
     }
 
     @Override
