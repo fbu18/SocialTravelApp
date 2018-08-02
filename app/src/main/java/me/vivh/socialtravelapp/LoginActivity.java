@@ -1,9 +1,8 @@
 package me.vivh.socialtravelapp;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -11,11 +10,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                 }else{
                     Log.d("LoginActivity", "Login failure.");
+                    e.printStackTrace();
                     Toast.makeText(LoginActivity.this, "Login failed.", Toast.LENGTH_LONG).show();
                 }
             }

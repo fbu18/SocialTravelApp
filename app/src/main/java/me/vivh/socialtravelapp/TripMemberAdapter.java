@@ -22,14 +22,13 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 public class TripMemberAdapter extends RecyclerView.Adapter<TripMemberAdapter.ViewHolder> {
 
     interface CallbackMember{
-        void openMemberDetail(@NonNull ParseUser user);
+        void openMemberProfile(@NonNull ParseUser user);
     }
 
     private TripMemberAdapter.CallbackMember inputCallback;
     private List<ParseUser> mMembers;
     private List<ParseUser> mMembersCheckedIn;
     Context context;
-    ParseUser user;
 
     public TripMemberAdapter(List<ParseUser> members, List<ParseUser> membersCheckedIn, TripMemberAdapter.CallbackMember callback) {
         mMembers = members;
@@ -46,21 +45,15 @@ public class TripMemberAdapter extends RecyclerView.Adapter<TripMemberAdapter.Vi
         View view = inflater.inflate(R.layout.item_trip_member, viewGroup, false);
         final ViewHolder viewHolder = new ViewHolder(view);
 
-        view.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                inputCallback.openMemberDetail(user);
-            }
-        });
 
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        ParseUser member = mMembers.get(i);
-
+        final ParseUser member = mMembers.get(i);
         viewHolder.tvUsername.setText(member.getUsername());
+        viewHolder.tvHomeLoc.setText("From: " + member.getString("home"));
 
         boolean isCheckedIn = false;
         for (ParseUser memberCheckedIn : mMembersCheckedIn){
@@ -78,8 +71,28 @@ public class TripMemberAdapter extends RecyclerView.Adapter<TripMemberAdapter.Vi
         Glide.with(context).load(profilePicUrl)
                 .apply(
                         RequestOptions.placeholderOf(R.drawable.ic_perm_identity_black_24dp)
-                                .transform(new RoundedCornersTransformation(25, 2)))
+                                .transform(new RoundedCornersTransformation(25, 2))
+                                .circleCrop())
                 .into(viewHolder.ivProfilePic);
+
+        viewHolder.tvUsername.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                inputCallback.openMemberProfile(member);
+            }
+        });
+        viewHolder.ivProfilePic.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                inputCallback.openMemberProfile(member);
+            }
+        });
+        viewHolder.tvHomeLoc.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                inputCallback.openMemberProfile(member);
+            }
+        });
     }
 
 

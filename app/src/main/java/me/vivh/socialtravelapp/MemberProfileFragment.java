@@ -1,21 +1,17 @@
 package me.vivh.socialtravelapp;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
@@ -32,13 +28,11 @@ import me.vivh.socialtravelapp.model.Trip;
 
 public class MemberProfileFragment extends Fragment {
 
-    @BindView(R.id.tvUserName)
-    TextView tvUsername;
+    @BindView(R.id.tvDisplayName) TextView tvDisplayName;
     @BindView(R.id.tvHomeLoc) TextView tvHomeLoc;
     @BindView(R.id.tvPoints) TextView tvPoints;
     @BindView(R.id.tvNumPastTrips) TextView tvNumPastTrips;
-    @BindView(R.id.ivProfilePic)
-    ImageView ivProfilePic;
+    @BindView(R.id.ivProfilePic) ImageView ivProfilePic;
     @BindView(R.id.tvUpcoming) TextView tvUpcoming;
     @BindView(R.id.tvBio) TextView tvBio;
 
@@ -151,7 +145,7 @@ public class MemberProfileFragment extends Fragment {
 
         try {
             tvPoints.setText(user.get("points").toString());
-            tvUsername.setText(user.getUsername());
+            tvDisplayName.setText(user.getString("displayName"));
             tvHomeLoc.setText(user.getString("home"));
             tvBio.setText(user.getString("bio"));
 

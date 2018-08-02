@@ -1,5 +1,6 @@
+<!--
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,45 +13,47 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="25dp"
+        android:layout_marginEnd="62dp"
         android:text="tvUserName"
         android:textSize="24sp" />
 
     <ImageView
-        android:id="@+id/ivProfilePIcPreview"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="-100dp"
-
+        android:id="@+id/ivProfilePicPreview"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_above="@+id/btnCamera"
+        android:layout_centerHorizontal="true"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/user_outline_24" />
 
     <Button
         android:id="@+id/btnCamera"
-        android:layout_width="215dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ivProfilePIcPreview"
+        android:layout_width="99dp"
+        android:layout_height="25dp"
+        android:layout_above="@+id/btnPost"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginTop="25dp"
+        android:layout_marginBottom="-193dp"
         android:background="@color/white"
         android:text="Take Photo"
         android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:textSize="12sp" />
 
     <Button
         android:id="@+id/btnPost"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_width="101dp"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="193dp"
         android:background="@drawable/background_gradient"
         android:text="Change Photo"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="12sp"
         android:textStyle="italic" />
 
     <ProgressBar
@@ -58,10 +61,257 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="-150dp"
         android:indeterminate="true"
         android:indeterminateDrawable="@xml/progress"
-        android:visibility="invisible"
-        android:layout_gravity="center"
-        android:layout_marginTop="-150dp" />
+        android:visibility="invisible" />
 
-</FrameLayout>
+</RelativeLayout>
+-->
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".EditProfileFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="tvUsername"
+                android:textSize="24sp" />
+
+            <ImageView
+                android:id="@+id/ivProfilePicPreview"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerCrop"
+                android:layout_below="@+id/tvUsername"
+                app:srcCompat="@drawable/user_outline_24" />
+
+            <Button
+                android:id="@+id/btnCamera"
+                android:layout_width="99dp"
+                android:layout_height="25dp"
+                android:layout_below="@+id/ivProfilePicPreview"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:text="Take Photo"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="101dp"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/relLayout4"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:background="@color/white"
+                android:text="Save Changes"
+                android:textSize="12sp"
+                android:textStyle="italic" />
+
+            <ProgressBar
+                android:id="@+id/pbLoading"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="-150dp"
+                android:indeterminate="true"
+                android:indeterminateDrawable="@xml/progress"
+                android:visibility="invisible" />
+
+
+            <!-- username section -->
+            <RelativeLayout
+                android:id="@+id/relLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/btnCamera"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/grey_border_bottom">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_username" />
+
+                <EditText
+                    android:id="@+id/etUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="40dp"
+                    android:background="@null"
+                    android:hint="Username"
+                    android:inputType="textNoSuggestions" />
+
+            </RelativeLayout>
+
+
+            <!-- display_name section -->
+            <RelativeLayout
+                android:id="@+id/relLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/relLayout1"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/grey_border_bottom">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_display_name" />
+
+                <EditText
+                    android:id="@+id/etDisplayName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="40dp"
+                    android:background="@null"
+                    android:hint="Display Name"
+                    android:inputType="textNoSuggestions" />
+
+            </RelativeLayout>
+
+
+            <!-- website section -->
+            <RelativeLayout
+                android:id="@+id/relLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/relLayout2"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/grey_border_bottom">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/home" />
+
+                <EditText
+                    android:id="@+id/etHomeLoc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="40dp"
+                    android:background="@null"
+                    android:hint="Where I'm From"
+                    android:inputType="textNoSuggestions" />
+
+            </RelativeLayout>
+
+
+            <!-- description section -->
+            <RelativeLayout
+                android:id="@+id/relLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/relLayout3"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/grey_border_bottom">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_description" />
+
+                <EditText
+                    android:id="@+id/etBio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="40dp"
+                    android:background="@null"
+                    android:hint="Bio"
+                    android:inputType="textNoSuggestions" />
+
+            </RelativeLayout>
+
+
+           <!-- &lt;!&ndash; email section &ndash;&gt;
+            <RelativeLayout
+                android:id="@+id/relLayout5"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/relLayout4"
+                android:layout_marginTop="150dp"
+                android:background="@drawable/grey_border_bottom">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_email_black_24dp" />
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="40dp"
+                    android:background="@null"
+                    android:hint="Email"
+                    android:inputType="textNoSuggestions" />
+
+            </RelativeLayout>
+
+            &lt;!&ndash; phone number section &ndash;&gt;
+            <RelativeLayout
+                android:id="@+id/relLayout6"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/relLayout5"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/grey_border_bottom">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_call_black_24dp" />
+
+                <EditText
+                    android:id="@+id/phoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="40dp"
+                    android:background="@null"
+                    android:hint="Phone Number"
+                    android:inputType="textNoSuggestions" />
+
+            </RelativeLayout>-->
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

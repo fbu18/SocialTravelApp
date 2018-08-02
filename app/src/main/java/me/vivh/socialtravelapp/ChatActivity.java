@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LiveQueryException;
+import com.parse.ParseACL;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseLiveQueryClient;
@@ -68,6 +69,10 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        currentUser.setACL(new ParseACL(currentUser));
+        currentUser.saveInBackground();
 
         setupMessagePosting();
 
@@ -137,8 +142,10 @@ public class ChatActivity extends AppCompatActivity {
         btSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String data = etMessage.getText().toString();
                 Message message = new Message();
+
                 message.setBody(data);
                 message.setUser(ParseUser.getCurrentUser());
                 message.setTrip(trip);
@@ -146,13 +153,18 @@ public class ChatActivity extends AppCompatActivity {
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        sendPushNotification();
-                        Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
-                                Toast.LENGTH_SHORT).show();
-                        refreshMessages();
+                        if (e == null){
+                            sendPushNotification();
+                            Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
+                                    Toast.LENGTH_SHORT).show();
+                            etMessage.setText(null);
+                            refreshMessages();
+                        }
+                        else{
+                            e.printStackTrace();
+                        }
                     }
                 });
-                etMessage.setText(null);
             }
         });
     }
@@ -218,14 +230,6 @@ public class ChatActivity extends AppCompatActivity {
                         rvChat.scrollToPosition(0);
                         mFirstLoad = false;
                     }
-                    /*for (int i = 0; i < messages.size(); ++i) {
-                        Message message = messages.get(i);
-                        mMessages.add(message);
-                        mAdapter.notifyItemInserted(mMessages.size() - 1);
-                        rvChat.scrollToPosition(0);
-                        Log.d("Messages", "a message has been loaded!");
-                        swipeContainer.setRefreshing(false);
-                    }*/
                 } else {
                     Log.e("message", "Error Loading Messages" + e);
                 }

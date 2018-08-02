@@ -121,9 +121,11 @@ public class TripDetailFragment extends Fragment {
                         if (!alreadyCheckedIn){
                             trip.setCheckIn(ParseUser.getCurrentUser());
                             alreadyCheckedIn = true;
+                            btnCheckIn.setText("Check out");
                         }
                         else {
                             trip.removeCheckIn(ParseUser.getCurrentUser());
+                            btnCheckIn.setText("Check in");
                             alreadyCheckedIn = false;
                             //Toast.makeText(getActivity(), "Already checked in!", Toast.LENGTH_LONG).show();
                         }

@@ -6,13 +6,13 @@
     tools:context=".MemberProfileFragment">
 
     <TextView
-        android:id="@+id/tvUserName"
+        android:id="@+id/tvDisplayName"
         android:layout_width="245dp"
         android:layout_height="wrap_content"
 
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/ivProfilePic"
-        android:text="tvUserName"
+        android:text="tvDisplayName"
         android:textAlignment="center"
         android:textColor="@color/black_70_transparent"
         android:textSize="24sp"
@@ -42,7 +42,7 @@
         android:layout_width="245dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/tvUserName"
+        android:layout_below="@+id/tvDisplayName"
         android:text="tvHomeLoc"
         android:textAlignment="center"
         android:textColor="@color/black_50_transparent"
