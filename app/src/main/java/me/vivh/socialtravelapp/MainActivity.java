@@ -303,7 +303,9 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
             modifyStack(PROFILE_INDEX);
         }else{
             ((MemberProfileFragment)fragments.get(MEMBER_PROFILE_INDEX)).setUser(user);
+
             viewPager.setCurrentItem(MEMBER_PROFILE_INDEX, false);
+            ((MemberProfileFragment)fragments.get(MEMBER_PROFILE_INDEX)).updateMemberInfo();
             modifyStack(MEMBER_PROFILE_INDEX);
         }
     }

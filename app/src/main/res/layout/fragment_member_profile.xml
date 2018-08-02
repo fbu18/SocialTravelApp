@@ -15,26 +15,40 @@
         android:text="tvDisplayName"
         android:textAlignment="center"
         android:textColor="@color/black_70_transparent"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnFollow"
+        android:layout_width="211dp"
+        android:layout_height="40dp"
+        android:layout_alignStart="@+id/pointsText"
+        android:layout_below="@+id/tvPoints"
+        android:backgroundTint="@color/blue_5"
+        android:text="Follow"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
 
     <ImageView
         android:id="@+id/ivProfilePic"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
+        android:layout_width="139dp"
+        android:layout_height="129dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="left"
         android:layout_marginLeft="5dp"
-        android:layout_marginVertical="10dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/user_outline_24" />
+
 
     <View
         android:id="@+id/profile_divider"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="2dip"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/btnEditProfile"
+        android:layout_below="@+id/tvBio"
+        android:layout_marginTop="5dp"
         android:background="@drawable/background_gradient" />
 
     <TextView
@@ -46,17 +60,17 @@
         android:text="tvHomeLoc"
         android:textAlignment="center"
         android:textColor="@color/black_50_transparent"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/pointsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvHomeLoc"
-        android:layout_toEndOf="@+id/ivProfilePic"
         android:layout_marginHorizontal="@dimen/pointsMargin"
+        android:layout_toEndOf="@+id/ivProfilePic"
         android:text="Points:"
-        android:textSize="17sp"
+        android:textSize="15sp"
         android:textStyle="bold" />
 
     <TextView
@@ -68,7 +82,7 @@
         android:layout_marginTop="@dimen/pointsMargin"
         android:text="0"
         android:textAlignment="center"
-        android:textSize="24sp" />
+        android:textSize="22sp" />
 
     <TextView
         android:id="@+id/pastTripsText"
@@ -78,7 +92,7 @@
         android:layout_marginHorizontal="@dimen/pointsMargin"
         android:layout_toEndOf="@+id/pointsText"
         android:text="Past: "
-        android:textSize="17sp"
+        android:textSize="15sp"
         android:textStyle="bold" />
 
     <TextView
@@ -90,7 +104,7 @@
         android:layout_marginTop="@dimen/pointsMargin"
         android:text="0"
         android:textAlignment="center"
-        android:textSize="24sp" />
+        android:textSize="22sp" />
 
     <TextView
         android:id="@+id/upcomingText"
@@ -101,7 +115,7 @@
         android:layout_toEndOf="@+id/pastTripsText"
         android:text="Future:"
         android:textAlignment="center"
-        android:textSize="17sp"
+        android:textSize="15sp"
         android:textStyle="bold" />
 
     <TextView
@@ -112,7 +126,8 @@
         android:layout_below="@+id/pointsText"
         android:layout_marginTop="@dimen/pointsMargin"
         android:text="0"
-        android:textSize="24sp" />
+        android:textSize="22sp" />
+
 
     <TextView
         android:id="@+id/tvBio"
@@ -120,21 +135,27 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/btnFollow"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
         android:text="TextView"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"
+        android:textColor="@color/black_70_transparent"
         android:textSize="16sp" />
 
-    <Button
-        android:id="@+id/btnFollow"
-        android:layout_width="189dp"
-        android:layout_height="22dp"
-        android:layout_alignStart="@+id/pointsText"
-        android:layout_alignEnd="@id/upcomingText"
-        android:layout_below="@id/tvPoints"
-        android:layout_marginTop="5dp"
-        android:background="@color/blue_5"
-        android:text="Follow"
-        android:textColor="@color/white" />
+    <TextView
+        android:id="@+id/recentlyVisitedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/profile_divider"
+        android:text="Recently visited:"
+        android:textSize="16sp" />
+
+    <ListView
+        android:id="@+id/lvPastTrips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/recentlyVisitedText" />
+
 
 </RelativeLayout>
