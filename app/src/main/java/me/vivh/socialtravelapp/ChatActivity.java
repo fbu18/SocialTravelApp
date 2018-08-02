@@ -69,7 +69,10 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         ParseUser currentUser = ParseUser.getCurrentUser();
-        currentUser.setACL(new ParseACL(currentUser));
+        ParseACL currentUserACL = new ParseACL();
+        currentUser.setACL(currentUserACL);
+        currentUserACL.setReadAccess(currentUser, true);
+        currentUserACL.setWriteAccess(currentUser, true);
         currentUser.saveInBackground();
 
         setupMessagePosting();
