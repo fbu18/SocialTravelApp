@@ -6,13 +6,13 @@
     tools:context=".MemberProfileFragment">
 
     <TextView
-        android:id="@+id/tvUserName"
+        android:id="@+id/tvDisplayName"
         android:layout_width="245dp"
         android:layout_height="wrap_content"
 
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/ivProfilePic"
-        android:text="tvUserName"
+        android:text="tvDisplayName"
         android:textAlignment="center"
         android:textColor="@color/black_70_transparent"
         android:textSize="24sp"
@@ -20,8 +20,8 @@
 
     <ImageView
         android:id="@+id/ivProfilePic"
-        android:layout_width="139dp"
-        android:layout_height="129dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="left"
@@ -42,7 +42,7 @@
         android:layout_width="245dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/tvUserName"
+        android:layout_below="@+id/tvDisplayName"
         android:text="tvHomeLoc"
         android:textAlignment="center"
         android:textColor="@color/black_50_transparent"
@@ -113,5 +113,28 @@
         android:layout_marginTop="@dimen/pointsMargin"
         android:text="0"
         android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/tvBio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnFollow"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="TextView"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btnFollow"
+        android:layout_width="189dp"
+        android:layout_height="22dp"
+        android:layout_alignStart="@+id/pointsText"
+        android:layout_alignEnd="@id/upcomingText"
+        android:layout_below="@id/tvPoints"
+        android:layout_marginTop="5dp"
+        android:background="@color/blue_5"
+        android:text="Follow"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

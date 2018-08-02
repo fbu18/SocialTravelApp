@@ -3,7 +3,6 @@ package me.vivh.socialtravelapp;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,15 +32,15 @@ import me.vivh.socialtravelapp.model.Trip;
 public class ProfileFragment extends Fragment {
 
     @BindView(R.id.btnLogOut) Button btnLogOut;
-    @BindView(R.id.tvUserName)
-    TextView tvUsername;
+    @BindView(R.id.tvDisplayName) TextView tvDisplayName;
     @BindView(R.id.tvHomeLoc) TextView tvHomeLoc;
     @BindView(R.id.tvPoints) TextView tvPoints;
     @BindView(R.id.tvNumPastTrips) TextView tvNumPastTrips;
     @BindView(R.id.ivProfilePic) ImageView ivProfilePic;
-    @BindView(R.id.btnEditProfile) Button editProfileBtn;
-    @BindView(R.id.btnLeaderboard) Button leaderboardBtn;
+    @BindView(R.id.btnEditProfile) TextView editProfileBtn;
+//    @BindView(R.id.btnLeaderboard) Button leaderboardBtn;
     @BindView(R.id.tvUpcoming) TextView tvUpcoming;
+    @BindView(R.id.tvBio) TextView tvBio;
 
     private ArrayList<Trip> pastTripArray;
 
@@ -92,35 +91,43 @@ public class ProfileFragment extends Fragment {
 
         currentUser = ParseUser.getCurrentUser();
 
-        tvUsername.setText(currentUser.getUsername());
-        tvHomeLoc.setText(currentUser.getString("home"));
-        tvPoints.setText(currentUser.getNumber("points").toString());
+        try {
+            tvDisplayName.setText(currentUser.getString("displayName"));
+            tvHomeLoc.setText(currentUser.getString("home"));
+            tvPoints.setText(currentUser.getNumber("points").toString());
+            tvBio.setText(currentUser.getString("bio"));
 
-        String profilePicUrl = "";
-        if (currentUser.getParseFile("profilePic") != null) {
-            profilePicUrl = currentUser.getParseFile("profilePic").getUrl();
+            String profilePicUrl = currentUser.getParseFile("profilePic").getUrl();
+            Glide.with(getContext()).load(profilePicUrl)
+                    .apply(
+                            RequestOptions.placeholderOf(R.drawable.ic_perm_identity_black_24dp)
+                                    .circleCrop())
+                    .into(ivProfilePic);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        Glide.with(getContext()).load(profilePicUrl)
-                .apply(
-                        RequestOptions.placeholderOf(R.drawable.ic_perm_identity_black_24dp)
-                                .circleCrop())
-                .into(ivProfilePic);
 
         editProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ViewPager vp= (ViewPager) getActivity().findViewById(R.id.viewPager);
-                vp.setCurrentItem(MainActivity.getEDIT_PROFILE_INDEX(), false);
+                mListener.openEditProfile();
             }
         });
 
-        leaderboardBtn.setOnClickListener(new View.OnClickListener() {
+        ivProfilePic.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                ViewPager vp= (ViewPager) getActivity().findViewById(R.id.viewPager);
-                vp.setCurrentItem(MainActivity.getLEADERBOARD_INDEX(), false);
+                mListener.openEditProfile();
             }
         });
+
+//        leaderboardBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                ViewPager vp= (ViewPager) getActivity().findViewById(R.id.viewPager);
+//                vp.setCurrentItem(MainActivity.getLEADERBOARD_INDEX(), false);
+//            }
+//        });
 
 
         return view;
@@ -168,7 +175,11 @@ public class ProfileFragment extends Fragment {
                     }
 
                 }else{
-                    Log.d("ProfileFragment", String.format("%s", objects.size()));
+                    try {
+                        Log.d("ProfileFragment", String.format("%s", objects.size()));
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
                 }
             }
         });
@@ -185,15 +196,30 @@ public class ProfileFragment extends Fragment {
             @Override
             public void done(List<Trip> objects, ParseException e) {
                 if(e == null){
-                    tvUpcoming.setText(String.format("%s", objects.size()));
+                    try {
+                        tvUpcoming.setText(String.format("%s", objects.size()));
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
                 }else{
-                    Log.d("ProfileFragment", String.format("%s", objects.size()));
+                    try {
+                        Log.d("ProfileFragment", String.format("%s", objects.size()));
+                    } catch (Exception e1) {
+
+                    }
                 }
             }
         });
     }
 
-    /**
+    @Override
+    public void onResume() {
+        super.onResume();
+        findUpcomingTrips();
+        findPastTrips();
+    }
+
+    /**e1.printStackTrace();
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
@@ -206,5 +232,6 @@ public class ProfileFragment extends Fragment {
     public interface OnFragmentInteractionListener {
 
         void logout();
+        void openEditProfile();
     }
 }

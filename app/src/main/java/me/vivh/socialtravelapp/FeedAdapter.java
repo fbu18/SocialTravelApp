@@ -21,7 +21,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.vivh.socialtravelapp.model.Attraction;
-import me.vivh.socialtravelapp.model.CheckInPost;
 import me.vivh.socialtravelapp.model.Post;
 
 /**
@@ -30,7 +29,6 @@ import me.vivh.socialtravelapp.model.Post;
 
 public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     List<Post> mPosts = new ArrayList<>();
-    List<CheckInPost> mCheckIns = new ArrayList<>();
     Context context;
 
     interface Callback{
@@ -80,17 +78,12 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
 
-        switch(getItemViewType(i)) {
+        switch(viewHolder.getItemViewType()) {
             case 0:
                 ViewHolderPost viewHolderPost = (ViewHolderPost) viewHolder;
                 Post post = (Post) mPosts.get(i);
                 ParseUser user = post.getUser();
-                String name = null;
-                try {
-                    name = user.fetchIfNeeded().getUsername();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                String name = user.getString("username");
                 String description = post.getDescription();
                 viewHolderPost.tvUser.setText(name);
                 viewHolderPost.tvDescription.setText(description);
@@ -106,23 +99,63 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 } else {
                     viewHolderPost.imageView.setVisibility(View.GONE);
                 }
+                return;
             case 1:
-                ViewHolderCheckIn viewHolderCheckIn = (ViewHolderCheckIn) viewHolder;
+                String imageUrl = null;
+                final ViewHolderCheckIn viewHolderCheckIn = (ViewHolderCheckIn) viewHolder;
                 Post checkIn = mPosts.get(i);
                 ParseUser checkUser = checkIn.getUser();
-                String imageUrl = (String) checkUser.get("profilePic");
+                try {
+                    ParseFile checkImage = (ParseFile) checkUser.fetchIfNeeded().getParseFile("profilePic");
+                    imageUrl = (String) checkImage.getUrl();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 String checkUsername = checkUser.getUsername();
                 String checkDesc = checkIn.getDescription();
-                String checkIndate = checkIn.getDate("date").toString();
+                String checkInDate = checkIn.getDate("date").toString();
                 Attraction attraction = checkIn.getLocation();
-                String location = attraction.getName();
+                String location = null;
+                location = attraction.getName();
                 viewHolderCheckIn.username.setText(checkUsername);
                 viewHolderCheckIn.description.setText(checkDesc);
                 viewHolderCheckIn.location.setText(location);
                 Glide.with(context).load(imageUrl)
                         .apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop())
                         .into(viewHolderCheckIn.profileImage);
+<<<<<<< Updated upstream
 
+    public void onBindViewHolder(@NonNull FeedAdapter.ViewHolder viewHolder, int i) {
+        Post post = (Post) mPosts.get(i);
+        ParseUser user = post.getUser();
+        String name = null;
+        try {
+            name = user.fetchIfNeeded().getUsername();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String description = post.getDescription();
+        viewHolder.tvUser.setText(name);
+        viewHolder.tvDescription.setText(description);
+        ParseFile profilePic = null;
+        try {
+            profilePic = (ParseFile) post.getParseUser("user").fetchIfNeeded().get("profilePic");
+            String profileUrl = (String) profilePic.getUrl();
+            String date = post.getDate("date").toString();
+            viewHolder.tvDate.setText(date);
+            Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop()).into(viewHolder.ivProfile);
+            if(post.getImage() != null) {
+                String url = post.getImage().getUrl();
+                Glide.with(context).load(url).apply(
+                        RequestOptions.placeholderOf(R.drawable.background_gradient)).into(viewHolder.imageView);
+            } else {
+                viewHolder.imageView.setVisibility(View.GONE);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+=======
+                return;
+>>>>>>> Stashed changes
         }
 
     }
@@ -160,9 +193,10 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public int getItemViewType(int position) {
         Post post = mPosts.get(position);
-        if (post.getType() == "post") {
+        String type = post.getType();
+        if (type.equals("post")) {
             return 0;
-        } else if (post.getType() == "checkin") {
+        } else if (type.equals("checkin")) {
             return 1;
         } else return 0;
     }

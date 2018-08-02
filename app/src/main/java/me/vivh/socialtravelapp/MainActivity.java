@@ -15,17 +15,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.parse.LogOutCallback;
-import com.parse.Parse;
-import com.parse.ParseCloud;
 import com.parse.ParseException;
-import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -39,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         AttractionAdapter.Callback, FeedFragment.OnFragmentInteractionListener,
         TripListFragment.OnFragmentInteractionListener, TripAdapter.Callback, TripMemberAdapter.CallbackMember,
         MapsFragment.OnFragmentInteractionListener,
-        ChatListAdapter.Callback, ChatListFragment.OnFragmentInteractionListener, FeedAdapter.Callback{
+        ChatListAdapter.Callback, ChatListFragment.OnFragmentInteractionListener, FeedAdapter.Callback, UserAdapter.Callback{
 
     public static final int FEED_INDEX = 0;
     public static final int EXPLORE_INDEX = 1;
@@ -53,8 +46,8 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     public static final int TRIP_BROWSE_INDEX = 9;
     public static final int EDIT_PROFILE_INDEX = 10;
     public static final int CHAT_LIST_INDEX = 11;
-    public static final int LEADERBOARD_INDEX = 12;
-    public static final int MEMBER_PROFILE_INDEX = 13;
+//    public static final int LEADERBOARD_INDEX = 12;
+    public static final int MEMBER_PROFILE_INDEX = 12;
 
     private final List<Fragment> fragments = new ArrayList<>();
     private BottomNavAdapter adapter;
@@ -79,8 +72,8 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         fragments.add(new TripBrowseFragment()); // index 9
         fragments.add(new EditProfileFragment()); // index 10
         fragments.add(new ChatListFragment()); // index 11
-        fragments.add(new LeaderboardFragment()); // index 12
-        fragments.add(new MemberProfileFragment()); //index 13
+//        fragments.add(new LeaderboardFragment()); // index 12
+        fragments.add(new MemberProfileFragment()); //index 12
 
         adapter = new BottomNavAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
@@ -211,10 +204,6 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     }
 
     @Override
-    public void openMemberDetail(@NonNull ParseUser user) {
-
-    }
-    @Override
     public void openTripBrowse(@NonNull Attraction attraction) {
         ((TripBrowseFragment) fragments.get(TRIP_BROWSE_INDEX)).attraction = attraction;
         viewPager.setCurrentItem(TRIP_BROWSE_INDEX, false);
@@ -230,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     @Override
     public void openChat(@NonNull Trip trip) {
         final Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-        intent.putExtra("trip",trip);
+        intent.putExtra("trip",trip.getObjectId());
         startActivity(intent);
     }
     @Override
@@ -279,9 +268,6 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         return EDIT_PROFILE_INDEX;
     }
 
-    public static int getLEADERBOARD_INDEX() {
-        return LEADERBOARD_INDEX;
-    }
 
     public static int getCHAT_LIST_INDEX() {
         return CHAT_LIST_INDEX;
@@ -296,6 +282,18 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
 
     @Override
     public void openMemberProfile(ParseUser user) {
-        viewPager.setCurrentItem(MEMBER_PROFILE_INDEX, false);
+        String userId = user.getObjectId();
+        String currentId = ParseUser.getCurrentUser().getObjectId();
+        if(userId.equals(currentId)){
+            viewPager.setCurrentItem(PROFILE_INDEX, false);
+        }else{
+            ((MemberProfileFragment)fragments.get(MEMBER_PROFILE_INDEX)).setUser(user);
+            viewPager.setCurrentItem(MEMBER_PROFILE_INDEX, false);
+        }
+    }
+
+    @Override
+    public void openEditProfile() {
+        viewPager.setCurrentItem(EDIT_PROFILE_INDEX, false);
     }
 }

@@ -34,11 +34,11 @@ public class Post extends ParseObject {
     }
 
     public String getType() {
-        return getString(KEY_TYPE);
+        return this.getString(KEY_TYPE);
     }
 
     public Attraction getLocation() {
-        return (Attraction) get(KEY_LOCATION);
+        return (Attraction) this.get(KEY_LOCATION);
     }
 
     public void setDescription(String description) {

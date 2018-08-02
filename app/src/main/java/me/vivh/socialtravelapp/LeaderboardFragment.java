@@ -1,5 +1,6 @@
 package me.vivh.socialtravelapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ public class LeaderboardFragment extends Fragment {
     private ArrayList<ParseUser> userList;
     private UserAdapter userAdapter;
     private ParseUser currentUser;
+    private UserAdapter.Callback callback;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class LeaderboardFragment extends Fragment {
         rvUsers = (RecyclerView) v.findViewById(R.id.rvLeaderboard);
         users = new ArrayList<>();
         userList = new ArrayList<>();
-        userAdapter = new UserAdapter(users, true);
+        userAdapter = new UserAdapter(users, true, callback);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvUsers.setLayoutManager(linearLayoutManager);
         // set the adapter
@@ -80,9 +82,13 @@ public class LeaderboardFragment extends Fragment {
             usersQuery.findInBackground(new FindCallback<ParseUser>() {
                 @Override
                 public void done(List<ParseUser> objects, ParseException e) {
-                    Log.d("relation", "Members" + objects.toString());
-                    userList.clear();
-                    userList.addAll(objects);
+                    try {
+                        Log.d("relation", "Members" + objects.toString());
+                        userList.clear();
+                        userList.addAll(objects);
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
                 }
             });
         }catch (Exception e){
@@ -91,5 +97,12 @@ public class LeaderboardFragment extends Fragment {
         return userList;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof UserAdapter.Callback){
+            callback = (UserAdapter.Callback) context;
+        }
+    }
 }
 
