@@ -12,14 +12,13 @@
         android:id="@+id/ivCheckInProfile"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_alignBottom="@+id/tvCheckInDesc"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="5dp"
         app:srcCompat="@drawable/user_outline_24" />
 
     <TextView
         android:id="@+id/tvCheckInUser"
+        android:layout_marginLeft="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -39,8 +38,8 @@
         android:id="@+id/tvCheckInDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvCheckInUser"
         android:layout_below="@+id/tvCheckInUser"
-        android:layout_toEndOf="@+id/ivCheckInProfile"
         android:text="Description" />
 
     <TextView
@@ -56,6 +55,6 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvCheckInDesc"
+        android:layout_below="@+id/ivCheckInProfile"
         app:srcCompat="@drawable/mark" />
 </RelativeLayout>

@@ -91,7 +91,6 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolderPost.tvDescription.setText(description);
                 ParseFile profilePic = (ParseFile) post.getParseUser("user").getParseFile("profilePic");
                 String profileUrl = (String) profilePic.getUrl();
-
                 String date = post.getDate("date").toString();
                 viewHolderPost.tvDate.setText(date);
                 Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop()).into(viewHolderPost.ivProfile);
@@ -124,6 +123,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ParseGeoPoint point = attraction.getPoint();
                 String lat = Double.toString(point.getLatitude());
                 String lng = Double.toString(point.getLongitude());
+                // Use Google Static Maps API to get an image of the map surrounding the attraction
                 String mapUrl = "http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=15&scale=1&size=200x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C" + lat + "," + lng;
                 Glide.with(context).load(mapUrl).apply(RequestOptions.placeholderOf(R.drawable.background_gradient)).into(viewHolderCheckIn.ivMap);
         }
