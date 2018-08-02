@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -24,6 +26,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.vivh.socialtravelapp.model.Attraction;
 import me.vivh.socialtravelapp.model.Trip;
 
 public class MemberProfileFragment extends Fragment {
@@ -35,7 +38,7 @@ public class MemberProfileFragment extends Fragment {
     @BindView(R.id.ivProfilePic) ImageView ivProfilePic;
     @BindView(R.id.tvUpcoming) TextView tvUpcoming;
     @BindView(R.id.tvBio) TextView tvBio;
-
+    @BindView(R.id.lvPastTrips) ListView lvPastTrips;
 
     private Unbinder unbinder;
 
@@ -44,7 +47,8 @@ public class MemberProfileFragment extends Fragment {
     Calendar cal = new GregorianCalendar();
     Date today;
 
-    private ArrayList<Trip> pastTripArray;
+    private ArrayList<String> pastTripArray = new ArrayList<>();
+    private ArrayAdapter<String> adapter;
 
 
     public MemberProfileFragment() {
@@ -71,6 +75,11 @@ public class MemberProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_member_profile, container, false);
         unbinder = ButterKnife.bind(this, view);
+
+        adapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_list_item_1, android.R.id.text1, pastTripArray);
+
+        lvPastTrips.setAdapter(adapter);
 
         updateMemberInfo();
 
@@ -99,7 +108,12 @@ public class MemberProfileFragment extends Fragment {
                     try{
                         tvNumPastTrips.setText(String.format("%s", objects.size()));
                         pastTripArray.clear();
-                        pastTripArray.addAll(objects);
+                        int max = Math.min(3, objects.size());
+                        for(int i = 0; i < max; i++){
+                            Attraction attraction = objects.get(i).getAttraction();
+                            String name = attraction.fetchIfNeeded().getString("name");
+                            pastTripArray.add(name);
+                        }
                     }catch(Exception d){
                         d.printStackTrace();
                     }
@@ -159,8 +173,10 @@ public class MemberProfileFragment extends Fragment {
             e.printStackTrace();
         }
 
-        findUpcomingTrips();
         findPastTrips();
+        findUpcomingTrips();
+
+        adapter.notifyDataSetChanged();
     }
 
 }
