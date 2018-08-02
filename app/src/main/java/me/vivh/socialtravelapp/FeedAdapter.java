@@ -27,17 +27,17 @@ import me.vivh.socialtravelapp.model.Post;
  * Created by dmindlin on 7/26/18.
  */
 
-public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     List<Post> mPosts = new ArrayList<>();
     Context context;
 
-    interface Callback{
+    interface Callback {
         void openMemberProfile(ParseUser user);
     }
 
     private Callback callback;
 
-    public FeedAdapter(List<Post> posts, Callback inputCallback){
+    public FeedAdapter(List<Post> posts, Callback inputCallback) {
         mPosts = posts;
         callback = inputCallback;
     }
@@ -58,7 +58,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     }
                 });
 
-                viewHolder.tvUser.setOnClickListener(new View.OnClickListener(){
+                viewHolder.tvUser.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         callback.openMemberProfile(mPosts.get(viewHolder.getAdapterPosition()).getUser());
@@ -78,7 +78,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
 
-        switch(viewHolder.getItemViewType()) {
+        switch (viewHolder.getItemViewType()) {
             case 0:
                 ViewHolderPost viewHolderPost = (ViewHolderPost) viewHolder;
                 Post post = (Post) mPosts.get(i);
@@ -92,7 +92,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 String date = post.getDate("date").toString();
                 viewHolderPost.tvDate.setText(date);
                 Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop()).into(viewHolderPost.ivProfile);
-                if(post.getImage() != null) {
+                if (post.getImage() != null) {
                     String url = post.getImage().getUrl();
                     Glide.with(context).load(url).apply(
                             RequestOptions.placeholderOf(R.drawable.background_gradient)).into(viewHolderPost.imageView);
@@ -123,81 +123,56 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 Glide.with(context).load(imageUrl)
                         .apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop())
                         .into(viewHolderCheckIn.profileImage);
-<<<<<<< Updated upstream
-
-    public void onBindViewHolder(@NonNull FeedAdapter.ViewHolder viewHolder, int i) {
-        Post post = (Post) mPosts.get(i);
-        ParseUser user = post.getUser();
-        String name = null;
-        try {
-            name = user.fetchIfNeeded().getUsername();
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
-        String description = post.getDescription();
-        viewHolder.tvUser.setText(name);
-        viewHolder.tvDescription.setText(description);
-        ParseFile profilePic = null;
-        try {
-            profilePic = (ParseFile) post.getParseUser("user").fetchIfNeeded().get("profilePic");
-            String profileUrl = (String) profilePic.getUrl();
-            String date = post.getDate("date").toString();
-            viewHolder.tvDate.setText(date);
-            Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop()).into(viewHolder.ivProfile);
-            if(post.getImage() != null) {
-                String url = post.getImage().getUrl();
-                Glide.with(context).load(url).apply(
-                        RequestOptions.placeholderOf(R.drawable.background_gradient)).into(viewHolder.imageView);
-            } else {
-                viewHolder.imageView.setVisibility(View.GONE);
+    }
+
+        @Override
+        public int getItemCount () {
+            return mPosts.size();
+        }
+
+
+        public class ViewHolderPost extends RecyclerView.ViewHolder {
+            @BindView(R.id.ivPostImage)
+            ImageView imageView;
+            @BindView(R.id.tvPostUsername)
+            TextView tvUser;
+            @BindView(R.id.tvPostDescription)
+            TextView tvDescription;
+            @BindView(R.id.ivPostProfile)
+            ImageView ivProfile;
+            @BindView(R.id.tvPostDate)
+            TextView tvDate;
+
+            public ViewHolderPost(View itemView) {
+                super(itemView);
+                ButterKnife.bind(this, itemView);
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
-=======
-                return;
->>>>>>> Stashed changes
         }
 
-    }
+        public class ViewHolderCheckIn extends RecyclerView.ViewHolder {
+            @BindView(R.id.ivCheckInProfile)
+            ImageView profileImage;
+            @BindView(R.id.tvCheckInUser)
+            TextView username;
+            @BindView(R.id.tvCheckInLocation)
+            TextView location;
+            @BindView(R.id.tvCheckInDesc)
+            TextView description;
 
-    @Override
-    public int getItemCount() {
-        return mPosts.size();
-    }
-
-
-    public class ViewHolderPost extends RecyclerView.ViewHolder {
-        @BindView(R.id.ivPostImage) ImageView imageView;
-        @BindView(R.id.tvPostUsername) TextView tvUser;
-        @BindView(R.id.tvPostDescription) TextView tvDescription;
-        @BindView(R.id.ivPostProfile) ImageView ivProfile;
-        @BindView(R.id.tvPostDate) TextView tvDate;
-
-        public ViewHolderPost(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+            public ViewHolderCheckIn(@NonNull View itemView) {
+                super(itemView);
+                ButterKnife.bind(this, itemView);
+            }
+        }
+        @Override
+        public int getItemViewType ( int position){
+            Post post = mPosts.get(position);
+            String type = post.getType();
+            if (type.equals("post")) {
+                return 0;
+            } else if (type.equals("checkin")) {
+                return 1;
+            } else return 0;
         }
     }
-
-    public class ViewHolderCheckIn extends RecyclerView.ViewHolder {
-        @BindView(R.id.ivCheckInProfile) ImageView profileImage;
-        @BindView(R.id.tvCheckInUser) TextView username;
-        @BindView(R.id.tvCheckInLocation) TextView location;
-        @BindView(R.id.tvCheckInDesc) TextView description;
-
-        public ViewHolderCheckIn(@NonNull View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-    }
-    @Override
-    public int getItemViewType(int position) {
-        Post post = mPosts.get(position);
-        String type = post.getType();
-        if (type.equals("post")) {
-            return 0;
-        } else if (type.equals("checkin")) {
-            return 1;
-        } else return 0;
-    }
-}
