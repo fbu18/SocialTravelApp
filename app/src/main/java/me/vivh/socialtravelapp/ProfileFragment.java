@@ -175,7 +175,11 @@ public class ProfileFragment extends Fragment {
                     }
 
                 }else{
-                    Log.d("ProfileFragment", String.format("%s", objects.size()));
+                    try {
+                        Log.d("ProfileFragment", String.format("%s", objects.size()));
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
                 }
             }
         });
@@ -198,7 +202,11 @@ public class ProfileFragment extends Fragment {
                         e1.printStackTrace();
                     }
                 }else{
-                    Log.d("ProfileFragment", String.format("%s", objects.size()));
+                    try {
+                        Log.d("ProfileFragment", String.format("%s", objects.size()));
+                    } catch (Exception e1) {
+
+                    }
                 }
             }
         });
@@ -211,7 +219,7 @@ public class ProfileFragment extends Fragment {
         findPastTrips();
     }
 
-    /**
+    /**e1.printStackTrace();
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that

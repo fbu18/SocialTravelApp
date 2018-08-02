@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -19,19 +20,48 @@ public class CustomReceiver extends BroadcastReceiver {
     private static final String TAG = "CustomReceiver";
     public static final String intentAction = "com.parse.push.intent.RECEIVE";
 
+
     @Override
     public void onReceive(Context context, Intent intent) {
-            createNotification(context, R.drawable.ic_sms_black_24dp, "SocialTravelApp", "New Message");
+//        Log.d("Receiver", intent.toString());
+//        String tripObjectId = intent.getStringExtra("trip");
+//        createNotification(context, R.drawable.ic_sms_black_24dp, "SocialTravelApp", "New Message", tripObjectId);
+        processPush(context, intent);
+    }
+
+    private void processPush(Context context, Intent intent) {
+        String action = intent.getAction();
+        if (action.equals(intentAction)) {
+            String channel = intent.getExtras().getString("com.parse.Channel");
+            try {
+                JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
+                Log.d(TAG, "got action " + action + " on channel " + channel + " with:");
+                // Iterate the parse keys if needed
+                Iterator<String> itr = json.keys();
+                while (itr.hasNext()) {
+                    String key = (String) itr.next();
+                    String value = json.getString(key);
+                    // Extract custom push data
+                    if (key.equals("customData")) {
+                        // create a local notification
+                        createNotification(context, R.drawable.ic_sms_black_24dp, "SocialTravelApp", "New Message",value);
+                    }
+                }
+            } catch (JSONException ex) {
+                Log.d(TAG, "JSON failed!");
+            }
+        }
     }
 
     public static final int NOTIFICATION_ID = 45;
     public static final String CHANNEL_ID = "my_channel_01";
     // Create a local dashboard notification to tell user about the event
-    private void createNotification(Context context, int iconRes, String title, String body) {
+    private void createNotification(Context context, int iconRes, String title, String body, String objectId) {
         // Create an explicit intent for MainActivity of app
         Intent intent = new Intent(context, ChatActivity.class);
+        intent.putExtra("tripId", objectId);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
                 context).setSmallIcon(iconRes)

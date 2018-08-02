@@ -1,5 +1,6 @@
 package me.vivh.socialtravelapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.LiveQueryException;
 import com.parse.ParseACL;
 import com.parse.ParseCloud;
@@ -63,7 +65,6 @@ public class ChatActivity extends AppCompatActivity {
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,28 +76,49 @@ public class ChatActivity extends AppCompatActivity {
 
         setupMessagePosting();
 
-        trip = getIntent().getParcelableExtra("trip");
-        queryMembers();
+//        trip = getIntent().getParcelableExtra("trip");
+        String tripId = "";
 
-        parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
-        subscribeToMessages();
+        try{
+            tripId = getIntent().getExtras().getString("tripId");
+            Log.d("ChatActivity", tripId);
+            if(!tripId.isEmpty()){
+                final Trip.Query tripQuery = new Trip.Query();
+                tripQuery.whereEqualTo("objectId", tripId);
+                tripQuery.findInBackground(new FindCallback<Trip>(){
 
-        // Lookup the swipe container view
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-        // Setup refresh listener which triggers new data loading
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshMessages();
+                    @Override
+                    public void done(List<Trip> objects, ParseException e) {
+                        trip = objects.get(0);
+                        queryMembers();
+
+                        parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
+                        subscribeToMessages();
+
+                        // Lookup the swipe container view
+                        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+                        // Setup refresh listener which triggers new data loading
+                        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                            @Override
+                            public void onRefresh() {
+                                refreshMessages();
+                            }
+                        });
+                        // Configure the refreshing colors
+                        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                                android.R.color.holo_green_light,
+                                android.R.color.holo_orange_light,
+                                android.R.color.holo_red_light);
+
+                        refreshMessages();
+                    }
+                });
             }
-        });
-        // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+        }catch (Exception e){
+            Log.d("ChatActivity", "No Intent");
+        }
 
-        refreshMessages();
+
         //TODO- be able to remove this
         //myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
     }
@@ -104,6 +126,7 @@ public class ChatActivity extends AppCompatActivity {
 
     // Setup button event handler which posts the entered message to Parse
     private void setupMessagePosting() {
+
         // Find the text field and button
         etMessage = (EditText) findViewById(R.id.etMessage);
         btSend = (Button) findViewById(R.id.btSend);
@@ -175,7 +198,7 @@ public class ChatActivity extends AppCompatActivity {
                 HashMap<String, String> payload = new HashMap<>();
 
                 payload.put("receiver", otherUser);
-                payload.put("customData", "New Message");
+                payload.put("customData", trip.getObjectId());
                 ParseCloud.callFunctionInBackground("pushNewMessage", payload);
             }
         }

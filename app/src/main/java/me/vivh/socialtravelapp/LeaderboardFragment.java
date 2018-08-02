@@ -82,9 +82,13 @@ public class LeaderboardFragment extends Fragment {
             usersQuery.findInBackground(new FindCallback<ParseUser>() {
                 @Override
                 public void done(List<ParseUser> objects, ParseException e) {
-                    Log.d("relation", "Members" + objects.toString());
-                    userList.clear();
-                    userList.addAll(objects);
+                    try {
+                        Log.d("relation", "Members" + objects.toString());
+                        userList.clear();
+                        userList.addAll(objects);
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
                 }
             });
         }catch (Exception e){
