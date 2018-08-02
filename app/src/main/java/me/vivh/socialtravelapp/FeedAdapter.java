@@ -83,12 +83,18 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ViewHolderPost viewHolderPost = (ViewHolderPost) viewHolder;
                 Post post = (Post) mPosts.get(i);
                 ParseUser user = post.getUser();
-                String name = user.getString("username");
+                String name = null;
+                try {
+                    name = user.fetchIfNeeded().getUsername();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 String description = post.getDescription();
                 viewHolderPost.tvUser.setText(name);
                 viewHolderPost.tvDescription.setText(description);
-                ParseFile profilePic = (ParseFile) post.getParseUser("user").get("profilePic");
+                ParseFile profilePic = (ParseFile) post.getParseUser("user").getParseFile("profilePic");
                 String profileUrl = (String) profilePic.getUrl();
+
                 String date = post.getDate("date").toString();
                 viewHolderPost.tvDate.setText(date);
                 Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop()).into(viewHolderPost.ivProfile);
@@ -105,18 +111,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 final ViewHolderCheckIn viewHolderCheckIn = (ViewHolderCheckIn) viewHolder;
                 Post checkIn = mPosts.get(i);
                 ParseUser checkUser = checkIn.getUser();
-                try {
-                    ParseFile checkImage = (ParseFile) checkUser.fetchIfNeeded().getParseFile("profilePic");
-                    imageUrl = (String) checkImage.getUrl();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                ParseFile checkImage = (ParseFile) checkUser.getParseFile("profilePic");
+                imageUrl = (String) checkImage.getUrl();
                 String checkUsername = checkUser.getUsername();
                 String checkDesc = checkIn.getDescription();
                 String checkInDate = checkIn.getDate("date").toString();
                 Attraction attraction = checkIn.getLocation();
-                String location = null;
-                location = attraction.getName();
+                String location = attraction.getName();
                 viewHolderCheckIn.username.setText(checkUsername);
                 viewHolderCheckIn.description.setText(checkDesc);
                 viewHolderCheckIn.location.setText(location);

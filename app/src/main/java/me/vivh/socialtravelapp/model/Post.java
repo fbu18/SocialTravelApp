@@ -63,5 +63,15 @@ public class Post extends ParseObject {
             return this;
         }
 
+        public Query withUser() {
+            include(KEY_USER);
+            return this;
+        }
+
+        public Query withAttraction() {
+            include(KEY_LOCATION);
+            return this;
+        }
+
     }
 }
