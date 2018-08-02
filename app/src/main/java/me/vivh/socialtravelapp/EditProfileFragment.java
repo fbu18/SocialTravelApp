@@ -1,5 +1,6 @@
 package me.vivh.socialtravelapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -50,6 +51,7 @@ public class EditProfileFragment extends Fragment {
     File photoFile;
     ParseFile parseFile;
     private boolean tookPhoto;
+    private EditProfileFragment.OnFragmentInteractionListener mListener;
 
     private Unbinder unbinder;
     @BindView(R.id.btnCamera) Button cameraBtn;
@@ -61,7 +63,11 @@ public class EditProfileFragment extends Fragment {
     @BindView(R.id.etDisplayName) EditText etDisplayName;
     @BindView(R.id.etHomeLoc) EditText etHomeLoc;
     @BindView(R.id.etBio) EditText etBio;
+    @BindView(R.id.btnBack) Button backBtn;
 
+    public interface OnFragmentInteractionListener {
+        void onBackPressed();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,6 +100,13 @@ public class EditProfileFragment extends Fragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onBackPressed();
             }
         });
 
@@ -135,6 +148,29 @@ public class EditProfileFragment extends Fragment {
         });
         return rootView;
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof EditProfileFragment.OnFragmentInteractionListener) {
+            mListener = (EditProfileFragment.OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
 
     public void onLaunchCamera(View view) throws IOException {
         // create Intent to take a picture and return control to the calling application
