@@ -1,6 +1,5 @@
 package me.vivh.socialtravelapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,7 +13,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.LiveQueryException;
 import com.parse.ParseACL;
 import com.parse.ParseCloud;
@@ -76,10 +74,17 @@ public class ChatActivity extends AppCompatActivity {
 
         setupMessagePosting();
 
-//        trip = getIntent().getParcelableExtra("trip");
-        String tripId = "";
+/*
+        try {
+            trip = getIntent().getParcelableExtra("trip");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+*/
 
         try{
+            String tripId = "";
             tripId = getIntent().getExtras().getString("tripId");
             Log.d("ChatActivity", tripId);
             if(!tripId.isEmpty()){
@@ -91,7 +96,6 @@ public class ChatActivity extends AppCompatActivity {
                     public void done(List<Trip> objects, ParseException e) {
                         trip = objects.get(0);
                         queryMembers();
-
                         parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
                         subscribeToMessages();
 

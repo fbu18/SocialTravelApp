@@ -81,7 +81,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -100,10 +102,10 @@
                 android:id="@+id/ivProfilePicPreview"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
+                android:layout_below="@+id/tvUsername"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:scaleType="centerCrop"
-                android:layout_below="@+id/tvUsername"
                 app:srcCompat="@drawable/user_outline_24" />
 
             <Button
@@ -255,63 +257,16 @@
 
             </RelativeLayout>
 
-
-           <!-- &lt;!&ndash; email section &ndash;&gt;
-            <RelativeLayout
-                android:id="@+id/relLayout5"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_below="@+id/relLayout4"
-                android:layout_marginTop="150dp"
-                android:background="@drawable/grey_border_bottom">
-
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_email_black_24dp" />
-
-                <EditText
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="40dp"
-                    android:background="@null"
-                    android:hint="Email"
-                    android:inputType="textNoSuggestions" />
-
-            </RelativeLayout>
-
-            &lt;!&ndash; phone number section &ndash;&gt;
-            <RelativeLayout
-                android:id="@+id/relLayout6"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_below="@+id/relLayout5"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/grey_border_bottom">
-
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_call_black_24dp" />
-
-                <EditText
-                    android:id="@+id/phoneNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="40dp"
-                    android:background="@null"
-                    android:hint="Phone Number"
-                    android:inputType="textNoSuggestions" />
-
-            </RelativeLayout>-->
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="71dp"
+                android:layout_height="35dp"
+                android:background="@color/white"
+                android:text="Back" />
 
         </RelativeLayout>
 
     </ScrollView>
+
 
 </RelativeLayout>

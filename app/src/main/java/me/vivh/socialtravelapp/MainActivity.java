@@ -20,6 +20,7 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +33,8 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         AttractionAdapter.Callback, FeedFragment.OnFragmentInteractionListener,
         TripListFragment.OnFragmentInteractionListener, TripAdapter.Callback, TripMemberAdapter.CallbackMember,
         MapsFragment.OnFragmentInteractionListener,
-        ChatListAdapter.Callback, ChatListFragment.OnFragmentInteractionListener, FeedAdapter.Callback, UserAdapter.Callback{
+        ChatListAdapter.Callback, ChatListFragment.OnFragmentInteractionListener,
+        FeedAdapter.Callback, UserAdapter.Callback, EditProfileFragment.OnFragmentInteractionListener{
 
     public static final int FEED_INDEX = 0;
     public static final int EXPLORE_INDEX = 1;
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     public static final int MEMBER_PROFILE_INDEX = 12;
 
     private final List<Fragment> fragments = new ArrayList<>();
+    private Stack<Integer> stackkk = new Stack<>();
+    private int itemPosition = 0;
     private BottomNavAdapter adapter;
 
     @BindView(R.id.bottom_navigation) BottomNavigationView bottomNavigationView;
@@ -113,18 +117,23 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                //stackkk.push(FEED_INDEX);
                 switch(item.getItemId()){
                     case R.id.action_feed:
                         viewPager.setCurrentItem(FEED_INDEX, false);
+                        modifyStack(FEED_INDEX);
                         return true;
                     case R.id.action_explore:
                         viewPager.setCurrentItem(EXPLORE_INDEX, false);
+                        modifyStack(EXPLORE_INDEX);
                         return true;
                     case R.id.action_trips:
                         viewPager.setCurrentItem(TRIP_LIST_INDEX, false);
+                        modifyStack(TRIP_LIST_INDEX);
                         return true;
                     case R.id.action_profile:
                         viewPager.setCurrentItem(PROFILE_INDEX, false);
+                        modifyStack(PROFILE_INDEX);
                         return true;
                     default:
                         return false;
@@ -184,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     public void openTripDetail(@NonNull Trip trip) {
         ((TripDetailFragment)fragments.get(TRIP_DETAIL_INDEX)).setTrip(trip);
         viewPager.setCurrentItem(TRIP_DETAIL_INDEX, false);
+        modifyStack(TRIP_DETAIL_INDEX);
     }
 
     @Override
@@ -201,6 +211,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     public void openAttractionDetails(@NonNull Attraction attraction) {
         ((AttractionDetailsFragment)fragments.get(ATTRACTION_DETAILS_INDEX)).attraction = attraction;
         viewPager.setCurrentItem(ATTRACTION_DETAILS_INDEX, false);
+        modifyStack(ATTRACTION_DETAILS_INDEX);
     }
 
     @Override
@@ -210,6 +221,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         ((TripBrowseFragment) fragments.get(TRIP_BROWSE_INDEX)).setAttraction(attraction);
         ((TripBrowseFragment) fragments.get(TRIP_BROWSE_INDEX)).loadTopTrips();
         viewPager.setCurrentItem(TRIP_BROWSE_INDEX);
+        modifyStack(TRIP_BROWSE_INDEX);
     }
 
     public static int getFEED_INDEX() {
@@ -219,12 +231,13 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     @Override
     public void openChat(@NonNull Trip trip) {
         final Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-        intent.putExtra("trip",trip.getObjectId());
+        intent.putExtra("tripId",trip.getObjectId());
         startActivity(intent);
     }
     @Override
     public void openSuggestion() {
         viewPager.setCurrentItem(SUGGESTIONS_INDEX);
+        modifyStack(SUGGESTIONS_INDEX);
     }
 
 
@@ -286,14 +299,40 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         String currentId = ParseUser.getCurrentUser().getObjectId();
         if(userId.equals(currentId)){
             viewPager.setCurrentItem(PROFILE_INDEX, false);
+            modifyStack(PROFILE_INDEX);
         }else{
             ((MemberProfileFragment)fragments.get(MEMBER_PROFILE_INDEX)).setUser(user);
             viewPager.setCurrentItem(MEMBER_PROFILE_INDEX, false);
+            modifyStack(MEMBER_PROFILE_INDEX);
         }
     }
 
     @Override
     public void openEditProfile() {
         viewPager.setCurrentItem(EDIT_PROFILE_INDEX, false);
+        modifyStack(EDIT_PROFILE_INDEX);
     }
+
+    // build stack for back button flow
+    public void modifyStack(int index) {
+        if (stackkk.empty())
+            stackkk.push(index);
+        else if (stackkk.contains(index)) {
+            stackkk.remove(stackkk.indexOf(index));
+            stackkk.push(index);
+        } else {
+            stackkk.push(index);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (stackkk.size() > 1) {
+            stackkk.pop();
+            viewPager.setCurrentItem(stackkk.lastElement(),false);
+        } else {
+            viewPager.setCurrentItem(FEED_INDEX,false);
+        }
+    }
+
 }
