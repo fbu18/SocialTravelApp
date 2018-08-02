@@ -114,6 +114,8 @@ public class MemberProfileFragment extends Fragment {
                             String name = attraction.fetchIfNeeded().getString("name");
                             pastTripArray.add(name);
                         }
+
+                        adapter.notifyDataSetChanged();
                     }catch(Exception d){
                         d.printStackTrace();
                     }
@@ -136,7 +138,11 @@ public class MemberProfileFragment extends Fragment {
             @Override
             public void done(List<Trip> objects, ParseException e) {
                 if(e == null){
-                    tvUpcoming.setText(String.format("%s", objects.size()));
+                    try {
+                        tvUpcoming.setText(String.format("%s", objects.size()));
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
                 }else{
                     Log.d("ProfileFragment", String.format("%s", objects.size()));
                 }
@@ -175,8 +181,6 @@ public class MemberProfileFragment extends Fragment {
 
         findPastTrips();
         findUpcomingTrips();
-
-        adapter.notifyDataSetChanged();
     }
 
 }
