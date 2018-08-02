@@ -70,9 +70,9 @@ public class ChatActivity extends AppCompatActivity {
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         ParseACL currentUserACL = new ParseACL();
+        currentUserACL.setPublicReadAccess(true);
+        currentUserACL.setPublicWriteAccess(true);
         currentUser.setACL(currentUserACL);
-        currentUserACL.setReadAccess(currentUser, true);
-        currentUserACL.setWriteAccess(currentUser, true);
         currentUser.saveInBackground();
 
         setupMessagePosting();
