@@ -71,8 +71,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 final ViewHolderOther viewHolderOther = (ViewHolderOther) holder;
                 viewHolderOther.mInfoOther.setText(message.getTimestamp());
                 viewHolderOther.mMessageOther.setText(message.getBody());
-                displayProfilePicture(message, viewHolderOther.mProfilePic);
-                displayProfilePicture(message, viewHolderOther.mProfilePic);
+                try { displayProfilePicture(message, viewHolderOther.mProfilePic);
+                    displayProfilePicture(message, viewHolderOther.mProfilePic); }
+                catch (Exception e) {e.printStackTrace();}
                 if (message.getImage() != null) {
                     viewHolderOther.mChatImageOther.setVisibility(View.VISIBLE);
                     displayChatImage(message, viewHolderOther.mChatImageOther);
