@@ -230,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     @Override
     public void openChat(@NonNull Trip trip) {
         final Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-        intent.putExtra("trip",trip);
+        intent.putExtra("trip",trip.getObjectId());
         startActivity(intent);
     }
     @Override

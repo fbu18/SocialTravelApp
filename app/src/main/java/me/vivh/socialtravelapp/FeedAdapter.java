@@ -84,18 +84,24 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
         String description = post.getDescription();
         viewHolder.tvUser.setText(name);
         viewHolder.tvDescription.setText(description);
-        ParseFile profilePic = (ParseFile) post.getParseUser("user").get("profilePic");
-        String profileUrl = (String) profilePic.getUrl();
-        String date = post.getDate("date").toString();
-        viewHolder.tvDate.setText(date);
-        Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop()).into(viewHolder.ivProfile);
-        if(post.getImage() != null) {
-            String url = post.getImage().getUrl();
-            Glide.with(context).load(url).apply(
-                    RequestOptions.placeholderOf(R.drawable.background_gradient)).into(viewHolder.imageView);
-        } else {
-            viewHolder.imageView.setVisibility(View.GONE);
+        ParseFile profilePic = null;
+        try {
+            profilePic = (ParseFile) post.getParseUser("user").fetchIfNeeded().get("profilePic");
+            String profileUrl = (String) profilePic.getUrl();
+            String date = post.getDate("date").toString();
+            viewHolder.tvDate.setText(date);
+            Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop()).into(viewHolder.ivProfile);
+            if(post.getImage() != null) {
+                String url = post.getImage().getUrl();
+                Glide.with(context).load(url).apply(
+                        RequestOptions.placeholderOf(R.drawable.background_gradient)).into(viewHolder.imageView);
+            } else {
+                viewHolder.imageView.setVisibility(View.GONE);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+
     }
 
     @Override

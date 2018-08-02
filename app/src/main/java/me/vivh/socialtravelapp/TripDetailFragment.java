@@ -87,6 +87,15 @@ public class TripDetailFragment extends Fragment {
         }
 
         setUpFragments();
+        setUpButtons(view);
+
+
+
+        return view;
+
+    }
+
+    public void setUpButtons(final View view){
 
         btnCheckIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,10 +157,8 @@ public class TripDetailFragment extends Fragment {
 
             }
         });
-
-        return view;
-
     }
+
 
 
     @Override
