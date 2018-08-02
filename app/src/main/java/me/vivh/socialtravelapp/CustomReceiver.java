@@ -38,15 +38,23 @@ public class CustomReceiver extends BroadcastReceiver {
                 Log.d(TAG, "got action " + action + " on channel " + channel + " with:");
                 // Iterate the parse keys if needed
                 Iterator<String> itr = json.keys();
+                String tripId = "";
+                String message = "New Message";
+                String sender = "SocialTravelApp";
                 while (itr.hasNext()) {
                     String key = (String) itr.next();
-                    String value = json.getString(key);
+//                    String value = json.getString(key);
                     // Extract custom push data
                     if (key.equals("customData")) {
-                        // create a local notification
-                        createNotification(context, R.drawable.ic_sms_black_24dp, "SocialTravelApp", "New Message",value);
+                        tripId = json.getString(key);
+                    }else if(key.equals("message")){
+                        message = json.getString("message");
+                    }else if(key.equals("sender")){
+                        sender = json.getString("sender");
                     }
                 }
+
+                createNotification(context, R.drawable.ic_sms_black_24dp, sender, message, tripId);
             } catch (JSONException ex) {
                 Log.d(TAG, "JSON failed!");
             }
