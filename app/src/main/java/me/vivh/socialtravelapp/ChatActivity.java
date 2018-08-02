@@ -69,7 +69,10 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         ParseUser currentUser = ParseUser.getCurrentUser();
-        currentUser.setACL(new ParseACL(currentUser));
+        ParseACL currentUserACL = new ParseACL();
+        currentUserACL.setPublicReadAccess(true);
+        currentUserACL.setPublicWriteAccess(true);
+        currentUser.setACL(currentUserACL);
         currentUser.saveInBackground();
 
         setupMessagePosting();
@@ -147,7 +150,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String data = etMessage.getText().toString();
+                final String data = etMessage.getText().toString();
                 Message message = new Message();
 
                 message.setBody(data);
@@ -158,7 +161,7 @@ public class ChatActivity extends AppCompatActivity {
                     @Override
                     public void done(ParseException e) {
                         if (e == null){
-                            sendPushNotification();
+                            sendPushNotification(data, ParseUser.getCurrentUser().getString("displayName"));
                             Toast.makeText(ChatActivity.this, "Successfully created message on Parse",
                                     Toast.LENGTH_SHORT).show();
                             etMessage.setText(null);
@@ -192,7 +195,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    private void sendPushNotification(){
+    private void sendPushNotification(String message, String sender){
 
         String currentUser = ParseUser.getCurrentUser().getUsername();
 
@@ -203,6 +206,8 @@ public class ChatActivity extends AppCompatActivity {
 
                 payload.put("receiver", otherUser);
                 payload.put("customData", trip.getObjectId());
+                payload.put("sender", sender);
+                payload.put("message", message);
                 ParseCloud.callFunctionInBackground("pushNewMessage", payload);
             }
         }
