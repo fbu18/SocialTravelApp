@@ -120,7 +120,7 @@ public class TripDetailFragment extends Fragment {
                         trip.setCheckIn(user);
                         alreadyCheckedIn = true;
                         btnCheckIn.setText("Check out");
-                        btnCheckIn.setBackgroundColor(Color.LTGRAY);
+                        btnCheckIn.setBackgroundColor(getResources().getColor(R.color.pressed_button_gray));
                     }else{
                         Toast.makeText(context, "Must join group to check-in.", Toast.LENGTH_SHORT).show();
                     }
@@ -155,7 +155,7 @@ public class TripDetailFragment extends Fragment {
                     inGroup = true;
                     trip.joinTrip(user, context);
                     btnJoin.setText("Leave Group");
-                    btnJoin.setBackgroundColor(Color.LTGRAY);
+                    btnJoin.setBackgroundColor(getResources().getColor(R.color.pressed_button_gray));
                 }
 
                 setUpFragments();
@@ -181,7 +181,7 @@ public class TripDetailFragment extends Fragment {
                     for(ParseUser usr: objects){
                         if((usr.getUsername()).equals(user.getUsername())){
                             alreadyCheckedIn = true;
-                            btnCheckIn.setBackgroundColor(Color.LTGRAY);
+                            btnCheckIn.setBackgroundColor(getResources().getColor(R.color.pressed_button_gray));
                             btnCheckIn.setText("Check out");
                         }
                     }
@@ -206,7 +206,7 @@ public class TripDetailFragment extends Fragment {
                     for(ParseUser usr: objects){
                         if((usr.getUsername()).equals(user.getUsername())){
                             inGroup = true;
-                            btnJoin.setBackgroundColor(Color.LTGRAY);
+                            btnJoin.setBackgroundColor(getResources().getColor(R.color.pressed_button_gray));
                             btnJoin.setText("Leave Group");
                         }
                     }

@@ -3,6 +3,7 @@
     <color name="colorPrimary">#8d53c3</color>
     <color name="colorPrimaryDark">#461a6d</color>
     <color name="colorAccent">#cf9bff</color>
+        <color name="pressed_button_gray">#afabb5</color>
         <color name="action_bar_semi_transparent_white">#bfffffff</color>
         <color name="action_bar_transparent_background">#20000000</color>
         <color name="action_bar_transparent_background_pressed_state">#30000000</color>
