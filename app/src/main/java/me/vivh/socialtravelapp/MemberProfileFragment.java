@@ -2,6 +2,7 @@ package me.vivh.socialtravelapp;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,6 +76,9 @@ public class MemberProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_member_profile, container, false);
         unbinder = ButterKnife.bind(this, view);
+
+        TrophyListFragment trophyListFrag = TrophyListFragment.newInstance(user);
+        setTrophyListFragment(trophyListFrag);
 
         // display back button
         ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -187,4 +191,10 @@ public class MemberProfileFragment extends Fragment {
         findUpcomingTrips();
     }
 
+    public void setTrophyListFragment(Fragment fragment) {
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.flTrophyList, fragment, "MemberProfileFragment");
+        transaction.addToBackStack("MemberProfileFragment");
+        transaction.commitAllowingStateLoss();
+    }
 }

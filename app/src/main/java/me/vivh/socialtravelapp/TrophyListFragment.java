@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import com.loopj.android.http.AsyncHttpClient;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,8 @@ import me.vivh.socialtravelapp.model.Trophy;
 
 public class TrophyListFragment extends Fragment {
 
+    private static final String KEY_USER = "user";
+    ParseUser user;
     ArrayList<Trophy> trophies;
     RecyclerView rvTrophies;
     TrophyAdapter trophyAdapter;
@@ -39,9 +44,21 @@ public class TrophyListFragment extends Fragment {
     public TrophyListFragment() {
     }
 
+    public static TrophyListFragment newInstance(ParseUser user) {
+        TrophyListFragment fragment = new TrophyListFragment();
+        Bundle extras = new Bundle();
+        extras.putParcelable(KEY_USER, user);
+        fragment.setArguments(extras);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        if (getArguments() != null) {
+            user = getArguments().getParcelable(KEY_USER);
+        }
 
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_trophy_list, container, false);
@@ -99,8 +116,10 @@ public class TrophyListFragment extends Fragment {
     }
 
     public void loadTrophies(){
-        final Trophy.Query trophyQuery = new Trophy.Query();
-        trophyQuery.getTop().withName();
+        ParseRelation trophyRelation = user.getRelation("trophies");
+        ParseQuery trophyQuery = trophyRelation.getQuery();
+        //final Trophy.Query trophyQuery = new Trophy.Query();
+        //trophyQuery.getTop().withName();
         trophyQuery.orderByDescending("createdAt");
 
         trophyQuery.findInBackground(new FindCallback<Trophy>() {

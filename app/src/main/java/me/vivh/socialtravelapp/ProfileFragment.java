@@ -3,6 +3,7 @@ package me.vivh.socialtravelapp;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -126,6 +127,10 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        TrophyListFragment trophyListFrag = TrophyListFragment.newInstance(currentUser);
+        setTrophyListFragment(trophyListFrag);
+
+
 //        leaderboardBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -191,8 +196,6 @@ public class ProfileFragment extends Fragment {
     }
 
     public void findUpcomingTrips(){
-
-
         final Trip.Query tripQuery = new Trip.Query();
         tripQuery.whereGreaterThan("date", today);
         tripQuery.whereEqualTo("user", currentUser);
@@ -240,5 +243,12 @@ public class ProfileFragment extends Fragment {
 
         void logout();
         void openEditProfile();
+    }
+
+    public void setTrophyListFragment(Fragment fragment) {
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.flTrophyList, fragment, "ProfileFragment");
+        transaction.addToBackStack("ProfileFragment");
+        transaction.commitAllowingStateLoss();
     }
 }
