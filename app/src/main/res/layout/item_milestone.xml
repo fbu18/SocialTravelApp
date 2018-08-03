@@ -1,10 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background_white"
+    android:layout_marginBottom="2dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
 
+    <ImageView
+        android:id="@+id/ivAwardPic"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="5dp"
+        app:srcCompat="@drawable/user_outline_24" />
 
+    <TextView
+        android:id="@+id/tvAwardUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/ivAwardPic"
+        android:text="User"
+        android:textColor="@color/blue_5" />
 
+    <TextView
+        android:id="@+id/tvWentOn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:textSize="25sp"
+        android:layout_toEndOf="@+id/tvAwardUser"
+        android:text=" went on " />
 
+    <TextView
+        android:id="@+id/tvTripNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:textSize="25sp"
+        android:layout_toEndOf="@+id/tvWentOn"
+        android:text="trips" />
+
+    <ImageView
+        android:id="@+id/ivTrophy"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/tvTripNumber"
+        app:srcCompat="@drawable/trophy_emoji" />
 </RelativeLayout>
