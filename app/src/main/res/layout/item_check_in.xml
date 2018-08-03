@@ -25,16 +25,16 @@
         android:layout_toEndOf="@+id/ivCheckInProfile"
         android:text="User"
         android:textColor="@color/blue_5"
-        android:textSize="25sp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/tvCheckInLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvCheckInUser"
-        android:layout_toEndOf="@+id/ivCheckInProfile"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/textView"
         android:text="location"
-        android:textSize="25sp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/textView"
@@ -43,13 +43,29 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/tvCheckInUser"
         android:text=" checked into "
-        android:textSize="25sp" />
+        android:textSize="14sp" />
 
     <ImageView
         android:id="@+id/ivMap"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvCheckInLocation"
+        android:layout_below="@+id/ivCheckInProfile"
         app:srcCompat="@drawable/mark" />
+
+    <TextView
+        android:id="@+id/tvCheckInDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/star_button2"
+        android:ems="10"
+        android:inputType="date"
+        android:text="Date" />
+    <com.like.LikeButton
+        android:id="@+id/star_button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivMap"
+        app:icon_size="25dp"
+        app:icon_type="heart" />
 </RelativeLayout>

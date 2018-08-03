@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -138,6 +139,20 @@ public class ChatActivity extends AppCompatActivity {
         //myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
     }
 
+
+    // for back button
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+
+        return true;
+    }
 
     // Setup button event handler which posts the entered message to Parse
     private void setupMessagePosting() {
