@@ -4,6 +4,7 @@
     <item
         android:id="@+id/miChat"
         android:icon="@drawable/ic_chat_black_24dp"
+        android:tint="@color/dark_purple"
         app:showAsAction = "ifRoom"
         android:title="Compose">
     </item>

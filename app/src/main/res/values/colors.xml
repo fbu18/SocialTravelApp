@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#8d53c3</color>
+    <color name="colorPrimaryDark">#461a6d</color>
+    <color name="colorAccent">#cf9bff</color>
         <color name="action_bar_semi_transparent_white">#bfffffff</color>
         <color name="action_bar_transparent_background">#20000000</color>
         <color name="action_bar_transparent_background_pressed_state">#30000000</color>
@@ -163,6 +163,7 @@
         <color name="grey_9_30_transparent">#4d262626</color>
         <color name="ig_led_color">#fff4bb41</color>
         <color name="ig_purple">#ffc40092</color>
+        <color name="dark_purple">#461a6d</color>
         <color name="ig_red">#ffe40031</color>
         <color name="ig_yellow">#ffffd521</color>
         <color name="iglive_ssi_banner_gradient_end">#99585bc2</color>

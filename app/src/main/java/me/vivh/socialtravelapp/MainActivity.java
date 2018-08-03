@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -63,6 +64,10 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         ButterKnife.bind(this);
         fragments.add(new FeedFragment()); // index 0
         fragments.add(new ExploreFragment()); // index 1
@@ -76,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         fragments.add(new TripBrowseFragment()); // index 9
         fragments.add(new EditProfileFragment()); // index 10
         fragments.add(new ChatListFragment()); // index 11
-//        fragments.add(new LeaderboardFragment()); // index 12
         fragments.add(new MemberProfileFragment()); //index 12
 
         adapter = new BottomNavAdapter(getSupportFragmentManager(), fragments);
@@ -87,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
             public void onPageScrolled(int i, float v, int i1) {
 
             }
-
 
             @Override
             public void onPageSelected(int i) {

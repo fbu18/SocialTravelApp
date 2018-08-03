@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -68,12 +69,18 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         ParseUser currentUser = ParseUser.getCurrentUser();
         ParseACL currentUserACL = new ParseACL();
         currentUserACL.setPublicReadAccess(true);
         currentUserACL.setPublicWriteAccess(true);
         currentUser.setACL(currentUserACL);
         currentUser.saveInBackground();
+
 
         setupMessagePosting();
 
@@ -126,7 +133,7 @@ public class ChatActivity extends AppCompatActivity {
         }
 
 
-        //TODO- be able to remove this
+        //backup option if ParseLiveQuery doesn't work
         //myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);
     }
 
@@ -149,10 +156,8 @@ public class ChatActivity extends AppCompatActivity {
         btSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 final String data = etMessage.getText().toString();
                 Message message = new Message();
-
                 message.setBody(data);
                 message.setUser(ParseUser.getCurrentUser());
                 message.setTrip(trip);
