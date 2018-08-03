@@ -275,7 +275,7 @@ public class ChatActivity extends AppCompatActivity {
         SubscriptionHandling<Message> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
 
         // Listen for events
-        subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, new
+        subscriptionHandling.handleEvent(SubscriptionHandling.Event.ENTER, new
                 SubscriptionHandling.HandleEventCallback<Message>() {
                     @Override
                     public void onEvent(ParseQuery<Message> query, Message object) {
