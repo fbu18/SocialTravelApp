@@ -64,7 +64,6 @@ public class EditProfileFragment extends Fragment {
     @BindView(R.id.etDisplayName) EditText etDisplayName;
     @BindView(R.id.etHomeLoc) EditText etHomeLoc;
     @BindView(R.id.etBio) EditText etBio;
-    @BindView(R.id.btnBack) Button backBtn;
 
     public interface OnFragmentInteractionListener {
         void onBackPressed();
@@ -77,6 +76,8 @@ public class EditProfileFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_edit_profile,
                 container, false);
 
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         unbinder = ButterKnife.bind(this, rootView);
         tookPhoto = false;
@@ -106,14 +107,6 @@ public class EditProfileFragment extends Fragment {
                 }
             }
         });
-
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onBackPressed();
-            }
-        });
-
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override

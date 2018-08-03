@@ -54,6 +54,9 @@ public class AttractionListFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_attraction_list, container, false);
         unbinder = ButterKnife.bind(this, rootView);
 
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         client = new AsyncHttpClient();
         attractions = new ArrayList<>();
 

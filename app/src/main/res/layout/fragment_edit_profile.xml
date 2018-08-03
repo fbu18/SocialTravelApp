@@ -1,76 +1,3 @@
-<!--
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
-    tools:context=".EditProfileFragment">
-
-    <TextView
-        android:id="@+id/tvUserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginEnd="62dp"
-        android:text="tvUserName"
-        android:textSize="24sp" />
-
-    <ImageView
-        android:id="@+id/ivProfilePicPreview"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_above="@+id/btnCamera"
-        android:layout_centerHorizontal="true"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/user_outline_24" />
-
-    <Button
-        android:id="@+id/btnCamera"
-        android:layout_width="99dp"
-        android:layout_height="25dp"
-        android:layout_above="@+id/btnPost"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginBottom="-193dp"
-        android:background="@color/white"
-        android:text="Take Photo"
-        android:textColor="@color/black"
-        android:textSize="12sp" />
-
-    <Button
-        android:id="@+id/btnPost"
-        android:layout_width="101dp"
-        android:layout_height="25dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="193dp"
-        android:background="@drawable/background_gradient"
-        android:text="Change Photo"
-        android:textColor="@color/white"
-        android:textSize="12sp"
-        android:textStyle="italic" />
-
-    <ProgressBar
-        android:id="@+id/pbLoading"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="-150dp"
-        android:indeterminate="true"
-        android:indeterminateDrawable="@xml/progress"
-        android:visibility="invisible" />
-
-</RelativeLayout>
--->
-
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -256,13 +183,6 @@
                     android:inputType="textNoSuggestions" />
 
             </RelativeLayout>
-
-            <Button
-                android:id="@+id/btnBack"
-                android:layout_width="71dp"
-                android:layout_height="35dp"
-                android:background="@color/white"
-                android:text="Back" />
 
         </RelativeLayout>
 

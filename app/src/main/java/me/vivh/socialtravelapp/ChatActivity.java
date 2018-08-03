@@ -74,6 +74,7 @@ public class ChatActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         ParseUser currentUser = ParseUser.getCurrentUser();
         ParseACL currentUserACL = new ParseACL();
         currentUserACL.setPublicReadAccess(true);

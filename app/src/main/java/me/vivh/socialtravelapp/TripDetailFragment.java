@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.parse.FindCallback;
@@ -72,6 +71,10 @@ public class TripDetailFragment extends Fragment {
         context = container.getContext();
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_trip_detail, container, false);
+
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         unbinder = ButterKnife.bind(this, view);
         membersCheckedIn = new ArrayList<>();
 

@@ -71,6 +71,10 @@ public class ExploreFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_explore,
                 container, false);
 
+        // don't display back button
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
+
         mGeoDataClient = Places.getGeoDataClient(getActivity());
 
         knowBtn = (Button) rootView.findViewById(R.id.btnKnow);

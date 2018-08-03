@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.parse.LogOutCallback;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     public static final int MEMBER_PROFILE_INDEX = 12;
 
     private final List<Fragment> fragments = new ArrayList<>();
-    private Stack<Integer> stackkk = new Stack<>();
+    private Stack<Integer> backStack = new Stack<>();
     private int itemPosition = 0;
     private BottomNavAdapter adapter;
 
@@ -67,6 +68,15 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        // don't display back button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         ButterKnife.bind(this);
         fragments.add(new FeedFragment()); // index 0
@@ -120,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                //stackkk.push(FEED_INDEX);
                 switch(item.getItemId()){
                     case R.id.action_feed:
                         viewPager.setCurrentItem(FEED_INDEX, false);
@@ -244,52 +253,6 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         modifyStack(SUGGESTIONS_INDEX);
     }
 
-
-    public static int getEXPLORE_INDEX() {
-        return EXPLORE_INDEX;
-    }
-
-    public static int getTRIP_LIST_INDEX() {
-        return TRIP_LIST_INDEX;
-    }
-
-    public static int getPROFILE_INDEX() {
-        return PROFILE_INDEX;
-    }
-
-    public static int getSUGGESTIONS_INDEX() {
-        return SUGGESTIONS_INDEX;
-    }
-
-    public static int getMAPS_INDEX() {
-        return MAPS_INDEX;
-    }
-
-    public static int getATTRACTION_INDEX() {
-        return ATTRACTION_INDEX;
-    }
-
-    public static int getTRIP_DETAIL_INDEX() {
-        return TRIP_DETAIL_INDEX;
-    }
-
-    public static int getATTRACTION_DETAILS_INDEX() {
-        return ATTRACTION_DETAILS_INDEX;
-    }
-
-    public static int getTRIP_BROWSE_INDEX() {
-        return TRIP_BROWSE_INDEX;
-    }
-
-    public static int getEDIT_PROFILE_INDEX() {
-        return EDIT_PROFILE_INDEX;
-    }
-
-
-    public static int getCHAT_LIST_INDEX() {
-        return CHAT_LIST_INDEX;
-    }
-
     @Override
     public void dialPhone(String phoneNumber) {
         Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -321,21 +284,21 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
 
     // build stack for back button flow
     public void modifyStack(int index) {
-        if (stackkk.empty())
-            stackkk.push(index);
-        else if (stackkk.contains(index)) {
-            stackkk.remove(stackkk.indexOf(index));
-            stackkk.push(index);
+        if (backStack.empty())
+            backStack.push(index);
+        else if (backStack.contains(index)) {
+            backStack.remove(backStack.indexOf(index));
+            backStack.push(index);
         } else {
-            stackkk.push(index);
+            backStack.push(index);
         }
     }
 
     @Override
     public void onBackPressed() {
-        if (stackkk.size() > 1) {
-            stackkk.pop();
-            viewPager.setCurrentItem(stackkk.lastElement(),false);
+        if (backStack.size() > 1) {
+            backStack.pop();
+            viewPager.setCurrentItem(backStack.lastElement(),false);
         } else {
             viewPager.setCurrentItem(FEED_INDEX,false);
         }

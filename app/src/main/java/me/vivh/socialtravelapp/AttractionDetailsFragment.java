@@ -59,6 +59,9 @@ public class AttractionDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_attraction_details, container, false);
         unbinder = ButterKnife.bind(this, view);
 
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         try{
             tvAttrName.setText(attraction.getName());
             tvAttrDesc.setText(attraction.getDescription());

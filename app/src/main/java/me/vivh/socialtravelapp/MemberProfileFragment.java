@@ -76,6 +76,10 @@ public class MemberProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_member_profile, container, false);
         unbinder = ButterKnife.bind(this, view);
 
+        // display back button
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         adapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_list_item_1, android.R.id.text1, pastTripArray);
 

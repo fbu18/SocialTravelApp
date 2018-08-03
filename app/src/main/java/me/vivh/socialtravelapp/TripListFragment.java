@@ -65,6 +65,10 @@ public class TripListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_trip, container, false);
         unbinder = ButterKnife.bind(this, view);
 
+        // don't display back button
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
+
         today = cal.getTime();
 
         pastTrips = new ArrayList<>();
