@@ -116,29 +116,35 @@ public class TrophyListFragment extends Fragment {
     }
 
     public void loadTrophies(){
-        ParseRelation trophyRelation = user.getRelation("trophies");
-        ParseQuery trophyQuery = trophyRelation.getQuery();
-        //final Trophy.Query trophyQuery = new Trophy.Query();
-        //trophyQuery.getTop().withName();
-        trophyQuery.orderByDescending("createdAt");
 
-        trophyQuery.findInBackground(new FindCallback<Trophy>() {
-            @Override
-            public void done(List<Trophy> objects, ParseException e) {
-                if (e==null){
-                    for (int i = 0; i < objects.size(); i++){
-                        Log.d("MainActivity", "Trophy ["+i+"] = "
-                                + "\n name = " + objects.get(i).getName()
-                                + objects.get(i).getDescription());
+        try{
+            ParseRelation trophyRelation = user.getRelation("trophies");
+            ParseQuery trophyQuery = trophyRelation.getQuery();
+            //final Trophy.Query trophyQuery = new Trophy.Query();
+            //trophyQuery.getTop().withName();
+            trophyQuery.orderByDescending("createdAt");
 
-                        trophies.add(0,objects.get(i));
-                        trophyAdapter.notifyItemInserted(trophies.size()-1);
+            trophyQuery.findInBackground(new FindCallback<Trophy>() {
+                @Override
+                public void done(List<Trophy> objects, ParseException e) {
+                    if (e==null){
+                        for (int i = 0; i < objects.size(); i++){
+                            Log.d("MainActivity", "Trophy ["+i+"] = "
+                                    + "\n name = " + objects.get(i).getName()
+                                    + objects.get(i).getDescription());
+
+                            trophies.add(0,objects.get(i));
+                            trophyAdapter.notifyItemInserted(trophies.size()-1);
+                        }
+                    } else {
+                        e.printStackTrace();
                     }
-                } else {
-                    e.printStackTrace();
                 }
-            }
-        });
+            });
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     public interface OnFragmentInteractionListener {
