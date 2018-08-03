@@ -8,6 +8,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.io.File;
+import java.util.Date;
 
 /**
  * Created by dmindlin on 7/26/18.
@@ -21,6 +22,7 @@ public class Post extends ParseObject {
     private static String KEY_TYPE = "type";
     private static String KEY_LOCATION = "location";
     private static String KEY_AWARD = "award";
+    private static String KEY_DATE = "date";
 
     public String getDescription() {
         return getString(KEY_DESCRIPTION);
@@ -46,6 +48,10 @@ public class Post extends ParseObject {
         return getString(KEY_AWARD);
     }
 
+    public Date getDate() {
+        return getDate(KEY_DATE);
+    }
+
     public void setDescription(String description) {
         this.put(KEY_DESCRIPTION, description);
     }
@@ -64,6 +70,10 @@ public class Post extends ParseObject {
 
     public void setLocation(Attraction location) {
         put(KEY_LOCATION, location);
+    }
+
+    public void setDate(Date date) {
+        put(KEY_DATE, date);
     }
 
     public static class Query extends ParseQuery<Post> {

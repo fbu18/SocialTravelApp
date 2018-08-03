@@ -27,6 +27,8 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -118,6 +120,8 @@ public class TripDetailFragment extends Fragment {
                     checkin.setType("checkin");
                     checkin.setLocation(trip.getAttraction());
                     checkin.setUser(ParseUser.getCurrentUser());
+                    Date date = Calendar.getInstance().getTime();
+                    checkin.setDate(date);
                     checkin.saveInBackground(new SaveCallback() {
                         public void done(ParseException e) {
                             if (e == null) {
