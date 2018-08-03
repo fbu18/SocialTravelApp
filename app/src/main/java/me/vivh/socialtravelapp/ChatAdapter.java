@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -19,11 +21,13 @@ import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.vivh.socialtravelapp.model.Message;
+import me.vivh.socialtravelapp.model.Trip;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Message> mMessages;
     private Context mContext;
     private String mUserId;
+    private Trip trip;
 
     public ChatAdapter(Context context, String userId, List<Message> messages) {
         mMessages = messages;
@@ -65,6 +69,18 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
                 else {
                     viewHolderMe.mChatImageMe.setVisibility(View.GONE);
+                }
+
+                boolean isLast = false;
+
+                try{
+                    isLast = message.getObjectId().equals((trip.getLastMessage().getObjectId()));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                if(isLast){
+                    viewHolderMe.tvDelivered.setVisibility(View.VISIBLE);
                 }
                 break;
             case 0:
@@ -110,6 +126,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView mInfoMe;
         ImageView mProfilePic;
         ImageView mChatImageMe;
+        TextView tvDelivered;
 
         public ViewHolderMe(View itemView) {
             super(itemView);
@@ -117,6 +134,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             mInfoMe = itemView.findViewById(R.id.tvInfoMe);
             mProfilePic = itemView.findViewById(R.id.ivProfilePic);
             mChatImageMe = itemView.findViewById(R.id.ivChatImage);
+            tvDelivered = itemView.findViewById(R.id.tvDelivered);
         }
     }
 
@@ -176,5 +194,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else {
             return 0;
         }
+    }
+
+    public void setTrip(Trip trip){
+        this.trip = trip;
     }
 }

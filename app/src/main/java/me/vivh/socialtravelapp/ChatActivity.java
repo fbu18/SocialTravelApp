@@ -86,14 +86,6 @@ public class ChatActivity extends AppCompatActivity {
 
         setupMessagePosting();
 
-/*
-        try {
-            trip = getIntent().getParcelableExtra("trip");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-*/
 
         try{
             String tripId = "";
@@ -107,6 +99,7 @@ public class ChatActivity extends AppCompatActivity {
                     @Override
                     public void done(List<Trip> objects, ParseException e) {
                         trip = objects.get(0);
+                        mAdapter.setTrip(trip);
                         queryMembers();
                         parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
                         subscribeToMessages();
