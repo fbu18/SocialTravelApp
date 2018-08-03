@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,25 +19,18 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import me.vivh.socialtravelapp.model.Post;
 import me.vivh.socialtravelapp.model.Trip;
-
-import static com.parse.Parse.getApplicationContext;
 
 
 public class TripDetailFragment extends Fragment {
@@ -121,7 +113,7 @@ public class TripDetailFragment extends Fragment {
                     trip.removeCheckIn(user);
                     btnCheckIn.setText("Check in");
                     alreadyCheckedIn = false;
-                    btnCheckIn.setBackgroundColor(R.drawable.background_gradient);
+                    btnCheckIn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                 }else{
 
                     if(inGroup){
@@ -156,9 +148,9 @@ public class TripDetailFragment extends Fragment {
                     alreadyCheckedIn = false;
                     trip.leaveTrip(user, context);
                     btnJoin.setText("Join Group");
-                    btnJoin.setBackgroundColor(R.drawable.background_gradient);
+                    btnJoin.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                     btnCheckIn.setText("Check in");
-                    btnCheckIn.setBackgroundColor(R.drawable.background_gradient);
+                    btnCheckIn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                 }else{
                     inGroup = true;
                     trip.joinTrip(user, context);
