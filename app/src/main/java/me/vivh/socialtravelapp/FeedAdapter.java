@@ -113,7 +113,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 imageUrl = (String) checkImage.getUrl();
                 String checkUsername = checkUser.getUsername();
                 String checkDesc = checkIn.getDescription();
-                String checkInDate = checkIn.getDate("date").toString();
+//                String checkInDate = checkIn.getDate("date").toString();
                 Attraction attraction = checkIn.getLocation();
                 String location = attraction.getName();
                 viewHolderCheckIn.username.setText(checkUsername);
