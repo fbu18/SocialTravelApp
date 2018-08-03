@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.parse.FindCallback;
@@ -23,6 +24,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.vivh.socialtravelapp.model.Post;
 import me.vivh.socialtravelapp.model.Trip;
 
 
@@ -110,6 +113,22 @@ public class TripDetailFragment extends Fragment {
                 ParseRelation checkedInRelation = trip.getRelation("usersCheckedIn");
                 ParseQuery checkedInQuery = checkedInRelation.getQuery();
 
+                if(!alreadyCheckedIn) {
+                    Post checkin = new Post();
+                    checkin.setType("checkin");
+                    checkin.setLocation(trip.getAttraction());
+                    checkin.setUser(ParseUser.getCurrentUser());
+                    checkin.saveInBackground(new SaveCallback() {
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                // your object is successfully created.
+                            } else {
+                                //error occurred
+                                Toast.makeText( context,e.getMessage().toString(),Toast.LENGTH_LONG );
+                            }
+                        }
+                    });
+                }
                 checkedInQuery.findInBackground(new FindCallback<ParseUser>() {
                     @Override
                     public void done(List<ParseUser> objects, ParseException e) {

@@ -54,8 +54,16 @@ public class Post extends ParseObject {
         this.put(KEY_IMAGE, image);
     }
 
-    public void setUser(Parse user) {
+    public void setUser(ParseUser user) {
         this.put(KEY_USER, user);
+    }
+
+    public void setType(String type) {
+        put(KEY_TYPE, type);
+    }
+
+    public void setLocation(Attraction location) {
+        put(KEY_LOCATION, location);
     }
 
     public static class Query extends ParseQuery<Post> {
