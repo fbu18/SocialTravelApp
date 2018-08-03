@@ -68,7 +68,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
             String url = trip.getAttraction().fetchIfNeeded().getParseFile("image").getUrl();
             Glide.with(context).load(url)
                     .apply(
-                            RequestOptions.placeholderOf(R.drawable.background_gradient)
+                            RequestOptions.placeholderOf(R.color.placeholderColor)
                                     .circleCrop())
                     .into(viewHolder.ivAttractionPic);
         }catch(ParseException e){
