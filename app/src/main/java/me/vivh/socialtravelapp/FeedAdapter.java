@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.maps.model.LatLng;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
@@ -71,6 +69,10 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 View checkInView = inflater.inflate(R.layout.item_check_in, viewGroup, false);
                 final ViewHolderCheckIn checkInViewholder = new ViewHolderCheckIn(checkInView);
                 return checkInViewholder;
+            case 2:
+                View milestoneView = inflater.inflate(R.layout.item_milestone, viewGroup, false);
+                final ViewHolderMilestone viewHolderMilestone = new ViewHolderMilestone(milestoneView);
+                return viewHolderMilestone;
 
         }
         View view = inflater.inflate(R.layout.item_post, viewGroup, false);
@@ -91,7 +93,6 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolderPost.tvDescription.setText(description);
                 ParseFile profilePic = (ParseFile) post.getParseUser("user").getParseFile("profilePic");
                 String profileUrl = (String) profilePic.getUrl();
-
                 String date = post.getDate("date").toString();
                 viewHolderPost.tvDate.setText(date);
                 Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop()).into(viewHolderPost.ivProfile);
@@ -116,7 +117,6 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Attraction attraction = checkIn.getLocation();
                 String location = attraction.getName();
                 viewHolderCheckIn.username.setText(checkUsername);
-                viewHolderCheckIn.description.setText(checkDesc);
                 viewHolderCheckIn.location.setText(location);
                 Glide.with(context).load(imageUrl)
                         .apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop())
@@ -124,8 +124,20 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ParseGeoPoint point = attraction.getPoint();
                 String lat = Double.toString(point.getLatitude());
                 String lng = Double.toString(point.getLongitude());
+                // Use Google Static Maps API to get an image of the map surrounding the attraction
                 String mapUrl = "http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=15&scale=1&size=200x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C" + lat + "," + lng;
                 Glide.with(context).load(mapUrl).apply(RequestOptions.placeholderOf(R.drawable.background_gradient)).into(viewHolderCheckIn.ivMap);
+                return;
+            case 2:
+                final ViewHolderMilestone viewHolderMilestone = (ViewHolderMilestone) viewHolder;
+                Post award = mPosts.get(i);
+                ParseUser recipient = award.getUser();
+                String recipientName = recipient.getUsername();
+                String rProfilePic = recipient.getParseFile("profilePic").getUrl();
+                String awardsNum = award.getAward() + " trips";
+                viewHolderMilestone.tvAwardUsername.setText(recipientName);
+                viewHolderMilestone.tvTripNumber.setText(awardsNum);
+                Glide.with(context).load(rProfilePic).apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop()).into(viewHolderMilestone.ivProfile);
         }
     }
 
@@ -160,8 +172,6 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             TextView username;
             @BindView(R.id.tvCheckInLocation)
             TextView location;
-            @BindView(R.id.tvCheckInDesc)
-            TextView description;
             @BindView(R.id.ivMap) ImageView ivMap;
 
             public ViewHolderCheckIn(@NonNull View itemView) {
@@ -169,6 +179,20 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ButterKnife.bind(this, itemView);
             }
         }
+
+        public class ViewHolderMilestone extends RecyclerView.ViewHolder {
+            @BindView(R.id.ivTrophy) ImageView ivTrophy;
+            @BindView(R.id.ivAwardPic) ImageView ivProfile;
+            @BindView(R.id.tvAwardUser) TextView tvAwardUsername;
+            @BindView(R.id.tvTripNumber) TextView tvTripNumber;
+            @BindView(R.id.tvWentOn) TextView tvWentOn;
+
+            public ViewHolderMilestone(@NonNull View itemView) {
+                super(itemView);
+                ButterKnife.bind(this, itemView);
+            }
+        }
+
         @Override
         public int getItemViewType ( int position){
             Post post = mPosts.get(position);
@@ -177,7 +201,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return 0;
             } else if (type.equals("checkin")) {
                 return 1;
-            } else return 0;
+            } else return 2;
         }
 
     }

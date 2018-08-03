@@ -20,6 +20,7 @@ public class Post extends ParseObject {
     private static String KEY_USER = "user";
     private static String KEY_TYPE = "type";
     private static String KEY_LOCATION = "location";
+    private static String KEY_AWARD = "award";
 
     public String getDescription() {
         return getString(KEY_DESCRIPTION);
@@ -39,6 +40,10 @@ public class Post extends ParseObject {
 
     public Attraction getLocation() {
         return (Attraction) this.get(KEY_LOCATION);
+    }
+
+    public String getAward() {
+        return getString(KEY_AWARD);
     }
 
     public void setDescription(String description) {
