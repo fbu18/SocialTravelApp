@@ -29,8 +29,9 @@
         android:id="@+id/tvPostDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvPostUsername"
-        android:layout_below="@+id/tvPostUsername"
+        android:layout_marginLeft="2dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/ivPostImage"
         android:text="Description" />
 
     <ImageView
@@ -53,7 +54,7 @@
         android:id="@+id/star_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ivPostImage"
+        android:layout_below="@id/tvPostDescription"
         android:layout_alignLeft="@id/ivPostImage"
         app:icon_size="25dp"
         app:icon_type="heart" />
