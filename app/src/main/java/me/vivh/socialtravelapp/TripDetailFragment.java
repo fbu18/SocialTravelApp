@@ -38,6 +38,8 @@ import butterknife.Unbinder;
 import me.vivh.socialtravelapp.model.Post;
 import me.vivh.socialtravelapp.model.Trip;
 
+import static com.parse.Parse.getApplicationContext;
+
 
 public class TripDetailFragment extends Fragment {
 
@@ -101,7 +103,6 @@ public class TripDetailFragment extends Fragment {
         queryCheckedIn(user);
         queryJoined(user);
 
-        setUpFragments();
         setUpButtons(user);
 
         return view;
@@ -120,12 +121,18 @@ public class TripDetailFragment extends Fragment {
                     trip.removeCheckIn(user);
                     btnCheckIn.setText("Check in");
                     alreadyCheckedIn = false;
-                    btnCheckIn.setBackgroundResource(R.drawable.background_gradient);
+                    btnCheckIn.setBackgroundColor(R.drawable.background_gradient);
                 }else{
-                    trip.setCheckIn(user);
-                    alreadyCheckedIn = true;
-                    btnCheckIn.setText("Check out");
-                    btnCheckIn.setBackgroundColor(Color.LTGRAY);
+
+                    if(inGroup){
+                        trip.setCheckIn(user);
+                        alreadyCheckedIn = true;
+                        btnCheckIn.setText("Check out");
+                        btnCheckIn.setBackgroundColor(Color.LTGRAY);
+                    }else{
+                        Toast.makeText(context, "Must join group to check-in.", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
 
                 setUpFragments();
@@ -146,9 +153,12 @@ public class TripDetailFragment extends Fragment {
 
                 if(inGroup){
                     inGroup = false;
+                    alreadyCheckedIn = false;
                     trip.leaveTrip(user, context);
                     btnJoin.setText("Join Group");
-                    btnJoin.setBackgroundResource(R.drawable.background_gradient);
+                    btnJoin.setBackgroundColor(R.drawable.background_gradient);
+                    btnCheckIn.setText("Check in");
+                    btnCheckIn.setBackgroundColor(R.drawable.background_gradient);
                 }else{
                     inGroup = true;
                     trip.joinTrip(user, context);
@@ -165,43 +175,56 @@ public class TripDetailFragment extends Fragment {
 
     public void queryCheckedIn(final ParseUser user){
 
-        ParseRelation checkedInRelation = trip.getRelation("usersCheckedIn");
-        ParseQuery checkedInQuery = checkedInRelation.getQuery();
 
-        checkedInQuery.findInBackground(new FindCallback<ParseUser>(){
-            @Override
-            public void done(List<ParseUser> objects, ParseException e) {
-                membersCheckedIn.clear();
-                membersCheckedIn.addAll(objects);
+        try {
+            ParseRelation checkedInRelation = trip.getRelation("usersCheckedIn");
+            ParseQuery checkedInQuery = checkedInRelation.getQuery();
 
-                for(ParseUser usr: objects){
-                    if((usr.getUsername()).equals(user.getUsername())){
-                        trip.setCheckIn(user);
-                        alreadyCheckedIn = true;
-                        btnCheckIn.setBackgroundColor(Color.LTGRAY);
-                        btnCheckIn.setText("Check out");
+            checkedInQuery.findInBackground(new FindCallback<ParseUser>(){
+                @Override
+                public void done(List<ParseUser> objects, ParseException e) {
+                    membersCheckedIn.clear();
+                    membersCheckedIn.addAll(objects);
+
+                    for(ParseUser usr: objects){
+                        if((usr.getUsername()).equals(user.getUsername())){
+                            alreadyCheckedIn = true;
+                            btnCheckIn.setBackgroundColor(Color.LTGRAY);
+                            btnCheckIn.setText("Check out");
+                        }
                     }
+
+                    setUpFragments();
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void queryJoined(final ParseUser user){
-        ParseRelation inGroupRelation = trip.getRelation("user");
-        ParseQuery inGroupQuery = inGroupRelation.getQuery();
+        try {
+            ParseRelation inGroupRelation = trip.getRelation("user");
+            ParseQuery inGroupQuery = inGroupRelation.getQuery();
 
-        inGroupQuery.findInBackground(new FindCallback<ParseUser>() {
-            @Override
-            public void done(List<ParseUser> objects, ParseException e) {
+            inGroupQuery.findInBackground(new FindCallback<ParseUser>() {
+                @Override
+                public void done(List<ParseUser> objects, ParseException e) {
 
-                for(ParseUser usr: objects){
-                    if((usr.getUsername()).equals(user.getUsername()));
-                    inGroup = true;
-                    btnJoin.setBackgroundColor(Color.LTGRAY);
-                    btnJoin.setText("Leave Group");
+                    for(ParseUser usr: objects){
+                        if((usr.getUsername()).equals(user.getUsername())){
+                            inGroup = true;
+                            btnJoin.setBackgroundColor(Color.LTGRAY);
+                            btnJoin.setText("Leave Group");
+                        }
+                    }
+
+                    setUpFragments();
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -220,7 +243,7 @@ public class TripDetailFragment extends Fragment {
         super.onResume();
         queryCheckedIn(ParseUser.getCurrentUser());
         queryJoined(ParseUser.getCurrentUser());
-        setUpFragments();
+//        setUpFragments();
     }
 
     @Override
