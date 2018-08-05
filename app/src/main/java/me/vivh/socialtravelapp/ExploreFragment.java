@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
@@ -28,6 +29,9 @@ import com.google.android.gms.tasks.Task;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import me.vivh.socialtravelapp.model.Attraction;
 
 
@@ -41,8 +45,8 @@ import me.vivh.socialtravelapp.model.Attraction;
  */
 public class ExploreFragment extends Fragment {
 
-    Button knowBtn;
-    Button suggestBtn;
+    private Unbinder unbinder;
+    @BindView(R.id.btnSuggest) Button suggestBtn;
     GeoDataClient mGeoDataClient;
     SupportPlaceAutocompleteFragment placeAutocompleteFragment;
 
@@ -72,14 +76,13 @@ public class ExploreFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_explore,
                 container, false);
 
+        unbinder = ButterKnife.bind(this, rootView);
+
         // don't display back button
         ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
 
         mGeoDataClient = Places.getGeoDataClient(getActivity());
-
-        knowBtn = (Button) rootView.findViewById(R.id.btnKnow);
-        suggestBtn = (Button) rootView.findViewById(R.id.btnSuggest);
 
         suggestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,17 +91,16 @@ public class ExploreFragment extends Fragment {
 
             }
         });
+
+        placeAutocompleteFragment =  (SupportPlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        placeAutocompleteFragment = new SupportPlaceAutocompleteFragment();
-        getChildFragmentManager().beginTransaction()
-                .replace(R.id.place_autocomplete_fragment_container, placeAutocompleteFragment)
-                .addToBackStack(SupportPlaceAutocompleteFragment.class.getName())
-                .commit();
+        EditText etPlace = (EditText) view.findViewById(R.id.place_autocomplete_search_input);
+        etPlace.setHint("I have a destination in mind!");
     }
 
 
@@ -199,12 +201,6 @@ public class ExploreFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     */
     public interface OnFragmentInteractionListener {
         void openSuggestion();
         void openAttractionDetails(Attraction attraction);

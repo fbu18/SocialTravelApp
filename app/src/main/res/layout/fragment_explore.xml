@@ -4,23 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorPrimary"
+    android:background="@color/white"
     android:id="@+id/explore_layout_container"
     tools:context=".ExploreFragment">
-
-
-    <Button
-        android:id="@+id/btnKnow"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp"
-        android:background="?attr/colorControlHighlight"
-        android:text="I have a destination in mind!"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        tools:clickable="true" />
 
     <Button
         android:id="@+id/btnSuggest"
@@ -29,41 +15,33 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="192dp"
-        android:background="?attr/colorControlHighlight"
+        android:background="@color/white_5_transparent"
         android:text="Suggest places for me"
         android:textAllCaps="false"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorPrimaryDark"
         tools:clickable="true" />
 
     <TextView
         android:id="@+id/tvExplore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="54dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="cursive"
         android:text="Explore"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="55sp"
         android:textStyle="bold" />
 
-    <FrameLayout
-        android:id="@+id/place_autocomplete_fragment_container"
-        android:layout_width="250dp"
-        android:layout_centerHorizontal="true"
+    <fragment
+        android:id="@+id/place_autocomplete_fragment"
+        android:name="com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ivArrow"
-        android:layout_marginTop="10dp" />
-
-    <ImageView
-        android:id="@+id/ivArrow"
-        android:layout_width="65dp"
-        android:layout_height="43dp"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/btnKnow"
-        android:color="@android:color/white"
-        android:src="@drawable/arrow_down" />
+        android:layout_marginTop="220dp" />
 
 
 </RelativeLayout>
