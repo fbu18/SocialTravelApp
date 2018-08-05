@@ -70,7 +70,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
             String url = chatTrip.getAttraction().fetchIfNeeded().getParseFile("image").getUrl();
             Glide.with(context).load(url)
                     .apply(
-                            RequestOptions.placeholderOf(R.drawable.background_gradient)
+                            RequestOptions.placeholderOf(R.color.placeholderColor)
                                     .fitCenter()
                                     .transform(new RoundedCornersTransformation(10, 0)))
                     .into(viewHolder.ivAttractionPic);

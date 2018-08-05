@@ -91,7 +91,7 @@
              <android.support.v4.view.ViewPager
                  android:id="@+id/vpTrip"
                  android:layout_width="match_parent"
-                 android:layout_height="320dp" />
+                 android:layout_height="505dp" />
 
          </LinearLayout>
 

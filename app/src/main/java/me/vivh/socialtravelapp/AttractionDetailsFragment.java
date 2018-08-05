@@ -72,7 +72,7 @@ public class AttractionDetailsFragment extends Fragment {
             tvPoints.setText(String.valueOf(attraction.getPoints()));
             Glide.with(context).load(attraction.getImage().getUrl())
                     .apply(
-                            RequestOptions.placeholderOf(R.drawable.background_gradient)
+                            RequestOptions.placeholderOf(R.color.placeholderColor)
                                     .fitCenter()
                                     .transform(new RoundedCornersTransformation(25, 0)))
                     .into(ivAttrPic);

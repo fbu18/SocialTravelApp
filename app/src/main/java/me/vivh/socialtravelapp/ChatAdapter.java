@@ -169,7 +169,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void displayProfilePicture(Message message, ImageView profileView) {
         Glide.with(mContext).load(message.getProfilePic().getUrl())
                 .apply(
-                        RequestOptions.placeholderOf(R.drawable.background_gradient)
+                        RequestOptions.placeholderOf(R.color.placeholderColor)
                                 .fitCenter()
                                 .circleCrop())
                 .into(profileView);
@@ -179,7 +179,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Log.d("ChatAdapter","Entered displayChatImage");
         Glide.with(mContext).load(message.getImage().getUrl())
                 .apply(
-                        RequestOptions.placeholderOf(R.drawable.background_gradient)
+                        RequestOptions.placeholderOf(R.color.placeholderColor)
                                 .fitCenter()
                                 .transform(new RoundedCornersTransformation(10, 0)))
                 .into(chatImage);

@@ -104,14 +104,14 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolderCheckIn.username.setText(checkUsername);
                 viewHolderCheckIn.location.setText(location);
                 Glide.with(context).load(imageUrl)
-                        .apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop())
+                        .apply(RequestOptions.placeholderOf(R.color.placeholderColor).circleCrop())
                         .into(viewHolderCheckIn.profileImage);
                 ParseGeoPoint point = attraction.getPoint();
                 String lat = Double.toString(point.getLatitude());
                 String lng = Double.toString(point.getLongitude());
                 // Use Google Static Maps API to get an image of the map surrounding the attraction
                 String mapUrl = "http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=15&scale=1&size=200x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C" + lat + "," + lng;
-                Glide.with(context).load(mapUrl).apply(RequestOptions.placeholderOf(R.drawable.background_gradient)).into(viewHolderCheckIn.ivMap);
+                Glide.with(context).load(mapUrl).apply(RequestOptions.placeholderOf(R.color.placeholderColor)).into(viewHolderCheckIn.ivMap);
                 bindCheckIn(viewHolder, i);
                 return;
             case 2:
@@ -194,11 +194,11 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             String profileUrl = (String) profilePic.getUrl();
             String date = post.getDate("date").toString();
             viewHolderPost.tvDate.setText(date);
-            Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop()).into(viewHolderPost.ivProfile);
+            Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.color.placeholderColor).circleCrop()).into(viewHolderPost.ivProfile);
             if (post.getImage() != null) {
                 String url = post.getImage().getUrl();
                 Glide.with(context).load(url).apply(
-                        RequestOptions.placeholderOf(R.drawable.background_gradient)).into(viewHolderPost.imageView);
+                        RequestOptions.placeholderOf(R.color.placeholderColor)).into(viewHolderPost.imageView);
             } else {
                 viewHolderPost.imageView.setVisibility(View.GONE);
             }
@@ -226,14 +226,14 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             viewHolderCheckIn.username.setText(checkUsername);
             viewHolderCheckIn.location.setText(location);
             Glide.with(context).load(imageUrl)
-                    .apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop())
+                    .apply(RequestOptions.placeholderOf(R.color.placeholderColor).circleCrop())
                     .into(viewHolderCheckIn.profileImage);
             ParseGeoPoint point = attraction.getPoint();
             String lat = Double.toString(point.getLatitude());
             String lng = Double.toString(point.getLongitude());
             // Use Google Static Maps API to get an image of the map surrounding the attraction
             String mapUrl = "http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=15&scale=1&size=200x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C" + lat + "," + lng;
-            Glide.with(context).load(mapUrl).apply(RequestOptions.placeholderOf(R.drawable.background_gradient)).into(viewHolderCheckIn.ivMap);
+            Glide.with(context).load(mapUrl).apply(RequestOptions.placeholderOf(R.color.placeholderColor)).into(viewHolderCheckIn.ivMap);
             return;
         }
 
@@ -246,7 +246,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             String awardsNum = award.getAward() + " trips";
             viewHolderMilestone.tvAwardUsername.setText(recipientName);
             viewHolderMilestone.tvTripNumber.setText(awardsNum);
-            Glide.with(context).load(rProfilePic).apply(RequestOptions.placeholderOf(R.drawable.background_gradient).circleCrop()).into(viewHolderMilestone.ivProfile);
+            Glide.with(context).load(rProfilePic).apply(RequestOptions.placeholderOf(R.color.placeholderColor).circleCrop()).into(viewHolderMilestone.ivProfile);
         }
 
     }
