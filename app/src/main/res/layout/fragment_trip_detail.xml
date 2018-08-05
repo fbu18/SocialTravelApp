@@ -57,7 +57,7 @@
                  android:id="@+id/btnJoin"
                  android:layout_width="match_parent"
                  android:layout_height="35dp"
-                 android:background="@color/colorPrimaryDark"
+                 android:background="@color/colorPrimary"
                  android:text="Join Group"
                  android:textColor="#ffffff" />
 
@@ -67,7 +67,7 @@
                  android:layout_height="35dp"
                  android:layout_below="@+id/tvDescription"
                  android:layout_marginTop="10dp"
-                 android:background="@color/colorPrimaryDark"
+                 android:background="@color/colorPrimary"
                  android:text="Check In"
                  android:textColor="@android:color/white" />
 
@@ -75,7 +75,7 @@
                  android:id="@+id/btnAddPhoto"
                  android:layout_width="match_parent"
                  android:layout_height="35dp"
-                 android:background="@color/colorPrimaryDark"
+                 android:background="@color/colorPrimary"
                  android:text="Add Photo"
                  android:layout_marginTop="10dp"
                  android:textColor="@android:color/white" />
@@ -97,11 +97,10 @@
 
          <ProgressBar
              android:id="@+id/pbLoading"
-             android:layout_width="80dp"
-             android:layout_height="80dp"
+             android:layout_width="100dp"
+             android:layout_height="100dp"
              android:layout_alignParentTop="true"
              android:layout_centerHorizontal="true"
-             android:layout_marginTop="23dp"
              android:gravity="center"
              android:visibility="invisible" />
 

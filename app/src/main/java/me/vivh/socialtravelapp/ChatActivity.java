@@ -149,7 +149,6 @@ public class ChatActivity extends AppCompatActivity {
 
     // Setup button event handler which posts the entered message to Parse
     private void setupMessagePosting() {
-
         // Find the text field and button
         etMessage = (EditText) findViewById(R.id.etMessage);
         btSend = (Button) findViewById(R.id.btSend);

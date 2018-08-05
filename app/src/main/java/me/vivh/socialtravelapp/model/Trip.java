@@ -116,7 +116,7 @@ public class Trip extends ParseObject {
                 String pointsText; //whether or not the word is plural
                 if (attractionPoints == 1) { pointsText = " point."; }
                 else { pointsText = " points."; }
-                Toast.makeText(getApplicationContext(),"Unchecked in! You have lost " + attractionPoints + pointsText,Toast.LENGTH_LONG ).show();
+                Toast.makeText(getApplicationContext(),"Checked out! You have lost " + attractionPoints + pointsText,Toast.LENGTH_LONG ).show();
             }
         });
     }

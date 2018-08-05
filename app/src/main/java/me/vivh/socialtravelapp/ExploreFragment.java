@@ -44,6 +44,7 @@ public class ExploreFragment extends Fragment {
     Button knowBtn;
     Button suggestBtn;
     GeoDataClient mGeoDataClient;
+    SupportPlaceAutocompleteFragment placeAutocompleteFragment;
 
     private OnFragmentInteractionListener mListener;
 
@@ -93,7 +94,7 @@ public class ExploreFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        SupportPlaceAutocompleteFragment placeAutocompleteFragment = new SupportPlaceAutocompleteFragment();
+        placeAutocompleteFragment = new SupportPlaceAutocompleteFragment();
         getChildFragmentManager().beginTransaction()
                 .replace(R.id.place_autocomplete_fragment_container, placeAutocompleteFragment)
                 .addToBackStack(SupportPlaceAutocompleteFragment.class.getName())
