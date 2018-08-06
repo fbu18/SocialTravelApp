@@ -43,8 +43,6 @@ public class SuggestionFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-        inflater.inflate(R.menu.menu_explore, menu);
         fragments.add(new AttractionListFragment());
         fragments.add(new MapsFragment());
         adapter = new MainActivity.BottomNavAdapter(getChildFragmentManager(), fragments);
