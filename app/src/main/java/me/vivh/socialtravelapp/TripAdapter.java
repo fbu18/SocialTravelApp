@@ -70,7 +70,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
                             RequestOptions.placeholderOf(R.color.placeholderColor)
                                     .circleCrop())
                     .into(viewHolder.ivAttractionPic);
-        }catch(ParseException e){
+        }catch(Exception e){
             e.printStackTrace();
         }
 
