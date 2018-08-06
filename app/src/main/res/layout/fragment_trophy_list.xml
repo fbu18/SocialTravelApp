@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.SwipeRefreshLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipeContainer"
+    android:id="@+id/rlTrophyList"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -19,4 +19,13 @@
         tools:context=".TrophyListFragment"
         tools:listitem="@layout/item_trophy" />
 
-</android.support.v4.widget.SwipeRefreshLayout>
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:visibility="invisible" />
+
+</RelativeLayout>

@@ -101,6 +101,7 @@ public class ExploreFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         EditText etPlace = (EditText) view.findViewById(R.id.place_autocomplete_search_input);
         etPlace.setHint("I have a destination in mind!");
+        etPlace.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
     }
 
 
@@ -113,6 +114,13 @@ public class ExploreFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EditText etPlace = (EditText) getView().findViewById(R.id.place_autocomplete_search_input);
+        etPlace.setText("");
     }
 
     @Override

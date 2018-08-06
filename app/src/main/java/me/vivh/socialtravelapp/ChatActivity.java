@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -228,6 +229,10 @@ public class ChatActivity extends AppCompatActivity {
     }
     // Query messages from Parse so we can load them into the chat adapter
     private void refreshMessages() {
+
+        final ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
+        pb.setVisibility(ProgressBar.VISIBLE);
+
         // Construct query to execute
         ParseQuery<Message> messageQuery = ParseQuery.getQuery(Message.class);
         messageQuery.whereEqualTo(TRIP_KEY, trip);
@@ -252,6 +257,7 @@ public class ChatActivity extends AppCompatActivity {
                         rvChat.scrollToPosition(0);
                         mFirstLoad = false;
                     }
+                    pb.setVisibility(ProgressBar.INVISIBLE);
                 } else {
                     Log.e("message", "Error Loading Messages" + e);
                 }

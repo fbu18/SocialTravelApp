@@ -3,13 +3,13 @@ package me.vivh.socialtravelapp;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.parse.FindCallback;
@@ -33,9 +33,9 @@ public class TrophyListFragment extends Fragment {
     RecyclerView rvTrophies;
     TrophyAdapter trophyAdapter;
     AsyncHttpClient client;
-    SwipeRefreshLayout swipeContainer;
     private Unbinder unbinder;
     private OnFragmentInteractionListener listener;
+    private ProgressBar pb;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -69,7 +69,7 @@ public class TrophyListFragment extends Fragment {
 
         trophyAdapter = new TrophyAdapter(trophies);
         rvTrophies = (RecyclerView) rootView.findViewById(R.id.rvTrophies);
-        swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
+        pb = (ProgressBar) rootView.findViewById(R.id.pbLoading);
 
         loadTrophies();
 
@@ -77,25 +77,6 @@ public class TrophyListFragment extends Fragment {
         rvTrophies.setLayoutManager(new GridLayoutManager(getContext(),numColumns));
         rvTrophies.setAdapter(trophyAdapter);
 
-
-        // Setup refresh listener which triggers new data loading
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
-                trophies.clear();
-                trophyAdapter.clear();
-                loadTrophies();
-                swipeContainer.setRefreshing(false);
-            }
-        });
-        // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
         return rootView;
     }
 
@@ -116,6 +97,7 @@ public class TrophyListFragment extends Fragment {
     }
 
     public void loadTrophies(){
+        pb.setVisibility(ProgressBar.VISIBLE);
 
         try{
             ParseRelation trophyRelation = user.getRelation("trophies");
@@ -135,6 +117,7 @@ public class TrophyListFragment extends Fragment {
 
                             trophies.add(0,objects.get(i));
                             trophyAdapter.notifyItemInserted(trophies.size()-1);
+                            pb.setVisibility(ProgressBar.INVISIBLE);
                         }
                     } else {
                         e.printStackTrace();
