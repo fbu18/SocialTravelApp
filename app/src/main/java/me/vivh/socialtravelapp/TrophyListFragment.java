@@ -3,13 +3,13 @@ package me.vivh.socialtravelapp;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.parse.FindCallback;
@@ -35,6 +35,7 @@ public class TrophyListFragment extends Fragment {
     AsyncHttpClient client;
     private Unbinder unbinder;
     private OnFragmentInteractionListener listener;
+    private ProgressBar pb;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -68,6 +69,7 @@ public class TrophyListFragment extends Fragment {
 
         trophyAdapter = new TrophyAdapter(trophies);
         rvTrophies = (RecyclerView) rootView.findViewById(R.id.rvTrophies);
+        pb = (ProgressBar) rootView.findViewById(R.id.pbLoading);
 
         loadTrophies();
 
@@ -95,6 +97,7 @@ public class TrophyListFragment extends Fragment {
     }
 
     public void loadTrophies(){
+        pb.setVisibility(ProgressBar.VISIBLE);
 
         try{
             ParseRelation trophyRelation = user.getRelation("trophies");
@@ -107,6 +110,7 @@ public class TrophyListFragment extends Fragment {
                 @Override
                 public void done(List<Trophy> objects, ParseException e) {
                     if (e==null){
+                        pb.setVisibility(ProgressBar.INVISIBLE);
                         for (int i = 0; i < objects.size(); i++){
                             Log.d("MainActivity", "Trophy ["+i+"] = "
                                     + "\n name = " + objects.get(i).getName()
@@ -130,3 +134,4 @@ public class TrophyListFragment extends Fragment {
 
     }
 }
+
