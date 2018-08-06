@@ -205,9 +205,8 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     public void openTripDetail(@NonNull Trip trip) {
         ((TripDetailFragment)fragments.get(TRIP_DETAIL_INDEX)).setTrip(trip);
         viewPager.setCurrentItem(TRIP_DETAIL_INDEX, false);
-        ((TripDetailFragment)fragments.get(TRIP_DETAIL_INDEX)).queryCheckedIn(ParseUser.getCurrentUser());
-        ((TripDetailFragment)fragments.get(TRIP_DETAIL_INDEX)).queryJoined(ParseUser.getCurrentUser());
-        ((TripDetailFragment)fragments.get(TRIP_DETAIL_INDEX)).setUpButtons(ParseUser.getCurrentUser());
+//        ((TripDetailFragment)fragments.get(TRIP_DETAIL_INDEX)).queryCheckedIn(ParseUser.getCurrentUser());
+//        ((TripDetailFragment)fragments.get(TRIP_DETAIL_INDEX)).queryJoined(ParseUser.getCurrentUser());
         modifyStack(TRIP_DETAIL_INDEX);
     }
 
