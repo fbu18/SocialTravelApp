@@ -21,7 +21,7 @@
         android:layout_centerHorizontal="true"
         android:fontFamily="sans-serif"
         android:text="Leaderboard"
-        android:textColor="@color/textDark"
-        android:textSize="24sp"
-        android:textStyle="italic" />
+        android:textColor="@color/black_60_transparent"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 </RelativeLayout>
