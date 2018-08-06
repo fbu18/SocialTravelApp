@@ -110,6 +110,7 @@ public class TrophyListFragment extends Fragment {
                 @Override
                 public void done(List<Trophy> objects, ParseException e) {
                     if (e==null){
+                        pb.setVisibility(ProgressBar.INVISIBLE);
                         for (int i = 0; i < objects.size(); i++){
                             Log.d("MainActivity", "Trophy ["+i+"] = "
                                     + "\n name = " + objects.get(i).getName()
@@ -117,7 +118,6 @@ public class TrophyListFragment extends Fragment {
 
                             trophies.add(0,objects.get(i));
                             trophyAdapter.notifyItemInserted(trophies.size()-1);
-                            pb.setVisibility(ProgressBar.INVISIBLE);
                         }
                     } else {
                         e.printStackTrace();
@@ -134,3 +134,4 @@ public class TrophyListFragment extends Fragment {
 
     }
 }
+

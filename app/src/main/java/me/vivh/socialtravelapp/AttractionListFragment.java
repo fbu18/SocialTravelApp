@@ -14,23 +14,13 @@ import android.view.ViewGroup;
 import com.loopj.android.http.AsyncHttpClient;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.yelp.fusion.client.connection.YelpFusionApi;
-import com.yelp.fusion.client.connection.YelpFusionApiFactory;
-import com.yelp.fusion.client.models.Business;
-import com.yelp.fusion.client.models.SearchResponse;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.vivh.socialtravelapp.model.Attraction;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class AttractionListFragment extends Fragment {
 
@@ -75,7 +65,6 @@ public class AttractionListFragment extends Fragment {
         swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
 
         loadTopAttractions();
-        loadYelpAttractions("H_XUmSP8Cm_SuKapYw6fb_negJU39gbZvPvCoVqtrLfSrfvtjAq-fWIEpfkK89-cpIYhF-3Hu6XccnseGW-GRDwiqcOwbjiCRctJesF4RtJpqUUyIOtEyxVmNv5nW3Yx");
         getConfiguration();
 
         int numColumns = 2;
@@ -156,55 +145,5 @@ public class AttractionListFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
 
-    }
-
-    public List<Attraction> loadYelpAttractions(String yelpAPIKey){
-        List<Attraction> yelpAttractions = new ArrayList<>();
-        YelpFusionApiFactory apiFactory = new YelpFusionApiFactory();
-        YelpFusionApi yelpFusionApi = null;
-        try {
-            yelpFusionApi = apiFactory.createAPI(yelpAPIKey);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Map<String, String> params = new HashMap<>();
-
-        // general params
-        params.put("term", "things to do");
-        params.put("latitude", "47.6062");
-        params.put("longitude", "-122.3321");
-        params.put("limit","10");
-
-        Call<SearchResponse> call = yelpFusionApi.getBusinessSearch(params);
-
-//        try {
-//            Response<SearchResponse> response = call.execute();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-        Callback<SearchResponse> callback = new Callback<SearchResponse>() {
-            @Override
-            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
-                SearchResponse searchResponse = response.body();
-                int totalNumberOfResults = searchResponse.getTotal();
-                Log.d("AttractionListFragment","totalNumberOfResults = " + totalNumberOfResults);
-
-
-                ArrayList<Business> businesses = searchResponse.getBusinesses();
-                String businessName = businesses.get(0).getName();
-                Double rating = businesses.get(0).getRating();
-
-                Log.d("AttractionListFragment","businessName = " + businessName);
-            }
-            @Override
-            public void onFailure(Call<SearchResponse> call, Throwable t) {
-                // HTTP error happened, do something to handle it.
-            }
-        };
-
-        call.enqueue(callback);
-        return yelpAttractions;
     }
 }

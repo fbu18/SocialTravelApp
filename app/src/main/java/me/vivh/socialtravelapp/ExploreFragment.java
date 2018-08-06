@@ -102,6 +102,8 @@ public class ExploreFragment extends Fragment {
         EditText etPlace = (EditText) view.findViewById(R.id.place_autocomplete_search_input);
         etPlace.setHint("I have a destination in mind!");
         etPlace.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+        // TODO - place API key in secret.xml
+        //uploadYelpAttractions("H_XUmSP8Cm_SuKapYw6fb_negJU39gbZvPvCoVqtrLfSrfvtjAq-fWIEpfkK89-cpIYhF-3Hu6XccnseGW-GRDwiqcOwbjiCRctJesF4RtJpqUUyIOtEyxVmNv5nW3Yx");
     }
 
 
@@ -271,6 +273,81 @@ public class ExploreFragment extends Fragment {
             }
         });
     }
+
+
+    /*public List<Attraction> uploadYelpAttractions(String yelpAPIKey){
+        List<Attraction> yelpAttractions = new ArrayList<>();
+        YelpFusionApiFactory apiFactory = new YelpFusionApiFactory();
+        YelpFusionApi yelpFusionApi = null;
+        try {
+            yelpFusionApi = apiFactory.createAPI(yelpAPIKey);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Map<String, String> params = new HashMap<>();
+
+        // general params
+        params.put("term", "unique fun attractions");
+        params.put("latitude", "47.6062");
+        params.put("longitude", "-122.3321");
+        params.put("limit","15");
+
+        Call<SearchResponse> call = yelpFusionApi.getBusinessSearch(params);
+
+        Callback<SearchResponse> callback = new Callback<SearchResponse>() {
+            @Override
+            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                SearchResponse searchResponse = response.body();
+                int totalNumberOfResults = searchResponse.getTotal();
+                Log.d("AttractionListFragment","totalNumberOfResults = " + totalNumberOfResults);
+
+                ArrayList<Business> businesses = searchResponse.getBusinesses();
+
+                for (int i = 0; i < businesses.size(); i++){
+                    String businessId = businesses.get(i).getId();
+                    String businessName = businesses.get(i).getName();
+                    String businessPhone = businesses.get(i).getDisplayPhone();
+                    String businessAddress = businesses.get(i).getLocation().getAddress1() + ", "
+                            + businesses.get(i).getLocation().getCity() + ", "
+                            + businesses.get(i).getLocation().getState() + " "
+                            + businesses.get(i).getLocation().getZipCode() + ", "
+                            + businesses.get(i).getLocation().getCountry();
+                    Double businessRating = businesses.get(i).getRating();
+                    Double businessLatitude = businesses.get(i).getCoordinates().getLatitude();
+                    Double businessLongitude = businesses.get(i).getCoordinates().getLongitude();
+                    String businessWebsite = businesses.get(i).getUrl();
+                    Integer businessPriceLevel = businesses.get(i).getPrice().length();
+                    String businessImageUrl = businesses.get(i).getImageUrl();
+                    String businessDescription = "";
+                    Log.d("AttractionListFragment","businessName = " + businessName);
+                    Log.d("AttractionListFragment","businessDescription = " + businessDescription);
+
+                    Attraction newAtt = new Attraction();
+                    newAtt.setId(businessId);
+                    newAtt.setName(businessName);
+                    newAtt.setAddress(businessAddress);
+                    newAtt.setPhoneNumber(businessPhone);
+                    newAtt.setPoint(businessLatitude, businessLongitude);
+                    newAtt.setWebsite(businessWebsite);
+                    newAtt.setRating(businessRating);
+                    newAtt.setPriceLevel(businessPriceLevel);
+                    //newAtt.setDescription(businessDescription);
+                    newAtt.setPoints(10);
+                    // set image in the retrieveUploadPhoto method so that upload is only
+                    // executed after photo request is complete
+
+                }
+            }
+            @Override
+            public void onFailure(Call<SearchResponse> call, Throwable t) {
+                // HTTP error happened, do something to handle it.
+            }
+        };
+
+        call.enqueue(callback);
+        return yelpAttractions;
+    }*/
 
 }
 
