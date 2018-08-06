@@ -49,7 +49,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/tvBio"
         android:layout_marginTop="5dp"
-        android:background="@drawable/background_gradient" />
+        android:background="@color/colorPrimaryDark" />
 
     <TextView
         android:id="@+id/tvHomeLoc"
@@ -141,40 +141,44 @@
         android:textColor="@color/black_70_transparent"
         android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/recentlyVisitedText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="136dp"
-        android:text="Recently Visited"
-        android:textSize="16sp"
-        android:textStyle="italic" />
 
-    <ListView
-        android:id="@+id/lvPastTrips"
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/profile_divider">
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="134dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
-
-    <FrameLayout
-        android:id="@+id/flTrophyList"
-        android:layout_width="match_parent"
-        android:layout_height="131dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvTrophyCase" />
-
-    <TextView
-        android:id="@+id/tvTrophyCase"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_divider"
-        android:layout_centerHorizontal="true"
-        android:text="Trophy Case"
-        android:textSize="16sp"
-        android:textStyle="italic" />
+        android:orientation="vertical">
+
+
+        <FrameLayout
+            android:id="@+id/flTrophyList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
+
+
+        <TextView
+            android:id="@+id/recentlyVisitedText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Recently Visited"
+            android:textAlignment="center"
+            android:textColor="@color/textDark"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/lvPastTrips"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            />
+    </LinearLayout>
+</ScrollView>
+
 
 
 </RelativeLayout>

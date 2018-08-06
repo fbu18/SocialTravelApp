@@ -167,7 +167,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <fragment
+            <FrameLayout
                 android:id="@+id/flTrophyList"
                 android:name="me.vivh.socialtravelapp.TrophyListFragment"
                 android:layout_width="match_parent"
