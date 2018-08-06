@@ -167,7 +167,7 @@
             android:layout_height="wrap_content"
             android:text="Recently Visited"
             android:textAlignment="center"
-            android:textColor="@color/textDark"
+            android:textColor="@color/black_60_transparent"
             android:textSize="20sp"
             android:textStyle="bold" />
 

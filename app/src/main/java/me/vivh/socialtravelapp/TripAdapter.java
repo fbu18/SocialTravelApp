@@ -60,11 +60,10 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Trip trip = mTrips.get(i);
 
-        viewHolder.tvGroupName.setText(trip.getName());
-        viewHolder.tvDate.setText(trip.getDateString());
-        viewHolder.tvDescription.setText(trip.getDescription());
-
         try{
+            viewHolder.tvGroupName.setText(trip.getName());
+            viewHolder.tvDate.setText(trip.getDateString());
+            viewHolder.tvDescription.setText(trip.getDescription());
             String url = trip.getAttraction().fetchIfNeeded().getParseFile("image").getUrl();
             Glide.with(context).load(url)
                     .apply(
