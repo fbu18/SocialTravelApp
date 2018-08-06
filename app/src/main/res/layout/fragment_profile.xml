@@ -9,12 +9,7 @@
     android:background="@android:color/white"
     tools:context=".ProfileFragment">
 
-    <FrameLayout
-        android:id="@+id/flTrophyList"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvTrophyCase" />
+
 
     <TextView
         android:id="@+id/tvDisplayName"
@@ -73,7 +68,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/tvBio"
         android:layout_marginTop="5dp"
-        android:background="@drawable/background_gradient" />
+        android:background="@color/colorPrimaryDark" />
 
     <TextView
         android:id="@+id/tvHomeLoc"
@@ -151,16 +146,6 @@
         android:layout_marginTop="@dimen/pointsMargin"
         android:text="0"
         android:textSize="22sp" />
-
-    <fragment
-        android:id="@+id/leaderboardFragment"
-        android:name="me.vivh.socialtravelapp.LeaderboardFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/profile_divider"
-        android:layout_marginTop="152dp" />
-
     <TextView
         android:id="@+id/tvBio"
         android:layout_width="match_parent"
@@ -173,15 +158,29 @@
         android:textColor="@color/black_70_transparent"
         android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/tvTrophyCase"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_divider"
-        android:layout_centerHorizontal="true"
-        android:text="Trophy Case"
-        android:textSize="24sp"
-        android:textStyle="italic" />
+        android:layout_below="@id/profile_divider">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <fragment
+                android:id="@+id/flTrophyList"
+                android:name="me.vivh.socialtravelapp.TrophyListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <fragment
+                android:id="@+id/leaderboardFragment"
+                android:name="me.vivh.socialtravelapp.LeaderboardFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

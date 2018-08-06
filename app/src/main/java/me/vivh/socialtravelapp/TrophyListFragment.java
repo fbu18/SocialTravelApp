@@ -33,7 +33,6 @@ public class TrophyListFragment extends Fragment {
     RecyclerView rvTrophies;
     TrophyAdapter trophyAdapter;
     AsyncHttpClient client;
-    SwipeRefreshLayout swipeContainer;
     private Unbinder unbinder;
     private OnFragmentInteractionListener listener;
 
@@ -69,7 +68,6 @@ public class TrophyListFragment extends Fragment {
 
         trophyAdapter = new TrophyAdapter(trophies);
         rvTrophies = (RecyclerView) rootView.findViewById(R.id.rvTrophies);
-        swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
 
         loadTrophies();
 
@@ -77,25 +75,6 @@ public class TrophyListFragment extends Fragment {
         rvTrophies.setLayoutManager(new GridLayoutManager(getContext(),numColumns));
         rvTrophies.setAdapter(trophyAdapter);
 
-
-        // Setup refresh listener which triggers new data loading
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
-                trophies.clear();
-                trophyAdapter.clear();
-                loadTrophies();
-                swipeContainer.setRefreshing(false);
-            }
-        });
-        // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
         return rootView;
     }
 
