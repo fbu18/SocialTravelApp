@@ -11,5 +11,9 @@
     <dimen name="view_height_statement">175dp</dimen>
     <dimen name="icon_height">36dp</dimen>
     <dimen name="icon_width">36dp</dimen>
+    <dimen name="comment_width">30dp</dimen>
+    <dimen name ="like_width">40dp</dimen>
+    <dimen name ="like_height">30dp</dimen>
+    <dimen name ="like_icon_size">25dp</dimen>
 
 </resources>

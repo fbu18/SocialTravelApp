@@ -63,9 +63,27 @@
         android:text="Date" />
     <com.like.LikeButton
         android:id="@+id/star_button2"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/like_width"
+        android:layout_height="@dimen/like_height"
         android:layout_below="@id/ivMap"
-        app:icon_size="25dp"
+        app:icon_size="@dimen/like_icon_size"
         app:icon_type="heart" />
+    <ImageButton
+        android:id="@+id/ibCommentCheckIn"
+        android:layout_width="@dimen/comment_width"
+        android:layout_height="@dimen/comment_width"
+        android:layout_toEndOf="@+id/star_button2"
+        android:layout_alignTop="@id/star_button"
+        android:layout_below="@id/ivMap"
+        android:tint="@color/grey_5"
+        android:background="@drawable/ic_comment" />
+
+    <ImageButton
+        android:id="@+id/ibShareCheckIn"
+        android:layout_width="@dimen/comment_width"
+        android:layout_height="@dimen/comment_width"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/ivMap"
+        android:background="?attr/actionModeShareDrawable" />
+
 </RelativeLayout>

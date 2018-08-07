@@ -21,7 +21,9 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import butterknife.BindView;
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         TripListFragment.OnFragmentInteractionListener, TripAdapter.Callback, TripMemberAdapter.CallbackMember,
         MapsFragment.OnFragmentInteractionListener,
         ChatListAdapter.Callback, ChatListFragment.OnFragmentInteractionListener,
-        FeedAdapter.Callback, UserAdapter.Callback, EditProfileFragment.OnFragmentInteractionListener, MemberProfileFragment.OnFragmentInteractionListener{
+        FeedAdapter.Callback, UserAdapter.Callback, EditProfileFragment.OnFragmentInteractionListener, MemberProfileFragment.OnFragmentInteractionListener, CustomWindowAdapter.Callback{
 
     public static final int FEED_INDEX = 0;
     public static final int EXPLORE_INDEX = 1;
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
     private Stack<Integer> backStack = new Stack<>();
     private int itemPosition = 0;
     private BottomNavAdapter adapter;
+    Map<String,Attraction> dictionary = new HashMap<String, Attraction>();
 
     @BindView(R.id.bottom_navigation) BottomNavigationView bottomNavigationView;
     @BindView(R.id.viewPager) ViewPager viewPager;
@@ -303,6 +306,16 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         } else {
             viewPager.setCurrentItem(FEED_INDEX,false);
         }
+    }
+
+    public void clearDictionary() {
+        dictionary.clear();
+    }
+    public void putDictionary(String key, Attraction value) {
+        dictionary.put(key, value);
+    }
+    public Attraction getDictionary(String key) {
+        return dictionary.get(key);
     }
 
 }
