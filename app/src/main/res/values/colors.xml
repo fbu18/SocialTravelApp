@@ -164,6 +164,7 @@
         <color name="grey_8">#ff363636</color>
         <color name="grey_9">#ff262626</color>
         <color name="grey_9_30_transparent">#4d262626</color>
+        <color name = "grey_9_10_transparent">#1a262626</color>
         <color name="ig_led_color">#fff4bb41</color>
         <color name="ig_purple">#ffc40092</color>
         <color name="dark_purple">#461a6d</color>
