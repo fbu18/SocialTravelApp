@@ -125,15 +125,15 @@
     <TextView
         android:id="@+id/tvAttrWebsite"
         android:layout_width="321dp"
-        android:layout_height="20dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/tvAttrAddress"
-        android:layout_toRightOf="@id/ivAttrWebsite"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="5dp"
-        android:text="www.website.com"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/ivAttrWebsite"
         android:autoLink="all"
         android:linksClickable="true"
+        android:text="www.website.com"
         android:textColor="@android:color/black" />
 
     <ImageView

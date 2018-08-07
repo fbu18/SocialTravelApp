@@ -337,17 +337,10 @@ public class ExploreFragment extends Fragment {
                     Log.d("ExploreFragment","businessDescription = " + businessDescription);
 
                     final Attraction newAtt = new Attraction(businessId, businessName, businessAddress, businessPhone, businessLatitude, businessLongitude, businessWebsite, businessRating, businessDescription, 10);
-//                    newAtt.setId(businessId);
-//                    newAtt.setName(businessName);
-//                    newAtt.setAddress(businessAddress);
-//                    newAtt.setPhoneNumber(businessPhone);
-//                    newAtt.setPoint(businessLatitude, businessLongitude);
-//                    newAtt.setWebsite(businessWebsite);
-//                    newAtt.setRating(businessRating);
-//                    //newAtt.setPriceLevel(businessPriceLevel);
-//                    newAtt.setDescription(businessDescription);
-//                    newAtt.setPoints(10);
-
+                    if (isDuplicateAttraction(newAtt)){
+                        Log.d("ExploreFragment", "Skipping " + newAtt.getName() + " (duplicate attraction)");
+                        continue;
+                    }
 
                     //find reviews for business
                     Call<Reviews> reviewCall = yelpFusionApi.getBusinessReviews(businessId, "en_US");
@@ -412,37 +405,33 @@ public class ExploreFragment extends Fragment {
                 connection.connect();
                 InputStream input = connection.getInputStream();
                 Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                if (isDuplicateAttraction(newAtt)){
-                    Log.d("ExploreFragment", "Skipping " + newAtt.getName() + " (duplicate attraction)");
-                    return null;
-                }
-                newAtt.setBitmap(myBitmap);
-                Log.d("ExploreFragment","set bitmap");
 
-                newAtt.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            // Attraction has been successfully created
-                            Log.d("ExploreFragment","New attraction added!");
-                            newAtt = null;
-                        } else {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+                    newAtt.setBitmap(myBitmap);
+                    Log.d("ExploreFragment","set bitmap");
 
-                review.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if(e == null){
-                            Log.d("ExploreFragment","New review added!");
-                        }else{
-                            e.printStackTrace();
+                    newAtt.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                // Attraction has been successfully created
+                                Log.d("ExploreFragment","New attraction added!");
+                                newAtt = null;
+                            } else {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                });
-                return myBitmap;
+                    });
+                    review.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e == null){
+                                Log.d("ExploreFragment","New review added!");
+                            }else{
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    return myBitmap;
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
@@ -458,7 +447,7 @@ public class ExploreFragment extends Fragment {
     }
 
     public Boolean isDuplicateAttraction(final Attraction attraction){
-        List<Attraction> parseAttractions = new ArrayList<Attraction>();
+        List<Attraction> parseAttractions;
         final Attraction.Query attractionsQuery = new Attraction.Query();
         attractionsQuery.whereEqualTo("name",attraction.getName());
         try {
