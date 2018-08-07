@@ -235,20 +235,6 @@ public class ExploreFragment extends Fragment {
         void openAttractionDetails(Attraction attraction);
     }
 
-    /*public String convertPlaceTypetoString(int value) throws Exception {
-        //TODO - implement this if we want to filter by category
-        Field[] fields = Place.class.getDeclaredFields();
-        String name;
-        for (Field field : fields) {
-            name = field.getName().toLowerCase();
-            if (name.startsWith("type_") && field.getInt(null) == value) {
-                return name.replace("type_", "");
-            }
-        }
-        throw new IllegalArgumentException("place value " + value + " not found.");
-    }*/
-
-
     // Request and upload image to Parse for the specified place.
     // Uploading image is done here so it waits for request to complete.
     private void retrieveUploadPhoto(String placeId, final Attraction attraction) {
@@ -388,14 +374,13 @@ public class ExploreFragment extends Fragment {
                 connection.connect();
                 InputStream input = connection.getInputStream();
                 Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                newAtt.setBitmap(myBitmap);
-                Log.d("ExploreFragment","set bitmap");
-
-                // TODO - fix this
                 if (isDuplicateAttraction(newAtt)){
                     Log.d("ExploreFragment", newAtt.getName() + "is a duplicate attraction");
                     return null;
                 }
+                newAtt.setBitmap(myBitmap);
+                Log.d("ExploreFragment","set bitmap");
+
                 newAtt.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
