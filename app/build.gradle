@@ -5,7 +5,8 @@ android {
     defaultConfig {
         applicationId "me.vivh.socialtravelapp"
         minSdkVersion 21
-
+        renderscriptTargetApi 19
+        renderscriptSupportModeEnabled true
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
