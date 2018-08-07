@@ -58,16 +58,20 @@ public class MapsFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void openAttractionDetails(@NonNull Attraction attraction);
+        void clearDictionary();
+        void putDictionary(String key, Attraction value);
+        Attraction getDictionary(String key);
     }
 
     Context context;
+    CustomWindowAdapter.Callback callback;
 
     ArrayList<Attraction> attractions = new ArrayList();
     SupportMapFragment mapFragment;
     GoogleMap map;
 
 
-    Map<String,Attraction> dictionary = new HashMap<String, Attraction>();
+
     //    Location location;
     private LocationRequest mLocationRequest;
     private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
@@ -117,6 +121,7 @@ public class MapsFragment extends Fragment {
                 public void onMapReady(GoogleMap map) {
                     getLastLocation();
                     map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
                     loadMap(map);
                     if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         // TODO: Consider calling
@@ -134,11 +139,13 @@ public class MapsFragment extends Fragment {
 
         }
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
+        if ((context instanceof OnFragmentInteractionListener) && (context instanceof CustomWindowAdapter.Callback)) {
             mListener = (OnFragmentInteractionListener) context;
+            callback = (CustomWindowAdapter.Callback) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -172,14 +179,14 @@ public class MapsFragment extends Fragment {
                             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 12);
                             map.animateCamera(cameraUpdate);
                             getAttractions();
-                            map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                                @Override
-                                public boolean onMarkerClick(Marker marker) {
-                                    Attraction attraction = dictionary.get(marker.getTitle());
-                                    mListener.openAttractionDetails(attraction);
-                                    return false;
-                                }
-                            });
+//                            map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//                                @Override
+//                                public boolean onMarkerClick(Marker marker) {
+//                                    Attraction attraction = dictionary.get(marker.getTitle());
+//                                    mListener.openAttractionDetails(attraction);
+//                                    return false;
+//                                }
+//                            });
                         }
                     }
                 })
@@ -215,7 +222,7 @@ public class MapsFragment extends Fragment {
     protected void loadMap(GoogleMap googleMap) {
         map = googleMap;
         if (map != null) {
-
+            map.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater(), callback));
             // Map is ready
 //            Toast.makeText(getActivity(), "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
 //            MapDemoActivityPermissionsDispatcher.getMyLocationWithPermissionCheck(this);
@@ -292,6 +299,13 @@ public class MapsFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mListener.clearDictionary();
+    }
+
     void populateMap(ArrayList<Attraction> arrayList) {
         for(int i = 0; i < arrayList.size(); i++) {
             Attraction attraction = (Attraction) arrayList.get(i);
@@ -305,10 +319,11 @@ public class MapsFragment extends Fragment {
         double lng = point.getLongitude();
         String name = attraction.getName();
         String description = attraction.getDescription();
-        dictionary.put(name, attraction);
+        mListener.putDictionary(name, attraction);
         LatLng latLng = new LatLng(lat, lng);
         mp.position(latLng);
         mp.title(name);
+        mp.snippet(description);
         map.addMarker(mp);
     }
 }

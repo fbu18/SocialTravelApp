@@ -52,11 +52,32 @@
 
     <com.like.LikeButton
         android:id="@+id/star_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/like_width"
+        android:layout_height="@dimen/like_height"
         android:layout_below="@id/tvPostDescription"
         android:layout_alignLeft="@id/ivPostImage"
-        app:icon_size="25dp"
-        app:icon_type="heart" />
+        app:icon_size="@dimen/like_icon_size"
+        app:anim_scale_factor=".5"
+        app:icon_type="heart" >
+
+    </com.like.LikeButton>
+
+    <ImageButton
+        android:id="@+id/ibComment"
+        android:layout_width="@dimen/comment_width"
+        android:layout_height="@dimen/comment_width"
+        android:layout_below="@+id/tvPostDescription"
+        android:layout_toEndOf="@+id/star_button"
+        android:layout_alignTop="@id/star_button"
+        android:tint="@color/grey_5"
+        android:background="@drawable/ic_comment" />
+
+    <ImageButton
+        android:id="@+id/ibShare"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tvPostDescription"
+        android:background="?attr/actionModeShareDrawable" />
 
 </RelativeLayout>
