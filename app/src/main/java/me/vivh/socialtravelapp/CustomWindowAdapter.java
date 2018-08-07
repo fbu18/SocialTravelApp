@@ -1,14 +1,21 @@
 package me.vivh.socialtravelapp;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.media.Image;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
@@ -23,17 +30,15 @@ public class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
     Context context;
     interface Callback {
         Attraction getDictionary(String key);
-    }
-    CustomWindowAdapter(Callback callback) {
-
+        void openAttractionDetails(Attraction attraction);
     }
     LayoutInflater mInflater;
     CustomWindowAdapter(LayoutInflater i, CustomWindowAdapter.Callback callback) {mInflater = i;
         mCallback = callback;}
     @Override
-    public View getInfoWindow(Marker marker) {
+    public View getInfoWindow(final Marker marker) {
         String name = marker.getTitle();
-        Attraction attraction = mCallback.getDictionary(name);
+        final Attraction attraction = mCallback.getDictionary(name);
         String imageUrl = attraction.getImage().getUrl();
 
         View v = mInflater.inflate(R.layout.custom_info_window, null);
@@ -47,7 +52,19 @@ public class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
         description.setText(marker.getSnippet());
 
         ImageView imageView = v.findViewById(R.id.ivInfo);
-        Glide.with(context).load(imageUrl).apply(RequestOptions.placeholderOf(R.color.placeholderColor).circleCrop()).into(imageView);
+        if(imageUrl != null)
+        Glide.with(context).load(imageUrl)
+                .apply(RequestOptions
+                        .placeholderOf(R.color.placeholderColor)
+                        .circleCrop())
+                .into(imageView);
+        Button btnGo = v.findViewById(R.id.btnInfo);
+        btnGo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openAttractionDetails(attraction);
+            }
+        });
         // Return info window contents
         return v;
     }
@@ -56,4 +73,6 @@ public class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
     public View getInfoContents(Marker marker) {
         return null;
     }
+
 }
+
