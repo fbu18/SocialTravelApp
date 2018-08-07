@@ -2,6 +2,8 @@ package me.vivh.socialtravelapp;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,11 +30,27 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
+import com.yelp.fusion.client.connection.YelpFusionApi;
+import com.yelp.fusion.client.connection.YelpFusionApiFactory;
+import com.yelp.fusion.client.models.Business;
+import com.yelp.fusion.client.models.SearchResponse;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.vivh.socialtravelapp.model.Attraction;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -103,7 +121,8 @@ public class ExploreFragment extends Fragment {
         etPlace.setHint("I have a destination in mind!");
         etPlace.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
         // TODO - place API key in secret.xml
-        //uploadYelpAttractions("H_XUmSP8Cm_SuKapYw6fb_negJU39gbZvPvCoVqtrLfSrfvtjAq-fWIEpfkK89-cpIYhF-3Hu6XccnseGW-GRDwiqcOwbjiCRctJesF4RtJpqUUyIOtEyxVmNv5nW3Yx");
+        //uploadYelpAttractions("@string/yelp_api_key");
+        uploadYelpAttractions("H_XUmSP8Cm_SuKapYw6fb_negJU39gbZvPvCoVqtrLfSrfvtjAq-fWIEpfkK89-cpIYhF-3Hu6XccnseGW-GRDwiqcOwbjiCRctJesF4RtJpqUUyIOtEyxVmNv5nW3Yx");
     }
 
 
@@ -216,20 +235,6 @@ public class ExploreFragment extends Fragment {
         void openAttractionDetails(Attraction attraction);
     }
 
-    /*public String convertPlaceTypetoString(int value) throws Exception {
-        //TODO - implement this if we want to filter by category
-        Field[] fields = Place.class.getDeclaredFields();
-        String name;
-        for (Field field : fields) {
-            name = field.getName().toLowerCase();
-            if (name.startsWith("type_") && field.getInt(null) == value) {
-                return name.replace("type_", "");
-            }
-        }
-        throw new IllegalArgumentException("place value " + value + " not found.");
-    }*/
-
-
     // Request and upload image to Parse for the specified place.
     // Uploading image is done here so it waits for request to complete.
     private void retrieveUploadPhoto(String placeId, final Attraction attraction) {
@@ -275,7 +280,7 @@ public class ExploreFragment extends Fragment {
     }
 
 
-    /*public List<Attraction> uploadYelpAttractions(String yelpAPIKey){
+    public List<Attraction> uploadYelpAttractions(String yelpAPIKey){
         List<Attraction> yelpAttractions = new ArrayList<>();
         YelpFusionApiFactory apiFactory = new YelpFusionApiFactory();
         YelpFusionApi yelpFusionApi = null;
@@ -317,11 +322,11 @@ public class ExploreFragment extends Fragment {
                     Double businessLatitude = businesses.get(i).getCoordinates().getLatitude();
                     Double businessLongitude = businesses.get(i).getCoordinates().getLongitude();
                     String businessWebsite = businesses.get(i).getUrl();
-                    Integer businessPriceLevel = businesses.get(i).getPrice().length();
+                    //int businessPriceLevel = businesses.get(i).getPrice();
                     String businessImageUrl = businesses.get(i).getImageUrl();
-                    String businessDescription = "";
-                    Log.d("AttractionListFragment","businessName = " + businessName);
-                    Log.d("AttractionListFragment","businessDescription = " + businessDescription);
+                    String businessDescription = businesses.get(i).getCategories().get(0).getTitle();
+                    Log.d("ExploreFragment","businessName = " + businessName);
+                    Log.d("ExploreFragment","businessDescription = " + businessDescription);
 
                     Attraction newAtt = new Attraction();
                     newAtt.setId(businessId);
@@ -331,11 +336,12 @@ public class ExploreFragment extends Fragment {
                     newAtt.setPoint(businessLatitude, businessLongitude);
                     newAtt.setWebsite(businessWebsite);
                     newAtt.setRating(businessRating);
-                    newAtt.setPriceLevel(businessPriceLevel);
-                    //newAtt.setDescription(businessDescription);
+                    //newAtt.setPriceLevel(businessPriceLevel);
+                    newAtt.setDescription(businessDescription);
                     newAtt.setPoints(10);
-                    // set image in the retrieveUploadPhoto method so that upload is only
-                    // executed after photo request is complete
+                    try{new AsyncGettingBitmapFromUrl(newAtt, businessImageUrl).execute();}
+                    catch (Exception e) {e.printStackTrace();}
+
 
                 }
             }
@@ -347,7 +353,75 @@ public class ExploreFragment extends Fragment {
 
         call.enqueue(callback);
         return yelpAttractions;
-    }*/
+    }
+
+
+    /**     AsyncTAsk for Image Bitmap  */
+    private class AsyncGettingBitmapFromUrl extends AsyncTask<String, Void, Bitmap> {
+        private Attraction newAtt;
+        private String businessUrl;
+        public AsyncGettingBitmapFromUrl(Attraction a, String url) {
+            this.newAtt = a;
+            this.businessUrl = url;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            try {
+                URL url = new URL(businessUrl);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                if (isDuplicateAttraction(newAtt)){
+                    Log.d("ExploreFragment", newAtt.getName() + "is a duplicate attraction");
+                    return null;
+                }
+                newAtt.setBitmap(myBitmap);
+                Log.d("ExploreFragment","set bitmap");
+
+                newAtt.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            // Attraction has been successfully created
+                            Log.d("ExploreFragment","New attraction added!");
+                            newAtt = null;
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                return myBitmap;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+
+            System.out.println("bitmap" + bitmap);
+
+        }
+    }
+
+    public Boolean isDuplicateAttraction(final Attraction attraction){
+        List<Attraction> parseAttractions = new ArrayList<Attraction>();
+        final Attraction.Query attractionsQuery = new Attraction.Query();
+        attractionsQuery.whereEqualTo("name",attraction.getName());
+        try {
+            parseAttractions = attractionsQuery.find();
+            if (parseAttractions.isEmpty()){
+                return false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 
 }
 
