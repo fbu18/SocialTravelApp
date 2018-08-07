@@ -62,7 +62,7 @@ public class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
         btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openAttractionDetails(attraction);
+                mCallback.openAttractionDetails(attraction);
             }
         });
         // Return info window contents
