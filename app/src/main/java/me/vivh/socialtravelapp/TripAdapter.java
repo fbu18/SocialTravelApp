@@ -1,12 +1,14 @@
 package me.vivh.socialtravelapp;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -14,7 +16,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.parse.ParseException;
 
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.vivh.socialtravelapp.model.Trip;
@@ -61,15 +62,18 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         Trip trip = mTrips.get(i);
 
         try{
+//            viewHolder.tvDate.getBackground().setAlpha(80);
             viewHolder.tvGroupName.setText(trip.getName());
             viewHolder.tvDate.setText(trip.getDateString());
-            viewHolder.tvDescription.setText(trip.getDescription());
             String url = trip.getAttraction().fetchIfNeeded().getParseFile("image").getUrl();
             Glide.with(context).load(url)
                     .apply(
                             RequestOptions.placeholderOf(R.color.placeholderColor)
-                                    .circleCrop())
+                            .centerCrop()
+                    )
                     .into(viewHolder.ivAttractionPic);
+
+
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -81,7 +85,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         @BindView(R.id.tvGroupName) TextView tvGroupName;
         @BindView(R.id.tvDate) TextView tvDate;
         @BindView(R.id.ivAttractionPic) ImageView ivAttractionPic;
-        @BindView(R.id.tvDescription) TextView tvDescription;
+
 
         public ViewHolder(View itemView){
 

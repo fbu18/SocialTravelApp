@@ -51,7 +51,16 @@ public class Trip extends ParseObject {
     public String getDateString(){
 
         Date date = getDate(KEY_DATE);
-        String postFormat = "EEE MMM dd, yyyy h:mm aaa";
+        String postFormat = "EEE, MMM dd h:mm aaa";
+        SimpleDateFormat sf = new SimpleDateFormat(postFormat, Locale.ENGLISH);
+        sf.setLenient(true);
+
+        return sf.format(date);
+    }
+
+    public String getDateWithYearString(){
+        Date date = getDate(KEY_DATE);
+        String postFormat = "EEE, MMM dd, yyyy | h:mm aaa";
         SimpleDateFormat sf = new SimpleDateFormat(postFormat, Locale.ENGLISH);
         sf.setLenient(true);
 
