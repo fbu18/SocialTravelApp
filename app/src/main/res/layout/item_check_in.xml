@@ -63,8 +63,8 @@
         android:text="Date" />
     <com.like.LikeButton
         android:id="@+id/star_button2"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_below="@id/ivMap"
         app:icon_size="25dp"
         app:icon_type="heart" />
