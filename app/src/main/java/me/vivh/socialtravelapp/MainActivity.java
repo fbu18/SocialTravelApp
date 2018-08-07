@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         TripListFragment.OnFragmentInteractionListener, TripAdapter.Callback, TripMemberAdapter.CallbackMember,
         MapsFragment.OnFragmentInteractionListener,
         ChatListAdapter.Callback, ChatListFragment.OnFragmentInteractionListener,
-        FeedAdapter.Callback, UserAdapter.Callback, EditProfileFragment.OnFragmentInteractionListener{
+        FeedAdapter.Callback, UserAdapter.Callback, EditProfileFragment.OnFragmentInteractionListener, MemberProfileFragment.OnFragmentInteractionListener{
 
     public static final int FEED_INDEX = 0;
     public static final int EXPLORE_INDEX = 1;
@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

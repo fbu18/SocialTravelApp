@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -67,6 +68,7 @@ public class ChatActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
@@ -86,14 +88,6 @@ public class ChatActivity extends AppCompatActivity {
 
         setupMessagePosting();
 
-/*
-        try {
-            trip = getIntent().getParcelableExtra("trip");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-*/
 
         try{
             String tripId = "";
@@ -107,6 +101,7 @@ public class ChatActivity extends AppCompatActivity {
                     @Override
                     public void done(List<Trip> objects, ParseException e) {
                         trip = objects.get(0);
+                        mAdapter.setTrip(trip);
                         queryMembers();
                         parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
                         subscribeToMessages();
@@ -156,7 +151,6 @@ public class ChatActivity extends AppCompatActivity {
 
     // Setup button event handler which posts the entered message to Parse
     private void setupMessagePosting() {
-
         // Find the text field and button
         etMessage = (EditText) findViewById(R.id.etMessage);
         btSend = (Button) findViewById(R.id.btSend);
@@ -236,6 +230,10 @@ public class ChatActivity extends AppCompatActivity {
     }
     // Query messages from Parse so we can load them into the chat adapter
     private void refreshMessages() {
+
+        final ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
+        pb.setVisibility(ProgressBar.VISIBLE);
+
         // Construct query to execute
         ParseQuery<Message> messageQuery = ParseQuery.getQuery(Message.class);
         messageQuery.whereEqualTo(TRIP_KEY, trip);
@@ -260,6 +258,7 @@ public class ChatActivity extends AppCompatActivity {
                         rvChat.scrollToPosition(0);
                         mFirstLoad = false;
                     }
+                    pb.setVisibility(ProgressBar.INVISIBLE);
                 } else {
                     Log.e("message", "Error Loading Messages" + e);
                 }

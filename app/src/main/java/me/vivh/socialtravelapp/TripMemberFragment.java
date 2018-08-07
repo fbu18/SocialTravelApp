@@ -146,8 +146,8 @@ public class TripMemberFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable(TRIP_ARG, trip);
+    public void onResume() {
+        super.onResume();
+        loadMembersCheckedIn();
     }
 }

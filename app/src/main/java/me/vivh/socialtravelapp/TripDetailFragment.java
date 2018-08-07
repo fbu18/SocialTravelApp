@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,17 +23,13 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import me.vivh.socialtravelapp.model.Post;
 import me.vivh.socialtravelapp.model.Trip;
 
 
@@ -49,6 +44,7 @@ public class TripDetailFragment extends Fragment {
     @BindView(R.id.tripNavigation) BottomNavigationView tripNavigation;
     @BindView(R.id.btnCheckIn) Button btnCheckIn;
     @BindView(R.id.btnJoin) Button btnJoin;
+    @BindView(R.id.pbLoading) ProgressBar pb;
 
     Trip trip;
     Context context;
@@ -56,6 +52,7 @@ public class TripDetailFragment extends Fragment {
     MainActivity.BottomNavAdapter adapter;
     Boolean alreadyCheckedIn = false;
     private ArrayList<ParseUser> membersCheckedIn;
+    Boolean inGroup = false;
 
 
     private final List<Fragment> fragments = new ArrayList<>();
@@ -94,99 +91,133 @@ public class TripDetailFragment extends Fragment {
             e.printStackTrace();
         }
 
-        setUpFragments();
-        setUpButtons(view);
+        ParseUser user = ParseUser.getCurrentUser();
+        queryCheckedIn(user);
+        queryJoined(user);
 
-
+        setUpButtons(user);
 
         return view;
 
     }
 
-    public void setUpButtons(final View view){
+    public void setUpButtons(final ParseUser user){
 
         btnCheckIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // on some click or some loading we need to wait for...
-                final ProgressBar pb = (ProgressBar) view.findViewById(R.id.pbLoading);
                 pb.setVisibility(ProgressBar.VISIBLE);
 
-                ParseRelation checkedInRelation = trip.getRelation("usersCheckedIn");
-                ParseQuery checkedInQuery = checkedInRelation.getQuery();
+                if(alreadyCheckedIn){
+                    trip.removeCheckIn(user);
+                    btnCheckIn.setText("Check in");
+                    alreadyCheckedIn = false;
+                    btnCheckIn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                }else{
 
-                if(!alreadyCheckedIn) {
-                    Post checkin = new Post();
-                    checkin.setType("checkin");
-                    checkin.setLocation(trip.getAttraction());
-                    checkin.setUser(ParseUser.getCurrentUser());
-                    Date date = Calendar.getInstance().getTime();
-                    checkin.setDate(date);
-                    checkin.saveInBackground(new SaveCallback() {
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                // your object is successfully created.
-                            } else {
-                                //error occurred
-                                Toast.makeText( context,e.getMessage().toString(),Toast.LENGTH_LONG );
-                            }
-                        }
-                    });
-                }
-                checkedInQuery.findInBackground(new FindCallback<ParseUser>() {
-                    @Override
-                    public void done(List<ParseUser> objects, ParseException e) {
-                        Log.d("relation", "Members checked in" + objects.toString());
-                        membersCheckedIn.clear();
-                        membersCheckedIn.addAll(objects);
-
-                        if (membersCheckedIn.contains(ParseUser.getCurrentUser())){
-                            alreadyCheckedIn = true;
-                        }
-
-                        if (!alreadyCheckedIn){
-                            trip.setCheckIn(ParseUser.getCurrentUser());
-                            alreadyCheckedIn = true;
-                            btnCheckIn.setText("Check out");
-                        }
-                        else {
-                            trip.removeCheckIn(ParseUser.getCurrentUser());
-                            btnCheckIn.setText("Check in");
-                            alreadyCheckedIn = false;
-                            //Toast.makeText(getActivity(), "Already checked in!", Toast.LENGTH_LONG).show();
-                        }
-                        // reload TripMemberFragment to show marker
-                        setUpFragments();
-                        pb.setVisibility(ProgressBar.INVISIBLE);
-
+                    if(inGroup){
+                        trip.setCheckIn(user);
+                        alreadyCheckedIn = true;
+                        btnCheckIn.setText("Check out");
+                        btnCheckIn.setBackgroundColor(getResources().getColor(R.color.pressed_button_gray));
+                    }else{
+                        Toast.makeText(context, "Must join group to check-in.", Toast.LENGTH_SHORT).show();
                     }
-                });
 
+                }
+
+                setUpFragments();
+                pb.setVisibility(ProgressBar.INVISIBLE);
 
             }
         });
+
+
+
         btnJoin.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
 
-                ParseUser user = ParseUser.getCurrentUser();
+                // on some click or some loading we need to wait for...
+                pb.setVisibility(ProgressBar.VISIBLE);
 
-                if(btnJoin.getText().equals("Leave Group")){
+                if(inGroup){
+                    inGroup = false;
+                    alreadyCheckedIn = false;
                     trip.leaveTrip(user, context);
                     btnJoin.setText("Join Group");
-                    btnJoin.setBackgroundColor(Color.parseColor("#ff3897f0"));
-
+                    btnJoin.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                    btnCheckIn.setText("Check in");
+                    btnCheckIn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                 }else{
+                    inGroup = true;
                     trip.joinTrip(user, context);
                     btnJoin.setText("Leave Group");
-                    btnJoin.setBackgroundColor(Color.LTGRAY);
+                    btnJoin.setBackgroundColor(getResources().getColor(R.color.pressed_button_gray));
                 }
+
+                setUpFragments();
+                pb.setVisibility(ProgressBar.INVISIBLE);
 
             }
         });
     }
 
+    public void queryCheckedIn(final ParseUser user){
+
+
+        try {
+            ParseRelation checkedInRelation = trip.getRelation("usersCheckedIn");
+            ParseQuery checkedInQuery = checkedInRelation.getQuery();
+
+            checkedInQuery.findInBackground(new FindCallback<ParseUser>(){
+                @Override
+                public void done(List<ParseUser> objects, ParseException e) {
+                    membersCheckedIn.clear();
+                    membersCheckedIn.addAll(objects);
+
+                    for(ParseUser usr: objects){
+                        if((usr.getUsername()).equals(user.getUsername())){
+                            alreadyCheckedIn = true;
+                            btnCheckIn.setBackgroundColor(getResources().getColor(R.color.pressed_button_gray));
+                            btnCheckIn.setText("Check out");
+                        }
+                    }
+
+                    setUpFragments();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void queryJoined(final ParseUser user){
+        try {
+            ParseRelation inGroupRelation = trip.getRelation("user");
+            ParseQuery inGroupQuery = inGroupRelation.getQuery();
+
+            inGroupQuery.findInBackground(new FindCallback<ParseUser>() {
+                @Override
+                public void done(List<ParseUser> objects, ParseException e) {
+
+                    for(ParseUser usr: objects){
+                        if((usr.getUsername()).equals(user.getUsername())){
+                            inGroup = true;
+                            btnJoin.setBackgroundColor(getResources().getColor(R.color.pressed_button_gray));
+                            btnJoin.setText("Leave Group");
+                        }
+                    }
+
+                    setUpFragments();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
     @Override
@@ -202,7 +233,9 @@ public class TripDetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setUpFragments();
+        queryCheckedIn(ParseUser.getCurrentUser());
+        queryJoined(ParseUser.getCurrentUser());
+//        setUpFragments();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package me.vivh.socialtravelapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -48,9 +50,11 @@ public class MemberProfileFragment extends Fragment {
     Calendar cal = new GregorianCalendar();
     Date today;
 
-    private ArrayList<String> pastTripArray = new ArrayList<>();
+    private ArrayList<String> pastTripArrayStrings = new ArrayList<>();
+    private ArrayList<Trip> pastTripArray = new ArrayList<>();
     private ArrayAdapter<String> adapter;
 
+    private OnFragmentInteractionListener mListener;
 
     public MemberProfileFragment() {
         // Required empty public constructor
@@ -85,9 +89,17 @@ public class MemberProfileFragment extends Fragment {
         ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         adapter = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, pastTripArray);
+                android.R.layout.simple_list_item_1, android.R.id.text1, pastTripArrayStrings);
 
         lvPastTrips.setAdapter(adapter);
+
+        lvPastTrips.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Attraction attraction = pastTripArray.get(i).getAttraction();
+                mListener.openAttractionDetails(attraction);
+            }
+        });
 
         updateMemberInfo();
 
@@ -115,13 +127,16 @@ public class MemberProfileFragment extends Fragment {
                 if(e == null){
                     try{
                         tvNumPastTrips.setText(String.format("%s", objects.size()));
-                        pastTripArray.clear();
+                        pastTripArrayStrings.clear();
                         int max = Math.min(3, objects.size());
                         for(int i = 0; i < max; i++){
                             Attraction attraction = objects.get(i).getAttraction();
                             String name = attraction.fetchIfNeeded().getString("name");
-                            pastTripArray.add(name);
+                            pastTripArrayStrings.add(name);
                         }
+
+                        pastTripArray.clear();
+                        pastTripArray.addAll(objects);
 
                         adapter.notifyDataSetChanged();
                     }catch(Exception d){
@@ -197,4 +212,20 @@ public class MemberProfileFragment extends Fragment {
         transaction.addToBackStack("MemberProfileFragment");
         transaction.commitAllowingStateLoss();
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    public interface OnFragmentInteractionListener{
+        void openAttractionDetails(Attraction attraction);
+    }
+
 }

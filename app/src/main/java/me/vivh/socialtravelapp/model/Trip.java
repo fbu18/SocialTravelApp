@@ -49,8 +49,9 @@ public class Trip extends ParseObject {
     }
 
     public String getDateString(){
+
         Date date = getDate(KEY_DATE);
-        String postFormat = "EEE, MMM dd, yyyy h:mm aaa";
+        String postFormat = "EEE MMM dd, yyyy h:mm aaa";
         SimpleDateFormat sf = new SimpleDateFormat(postFormat, Locale.ENGLISH);
         sf.setLenient(true);
 
@@ -116,7 +117,7 @@ public class Trip extends ParseObject {
                 String pointsText; //whether or not the word is plural
                 if (attractionPoints == 1) { pointsText = " point."; }
                 else { pointsText = " points."; }
-                Toast.makeText(getApplicationContext(),"Unchecked in! You have lost " + attractionPoints + pointsText,Toast.LENGTH_LONG ).show();
+                Toast.makeText(getApplicationContext(),"Checked out! You have lost " + attractionPoints + pointsText,Toast.LENGTH_LONG ).show();
             }
         });
     }

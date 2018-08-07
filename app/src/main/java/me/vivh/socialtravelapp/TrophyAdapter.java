@@ -60,7 +60,7 @@ public class TrophyAdapter extends RecyclerView.Adapter<TrophyAdapter.ViewHolder
             holder.tvTrophyDesc.setText(trophy.getDescription());
             Glide.with(context).load(trophy.getImage().getUrl())
                     .apply(
-                            RequestOptions.placeholderOf(R.drawable.background_gradient)
+                            RequestOptions.placeholderOf(R.color.placeholderColor)
                                     .fitCenter()
                                     .transform(new RoundedCornersTransformation(25, 0)))
                     .into(holder.ivTrophy);

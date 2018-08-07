@@ -52,8 +52,8 @@
 
     <com.like.LikeButton
         android:id="@+id/star_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_below="@id/tvPostDescription"
         android:layout_alignLeft="@id/ivPostImage"
         app:icon_size="25dp"

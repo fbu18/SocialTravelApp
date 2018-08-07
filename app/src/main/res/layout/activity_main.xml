@@ -19,14 +19,10 @@
 
         <TextView
             android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
             android:layout_gravity="center"
-            android:fontFamily="sans-serif-smallcaps"
-            android:text="TRYP"
-            android:textColor="@color/dark_purple"
-            android:textSize="30dp"
-            android:textStyle="bold" />
+            android:background="@drawable/logo" />
 
     </android.support.v7.widget.Toolbar>
 

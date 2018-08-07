@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
@@ -28,6 +29,9 @@ import com.google.android.gms.tasks.Task;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import me.vivh.socialtravelapp.model.Attraction;
 
 
@@ -41,9 +45,10 @@ import me.vivh.socialtravelapp.model.Attraction;
  */
 public class ExploreFragment extends Fragment {
 
-    Button knowBtn;
-    Button suggestBtn;
+    private Unbinder unbinder;
+    @BindView(R.id.btnSuggest) Button suggestBtn;
     GeoDataClient mGeoDataClient;
+    SupportPlaceAutocompleteFragment placeAutocompleteFragment;
 
     private OnFragmentInteractionListener mListener;
 
@@ -71,14 +76,13 @@ public class ExploreFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_explore,
                 container, false);
 
+        unbinder = ButterKnife.bind(this, rootView);
+
         // don't display back button
         ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
 
         mGeoDataClient = Places.getGeoDataClient(getActivity());
-
-        knowBtn = (Button) rootView.findViewById(R.id.btnKnow);
-        suggestBtn = (Button) rootView.findViewById(R.id.btnSuggest);
 
         suggestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,17 +91,19 @@ public class ExploreFragment extends Fragment {
 
             }
         });
+
+        placeAutocompleteFragment =  (SupportPlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        SupportPlaceAutocompleteFragment placeAutocompleteFragment = new SupportPlaceAutocompleteFragment();
-        getChildFragmentManager().beginTransaction()
-                .replace(R.id.place_autocomplete_fragment_container, placeAutocompleteFragment)
-                .addToBackStack(SupportPlaceAutocompleteFragment.class.getName())
-                .commit();
+        EditText etPlace = (EditText) view.findViewById(R.id.place_autocomplete_search_input);
+        etPlace.setHint("I have a destination in mind!");
+        etPlace.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+        // TODO - place API key in secret.xml
+        //uploadYelpAttractions("H_XUmSP8Cm_SuKapYw6fb_negJU39gbZvPvCoVqtrLfSrfvtjAq-fWIEpfkK89-cpIYhF-3Hu6XccnseGW-GRDwiqcOwbjiCRctJesF4RtJpqUUyIOtEyxVmNv5nW3Yx");
     }
 
 
@@ -110,6 +116,13 @@ public class ExploreFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EditText etPlace = (EditText) getView().findViewById(R.id.place_autocomplete_search_input);
+        etPlace.setText("");
     }
 
     @Override
@@ -198,12 +211,6 @@ public class ExploreFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     */
     public interface OnFragmentInteractionListener {
         void openSuggestion();
         void openAttractionDetails(Attraction attraction);
@@ -266,6 +273,81 @@ public class ExploreFragment extends Fragment {
             }
         });
     }
+
+
+    /*public List<Attraction> uploadYelpAttractions(String yelpAPIKey){
+        List<Attraction> yelpAttractions = new ArrayList<>();
+        YelpFusionApiFactory apiFactory = new YelpFusionApiFactory();
+        YelpFusionApi yelpFusionApi = null;
+        try {
+            yelpFusionApi = apiFactory.createAPI(yelpAPIKey);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Map<String, String> params = new HashMap<>();
+
+        // general params
+        params.put("term", "unique fun attractions");
+        params.put("latitude", "47.6062");
+        params.put("longitude", "-122.3321");
+        params.put("limit","15");
+
+        Call<SearchResponse> call = yelpFusionApi.getBusinessSearch(params);
+
+        Callback<SearchResponse> callback = new Callback<SearchResponse>() {
+            @Override
+            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                SearchResponse searchResponse = response.body();
+                int totalNumberOfResults = searchResponse.getTotal();
+                Log.d("AttractionListFragment","totalNumberOfResults = " + totalNumberOfResults);
+
+                ArrayList<Business> businesses = searchResponse.getBusinesses();
+
+                for (int i = 0; i < businesses.size(); i++){
+                    String businessId = businesses.get(i).getId();
+                    String businessName = businesses.get(i).getName();
+                    String businessPhone = businesses.get(i).getDisplayPhone();
+                    String businessAddress = businesses.get(i).getLocation().getAddress1() + ", "
+                            + businesses.get(i).getLocation().getCity() + ", "
+                            + businesses.get(i).getLocation().getState() + " "
+                            + businesses.get(i).getLocation().getZipCode() + ", "
+                            + businesses.get(i).getLocation().getCountry();
+                    Double businessRating = businesses.get(i).getRating();
+                    Double businessLatitude = businesses.get(i).getCoordinates().getLatitude();
+                    Double businessLongitude = businesses.get(i).getCoordinates().getLongitude();
+                    String businessWebsite = businesses.get(i).getUrl();
+                    Integer businessPriceLevel = businesses.get(i).getPrice().length();
+                    String businessImageUrl = businesses.get(i).getImageUrl();
+                    String businessDescription = "";
+                    Log.d("AttractionListFragment","businessName = " + businessName);
+                    Log.d("AttractionListFragment","businessDescription = " + businessDescription);
+
+                    Attraction newAtt = new Attraction();
+                    newAtt.setId(businessId);
+                    newAtt.setName(businessName);
+                    newAtt.setAddress(businessAddress);
+                    newAtt.setPhoneNumber(businessPhone);
+                    newAtt.setPoint(businessLatitude, businessLongitude);
+                    newAtt.setWebsite(businessWebsite);
+                    newAtt.setRating(businessRating);
+                    newAtt.setPriceLevel(businessPriceLevel);
+                    //newAtt.setDescription(businessDescription);
+                    newAtt.setPoints(10);
+                    // set image in the retrieveUploadPhoto method so that upload is only
+                    // executed after photo request is complete
+
+                }
+            }
+            @Override
+            public void onFailure(Call<SearchResponse> call, Throwable t) {
+                // HTTP error happened, do something to handle it.
+            }
+        };
+
+        call.enqueue(callback);
+        return yelpAttractions;
+    }*/
 
 }
 

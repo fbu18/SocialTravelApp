@@ -46,8 +46,6 @@ public class TripPhotoAdapter extends RecyclerView.Adapter<TripPhotoAdapter.View
         Photo photo = mPhotos.get(i);
 
         try{
-            viewHolder.tvUsername.setText(photo.getUser().fetchIfNeeded().getUsername());
-            viewHolder.tvCaption.setText(photo.getCaption());
             Glide.with(context)
                     .load(photo.getImage().getUrl())
                     .into(viewHolder.ivPhoto);
@@ -63,9 +61,7 @@ public class TripPhotoAdapter extends RecyclerView.Adapter<TripPhotoAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.tvUsername) TextView tvUsername;
         @BindView(R.id.ivPhoto) ImageView ivPhoto;
-        @BindView(R.id.tvCaption) TextView tvCaption;
 
         public ViewHolder(View itemView){
 
