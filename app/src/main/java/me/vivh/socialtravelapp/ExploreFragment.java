@@ -50,7 +50,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.vivh.socialtravelapp.model.Attraction;
 import me.vivh.socialtravelapp.model.Review;
-import me.vivh.socialtravelapp.model.Trip;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -317,7 +316,6 @@ public class ExploreFragment extends Fragment {
 
                 ArrayList<Business> businesses = searchResponse.getBusinesses();
 
-
                 for (int i = 0; i < businesses.size(); i++){
 
                     String businessId = businesses.get(i).getId();
@@ -333,7 +331,7 @@ public class ExploreFragment extends Fragment {
                     Double businessLongitude = businesses.get(i).getCoordinates().getLongitude();
                     String businessWebsite = businesses.get(i).getUrl();
                     //int businessPriceLevel = businesses.get(i).getPrice();
-                    String businessImageUrl = businesses.get(i).getImageUrl();
+                    final String businessImageUrl = businesses.get(i).getImageUrl();
                     String businessDescription = businesses.get(i).getCategories().get(0).getTitle();
                     Log.d("ExploreFragment","businessName = " + businessName);
                     Log.d("ExploreFragment","businessDescription = " + businessDescription);
@@ -354,41 +352,34 @@ public class ExploreFragment extends Fragment {
                     //find reviews for business
                     Call<Reviews> reviewCall = yelpFusionApi.getBusinessReviews(businessId, "en_US");
 
-
                     Callback<Reviews> reviewCallback = new Callback<Reviews>(){
-
                         @Override
                         public void onResponse(Call<Reviews> call, Response<Reviews> response) {
                             final Reviews reviewResponse = response.body();
                             final int numReviews = reviewResponse.getTotal();
                             ArrayList<com.yelp.fusion.client.models.Review> reviews = reviewResponse.getReviews();
 
-                            for(int i = 0; i <numReviews; i++){
+                            for(int i = 0; i < 3; i++){
                                 review = new Review();
                                 review.setAttraction(newAtt);
                                 review.setBody(reviews.get(i).getText());
                                 review.setStars(reviews.get(i).getRating());
                                 review.setUsername(reviews.get(i).getUser().getName());
-
                                 review.saveInBackground();
                                 Log.d("ExploreFragment", "saved reviews");
                             }
 
-
+                            try{new AsyncGettingBitmapFromUrl(newAtt, review, businessImageUrl).execute();}
+                            catch (Exception e) {e.printStackTrace();}
                         }
 
                         @Override
                         public void onFailure(Call<Reviews> call, Throwable t) {
-
                             Log.d("ExploreFragment", "did not save reviews");
                         }
                     };
-
-                    try{new AsyncGettingBitmapFromUrl(newAtt, review, businessImageUrl).execute();}
-                    catch (Exception e) {e.printStackTrace();}
+                    reviewCall.enqueue(reviewCallback);
                 }
-
-
             }
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
@@ -422,7 +413,7 @@ public class ExploreFragment extends Fragment {
                 InputStream input = connection.getInputStream();
                 Bitmap myBitmap = BitmapFactory.decodeStream(input);
                 if (isDuplicateAttraction(newAtt)){
-                    Log.d("ExploreFragment", newAtt.getName() + "is a duplicate attraction");
+                    Log.d("ExploreFragment", "Skipping " + newAtt.getName() + " (duplicate attraction)");
                     return null;
                 }
                 newAtt.setBitmap(myBitmap);
