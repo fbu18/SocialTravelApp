@@ -10,14 +10,17 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-<<<<<<< Updated upstream
         android:layout_below="@+id/profile_divider"
         android:text="About"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:textStyle="bold"
         android:textSize="15dp"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/tvAttrDesc"
@@ -88,18 +91,8 @@
         android:text="(999) 999-9999"
         android:textColor="@android:color/black" />
 
-    <ImageView
-        android:id="@+id/ivAttrPhoneNumber"
-        android:layout_width="21dp"
-        android:layout_height="20dp"
-=======
->>>>>>> Stashed changes
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+
 
             <ImageView
                 android:id="@+id/ivAttrPic"
