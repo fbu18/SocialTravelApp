@@ -41,7 +41,7 @@
             android:value="@string/google_places_api_key" />
 
         <meta-data
-            android:name="io.github.ranga543:yelp-fusion-client:0.1.4"
+            android:name="com.yelp.fusion.client.models.ApiKey"
             android:value="@string/yelp_api_key" />
 
         <provider
