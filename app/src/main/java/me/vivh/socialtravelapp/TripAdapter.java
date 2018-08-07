@@ -73,6 +73,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
                     )
                     .into(viewHolder.ivAttractionPic);
 
+
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -84,8 +85,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder>{
         @BindView(R.id.tvGroupName) TextView tvGroupName;
         @BindView(R.id.tvDate) TextView tvDate;
         @BindView(R.id.ivAttractionPic) ImageView ivAttractionPic;
-        @BindView(R.id.relativeLayout)
-        RelativeLayout relativeLayout;
 
 
         public ViewHolder(View itemView){

@@ -13,8 +13,6 @@
         android:layout_alignParentTop="true"
         app:srcCompat="@color/placeholderColor" />
 
-
-
         <TextView
             android:id="@+id/tvGroupName"
             android:layout_width="wrap_content"

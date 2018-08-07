@@ -82,7 +82,7 @@ public class TripDetailFragment extends Fragment {
 
         try{
             tvTripName.setText(trip.getName());
-            tvDate.setText(trip.getDateString());
+            tvDate.setText(trip.getDateWithYearString());
             tvDescription.setText(trip.getDescription());
             Glide.with(context)
                     .load(trip.getAttraction().fetchIfNeeded().getParseFile("image").getUrl())
