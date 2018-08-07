@@ -1,6 +1,7 @@
 package me.vivh.socialtravelapp.model;
 
 import android.graphics.Bitmap;
+import android.graphics.Point;
 
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -27,6 +28,20 @@ public class Attraction extends ParseObject {
     private static final String KEY_PRICE = "priceLevel";
     private static final String KEY_POINTS = "points";
 
+
+    public Attraction(String id, String name, String address, String phoneNum, Double lat, Double longitude, String website, Double rating, String description, int points){
+        setId(id);
+        setName(name);
+        setAddress(address);
+        setPhoneNumber(phoneNum);
+        setPoint(lat, longitude);
+        setWebsite(website);
+        setRating(rating);
+        setDescription(description);
+        setPoints(points);
+    }
+
+    public Attraction(){}
 
     public String getId() { return getString(KEY_ID); }
     public void setId(String id) {

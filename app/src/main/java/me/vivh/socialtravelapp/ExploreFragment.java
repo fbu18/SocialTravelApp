@@ -33,6 +33,7 @@ import com.parse.SaveCallback;
 import com.yelp.fusion.client.connection.YelpFusionApi;
 import com.yelp.fusion.client.connection.YelpFusionApiFactory;
 import com.yelp.fusion.client.models.Business;
+import com.yelp.fusion.client.models.Reviews;
 import com.yelp.fusion.client.models.SearchResponse;
 
 import java.io.IOException;
@@ -48,6 +49,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.vivh.socialtravelapp.model.Attraction;
+import me.vivh.socialtravelapp.model.Review;
+import me.vivh.socialtravelapp.model.Trip;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -69,6 +72,7 @@ public class ExploreFragment extends Fragment {
     SupportPlaceAutocompleteFragment placeAutocompleteFragment;
 
     private OnFragmentInteractionListener mListener;
+    Review review;
 
     public ExploreFragment() {
         // Required empty public constructor
@@ -122,7 +126,11 @@ public class ExploreFragment extends Fragment {
         etPlace.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
         // TODO - place API key in secret.xml
         //uploadYelpAttractions("@string/yelp_api_key");
-        uploadYelpAttractions("H_XUmSP8Cm_SuKapYw6fb_negJU39gbZvPvCoVqtrLfSrfvtjAq-fWIEpfkK89-cpIYhF-3Hu6XccnseGW-GRDwiqcOwbjiCRctJesF4RtJpqUUyIOtEyxVmNv5nW3Yx");
+        try {
+            uploadYelpAttractions("H_XUmSP8Cm_SuKapYw6fb_negJU39gbZvPvCoVqtrLfSrfvtjAq-fWIEpfkK89-cpIYhF-3Hu6XccnseGW-GRDwiqcOwbjiCRctJesF4RtJpqUUyIOtEyxVmNv5nW3Yx");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -280,15 +288,15 @@ public class ExploreFragment extends Fragment {
     }
 
 
-    public List<Attraction> uploadYelpAttractions(String yelpAPIKey){
+    public List<Attraction> uploadYelpAttractions(String yelpAPIKey) throws IOException {
         List<Attraction> yelpAttractions = new ArrayList<>();
         YelpFusionApiFactory apiFactory = new YelpFusionApiFactory();
-        YelpFusionApi yelpFusionApi = null;
-        try {
-            yelpFusionApi = apiFactory.createAPI(yelpAPIKey);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        YelpFusionApi yelpFusionApi = null;
+//        try {
+            final YelpFusionApi yelpFusionApi = apiFactory.createAPI(yelpAPIKey);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         Map<String, String> params = new HashMap<>();
 
@@ -303,13 +311,15 @@ public class ExploreFragment extends Fragment {
         Callback<SearchResponse> callback = new Callback<SearchResponse>() {
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
-                SearchResponse searchResponse = response.body();
+                final SearchResponse searchResponse = response.body();
                 int totalNumberOfResults = searchResponse.getTotal();
                 Log.d("AttractionListFragment","totalNumberOfResults = " + totalNumberOfResults);
 
                 ArrayList<Business> businesses = searchResponse.getBusinesses();
 
+
                 for (int i = 0; i < businesses.size(); i++){
+
                     String businessId = businesses.get(i).getId();
                     String businessName = businesses.get(i).getName();
                     String businessPhone = businesses.get(i).getDisplayPhone();
@@ -328,22 +338,57 @@ public class ExploreFragment extends Fragment {
                     Log.d("ExploreFragment","businessName = " + businessName);
                     Log.d("ExploreFragment","businessDescription = " + businessDescription);
 
-                    Attraction newAtt = new Attraction();
-                    newAtt.setId(businessId);
-                    newAtt.setName(businessName);
-                    newAtt.setAddress(businessAddress);
-                    newAtt.setPhoneNumber(businessPhone);
-                    newAtt.setPoint(businessLatitude, businessLongitude);
-                    newAtt.setWebsite(businessWebsite);
-                    newAtt.setRating(businessRating);
-                    //newAtt.setPriceLevel(businessPriceLevel);
-                    newAtt.setDescription(businessDescription);
-                    newAtt.setPoints(10);
-                    try{new AsyncGettingBitmapFromUrl(newAtt, businessImageUrl).execute();}
+                    final Attraction newAtt = new Attraction(businessId, businessName, businessAddress, businessPhone, businessLatitude, businessLongitude, businessWebsite, businessRating, businessDescription, 10);
+//                    newAtt.setId(businessId);
+//                    newAtt.setName(businessName);
+//                    newAtt.setAddress(businessAddress);
+//                    newAtt.setPhoneNumber(businessPhone);
+//                    newAtt.setPoint(businessLatitude, businessLongitude);
+//                    newAtt.setWebsite(businessWebsite);
+//                    newAtt.setRating(businessRating);
+//                    //newAtt.setPriceLevel(businessPriceLevel);
+//                    newAtt.setDescription(businessDescription);
+//                    newAtt.setPoints(10);
+
+
+                    //find reviews for business
+                    Call<Reviews> reviewCall = yelpFusionApi.getBusinessReviews(businessId, "en_US");
+
+
+                    Callback<Reviews> reviewCallback = new Callback<Reviews>(){
+
+                        @Override
+                        public void onResponse(Call<Reviews> call, Response<Reviews> response) {
+                            final Reviews reviewResponse = response.body();
+                            final int numReviews = reviewResponse.getTotal();
+                            ArrayList<com.yelp.fusion.client.models.Review> reviews = reviewResponse.getReviews();
+
+                            for(int i = 0; i <numReviews; i++){
+                                review = new Review();
+                                review.setAttraction(newAtt);
+                                review.setBody(reviews.get(i).getText());
+                                review.setStars(reviews.get(i).getRating());
+                                review.setUsername(reviews.get(i).getUser().getName());
+
+                                review.saveInBackground();
+                                Log.d("ExploreFragment", "saved reviews");
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Reviews> call, Throwable t) {
+
+                            Log.d("ExploreFragment", "did not save reviews");
+                        }
+                    };
+
+                    try{new AsyncGettingBitmapFromUrl(newAtt, review, businessImageUrl).execute();}
                     catch (Exception e) {e.printStackTrace();}
-
-
                 }
+
+
             }
             @Override
             public void onFailure(Call<SearchResponse> call, Throwable t) {
@@ -360,8 +405,10 @@ public class ExploreFragment extends Fragment {
     private class AsyncGettingBitmapFromUrl extends AsyncTask<String, Void, Bitmap> {
         private Attraction newAtt;
         private String businessUrl;
-        public AsyncGettingBitmapFromUrl(Attraction a, String url) {
+        private Review review;
+        public AsyncGettingBitmapFromUrl(Attraction a, Review review, String url) {
             this.newAtt = a;
+            this.review = review;
             this.businessUrl = url;
         }
 
@@ -389,6 +436,17 @@ public class ExploreFragment extends Fragment {
                             Log.d("ExploreFragment","New attraction added!");
                             newAtt = null;
                         } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+                review.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e == null){
+                            Log.d("ExploreFragment","New review added!");
+                        }else{
                             e.printStackTrace();
                         }
                     }
@@ -422,6 +480,7 @@ public class ExploreFragment extends Fragment {
         }
         return true;
     }
+
 
 }
 
