@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.vivh.socialtravelapp.model.Attraction;
+import me.vivh.socialtravelapp.model.Review;
 
 
 public class AttractionDetailsFragment extends Fragment {
@@ -41,6 +42,8 @@ public class AttractionDetailsFragment extends Fragment {
     Context context;
     private Unbinder unbinder;
     private AttractionDetailsFragment.OnFragmentInteractionListener listener;
+    private ReviewAdapter adapter;
+    private List<Review> reviews;
 
     public AttractionDetailsFragment() {
         // Required empty public constructor
@@ -61,6 +64,11 @@ public class AttractionDetailsFragment extends Fragment {
 
         ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        reviews = new ArrayList<>();
+        adapter = new ReviewAdapter(reviews);
+
+
 
         try{
             tvAttrName.setText(attraction.getName());

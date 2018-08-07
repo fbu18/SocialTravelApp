@@ -292,7 +292,7 @@ public class ExploreFragment extends Fragment {
         YelpFusionApiFactory apiFactory = new YelpFusionApiFactory();
 //        YelpFusionApi yelpFusionApi = null;
 //        try {
-            final YelpFusionApi yelpFusionApi = apiFactory.createAPI(yelpAPIKey);
+        final YelpFusionApi yelpFusionApi = apiFactory.createAPI(yelpAPIKey);
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
@@ -406,32 +406,32 @@ public class ExploreFragment extends Fragment {
                 InputStream input = connection.getInputStream();
                 Bitmap myBitmap = BitmapFactory.decodeStream(input);
 
-                    newAtt.setBitmap(myBitmap);
-                    Log.d("ExploreFragment","set bitmap");
+                newAtt.setBitmap(myBitmap);
+                Log.d("ExploreFragment","set bitmap");
 
-                    newAtt.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                // Attraction has been successfully created
-                                Log.d("ExploreFragment","New attraction added!");
-                                newAtt = null;
-                            } else {
-                                e.printStackTrace();
-                            }
+                newAtt.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            // Attraction has been successfully created
+                            Log.d("ExploreFragment","New attraction added!");
+                            newAtt = null;
+                        } else {
+                            e.printStackTrace();
                         }
-                    });
-                    review.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e == null){
-                                Log.d("ExploreFragment","New review added!");
-                            }else{
-                                e.printStackTrace();
-                            }
+                    }
+                });
+                review.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e == null){
+                            Log.d("ExploreFragment","New review added!");
+                        }else{
+                            e.printStackTrace();
                         }
-                    });
-                    return myBitmap;
+                    }
+                });
+                return myBitmap;
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
