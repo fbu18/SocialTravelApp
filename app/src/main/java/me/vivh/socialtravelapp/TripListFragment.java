@@ -134,6 +134,7 @@ public class TripListFragment extends Fragment {
         final Trip.Query tripsQuery = new Trip.Query();
         tripsQuery.whereEqualTo("user", ParseUser.getCurrentUser()).include("user");
         tripsQuery.whereLessThan("date", today);
+        tripsQuery.orderByDescending("date");
 
         tripsQuery.findInBackground(new FindCallback<Trip>() {
             @Override
@@ -156,6 +157,7 @@ public class TripListFragment extends Fragment {
         final Trip.Query tripsQuery = new Trip.Query();
         tripsQuery.whereEqualTo("user", ParseUser.getCurrentUser()).include("user");
         tripsQuery.whereGreaterThan("date", today);
+        tripsQuery.orderByAscending("date");
 
         tripsQuery.findInBackground(new FindCallback<Trip>() {
             @Override
