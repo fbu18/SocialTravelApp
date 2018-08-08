@@ -7,13 +7,6 @@
     android:id="@+id/explore_layout_container"
     tools:context=".ExploreFragment">
 
-    <ImageView
-        android:id="@+id/ivMap"
-        android:layout_width="match_parent"
-        android:layout_height="295dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:src="@drawable/map_watercolor" />
 
     <TextView
         android:id="@+id/tvExplore"
@@ -31,24 +24,26 @@
     <fragment
         android:id="@+id/place_autocomplete_fragment"
         android:name="com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tvExplore"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/tvExplore" />
+        android:layout_marginTop="30dp" />
 
     <Button
         android:id="@+id/btnSuggest"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_above="@+id/ivMap"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@color/white_5_transparent"
+        android:layout_marginBottom="227dp"
+        android:background="#7b1fa2"
         android:fontFamily="sans-serif"
         android:text="Suggest places for me"
         android:textAllCaps="false"
-        android:textColor="@color/grey_7"
+        android:textColor="@color/white"
         android:textSize="20sp"
+        android:paddingVertical="8dp"
         tools:clickable="true" />
 
 

@@ -13,8 +13,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.parse.ParseException;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -78,7 +76,6 @@ public class TripBrowseAdapter extends RecyclerView.Adapter<TripBrowseAdapter.Vi
         @BindView(R.id.tvBrowseDesc) TextView tvDesc;
         @BindView(R.id.ivBrowse) ImageView imageView;
         public ViewHolder(View itemView){
-
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
