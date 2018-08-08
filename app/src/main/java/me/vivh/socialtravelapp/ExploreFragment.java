@@ -28,6 +28,7 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 import com.yelp.fusion.client.connection.YelpFusionApi;
@@ -72,6 +73,7 @@ public class ExploreFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     Review review;
+    Boolean isDuplicate;
 
     public ExploreFragment() {
         // Required empty public constructor
@@ -337,7 +339,8 @@ public class ExploreFragment extends Fragment {
                     Log.d("ExploreFragment","businessDescription = " + businessDescription);
 
                     final Attraction newAtt = new Attraction(businessId, businessName, businessAddress, businessPhone, businessLatitude, businessLongitude, businessWebsite, businessRating, businessDescription, 10);
-                    if (isDuplicateAttraction(newAtt)){
+                    isDuplicateAttraction(newAtt);
+                    if (isDuplicate){
                         Log.d("ExploreFragment", "Skipping " + newAtt.getName() + " (duplicate attraction)");
                         continue;
                     }
@@ -446,19 +449,25 @@ public class ExploreFragment extends Fragment {
         }
     }
 
-    public Boolean isDuplicateAttraction(final Attraction attraction){
+    public void isDuplicateAttraction(final Attraction attraction){
         List<Attraction> parseAttractions;
         final Attraction.Query attractionsQuery = new Attraction.Query();
         attractionsQuery.whereEqualTo("name",attraction.getName());
         try {
-            parseAttractions = attractionsQuery.find();
-            if (parseAttractions.isEmpty()){
-                return false;
-            }
-        } catch (ParseException e) {
+            attractionsQuery.findInBackground(new FindCallback<Attraction>() {
+                @Override
+                public void done(List<Attraction> objects, ParseException e) {
+                    if(objects.isEmpty()){
+                        isDuplicate = false;
+                    }
+                }
+            });
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return true;
+
+        isDuplicate = true;
     }
 
 

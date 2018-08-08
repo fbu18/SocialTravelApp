@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -48,7 +49,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         try{
             viewHolder.tvName.setText(review.getUsername());
             viewHolder.tvBody.setText(review.getBody());
-
+            viewHolder.rbRating.setRating(review.getStars());
 
         }catch(Exception e){
             e.printStackTrace();
@@ -59,6 +60,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.tvName) TextView tvName;
         @BindView(R.id.tvBody) TextView tvBody;
+        @BindView(R.id.rbRating)
+        RatingBar rbRating;
 
         public ViewHolder(View itemView){
 
