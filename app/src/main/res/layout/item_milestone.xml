@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background_white"
-    android:layout_marginBottom="2dp"
+    android:layout_marginBottom="20dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -14,82 +14,69 @@
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginVertical="10dp"
         app:srcCompat="@drawable/user_outline_24" />
 
     <TextView
         android:id="@+id/tvAwardUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="26dp"
         android:layout_toEndOf="@+id/ivAwardPic"
-        android:text="User"
-        android:textColor="@color/blue_5" />
-
-    <TextView
-        android:id="@+id/tvWentOn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:textSize="14sp"
-        android:layout_toEndOf="@+id/tvAwardUser"
-        android:text=" went on " />
-
-    <TextView
-        android:id="@+id/tvTripNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:textSize="14sp"
-        android:layout_toEndOf="@+id/tvWentOn"
-        android:text="trips" />
-
-    <ImageView
-        android:id="@+id/ivTrophy"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/tvTripNumber"
-        app:srcCompat="@drawable/trophy_emoji" />
+        android:layout_marginLeft="5dp"
+        android:text="Username"
+        android:textColor="@color/black_70_transparent"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvAwardDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/lvCommentsMilestone"
+        android:layout_marginLeft="10dp"
         android:text="Date" />
+
     <com.like.LikeButton
         android:id="@+id/star_button3"
         android:layout_width="@dimen/like_width"
         android:layout_height="@dimen/like_height"
-        android:layout_below="@id/ivAwardPic"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/ivAwardPic"
+        android:layout_marginTop="130dp"
+        app:anim_scale_factor=".5"
         app:icon_size="@dimen/like_icon_size"
-        app:icon_type="heart" />
+        app:icon_type="heart">
+
+    </com.like.LikeButton>
+
     <ImageButton
         android:id="@+id/ibCommentMilestone"
         android:layout_width="@dimen/comment_width"
         android:layout_height="@dimen/comment_width"
-        android:layout_below="@+id/ivAwardPic"
         android:layout_toEndOf="@+id/star_button3"
-        android:layout_alignTop="@id/star_button"
+        android:layout_alignTop="@id/star_button3"
         android:tint="@color/grey_5"
         android:background="@drawable/ic_comment" />
 
-    <ImageButton
-        android:id="@+id/ibShareMilestone"
-        android:layout_width="@dimen/comment_width"
-        android:layout_height="@dimen/comment_width"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/ibCommentMilestone"
-        android:background="?attr/actionModeShareDrawable" />
 
     <ListView
         android:id="@+id/lvCommentsMilestone"
-        android:layout_below="@id/star_button3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/star_button3" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/star_button3"
+        android:layout_alignStart="@+id/ivAwardPic"
+        android:layout_marginBottom="-130dp"
+        android:text="Unlocked a new trophy"
+        android:textAlignment="center"
+        android:textStyle="bold" />
 
 </RelativeLayout>

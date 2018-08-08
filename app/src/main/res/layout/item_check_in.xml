@@ -12,9 +12,10 @@
         android:id="@+id/ivCheckInProfile"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginRight="5dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginVertical="10dp"
         app:srcCompat="@drawable/user_outline_24" />
 
     <TextView
@@ -22,75 +23,70 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="26dp"
         android:layout_toEndOf="@+id/ivCheckInProfile"
-        android:text="User"
-        android:textColor="@color/blue_5"
-        android:textSize="14sp" />
+        android:layout_marginLeft="5dp"
+        android:text="Username"
+        android:textColor="@color/black_70_transparent"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvCheckInLocation"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/textView"
-        android:text="location"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/tvCheckInUser"
-        android:text=" checked into "
-        android:textSize="14sp" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/star_button2"
+        android:layout_marginLeft="10dp"
+        android:text="Description" />
 
     <ImageView
         android:id="@+id/ivMap"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="200dp"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/ivCheckInProfile"
-        app:srcCompat="@drawable/mark" />
+        android:layout_marginBottom="10dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@color/placeholderColor" />
 
     <TextView
         android:id="@+id/tvCheckInDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/lvCommentsCheckIn"
-        android:ems="10"
-        android:inputType="date"
+        android:layout_marginLeft="10dp"
         android:text="Date" />
+
     <com.like.LikeButton
         android:id="@+id/star_button2"
         android:layout_width="@dimen/like_width"
         android:layout_height="@dimen/like_height"
-        android:layout_below="@id/ivMap"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ivMap"
+        android:layout_marginLeft="10dp"
+        app:anim_scale_factor=".5"
         app:icon_size="@dimen/like_icon_size"
-        app:icon_type="heart" />
+        app:icon_type="heart">
+
+    </com.like.LikeButton>
+
     <ImageButton
         android:id="@+id/ibCommentCheckIn"
         android:layout_width="@dimen/comment_width"
         android:layout_height="@dimen/comment_width"
-        android:layout_toEndOf="@+id/star_button2"
-        android:layout_alignTop="@id/star_button"
-        android:layout_below="@id/ivMap"
-        android:tint="@color/grey_5"
-        android:background="@drawable/ic_comment" />
 
-    <ImageButton
-        android:id="@+id/ibShareCheckIn"
-        android:layout_width="@dimen/comment_width"
-        android:layout_height="@dimen/comment_width"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/ivMap"
-        android:background="?attr/actionModeShareDrawable" />
+        android:layout_above="@+id/tvCheckInLocation"
+        android:layout_toEndOf="@+id/star_button2"
+        android:background="@drawable/ic_comment"
+        android:tint="@color/grey_5" />
+
 
     <ListView
         android:id="@+id/lvCommentsCheckIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/star_button2" />
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tvCheckInLocation" />
+
 
 </RelativeLayout>
