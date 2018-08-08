@@ -41,7 +41,7 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.Vi
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_attraction, parent, false);
+        View view = inflater.inflate(R.layout.item_attraction_2, parent, false);
         final ViewHolder viewHolder = new ViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +80,7 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.Vi
             holder.tvAttrName.setText(attraction.getName());
             holder.tvAttrDesc.setText(attraction.getDescription());
             holder.rbVoteAverage.setNumStars(5);
-            holder.rbVoteAverage.setRating((attraction.getRating().floatValue()));
+            holder.rbVoteAverage.setRating(attraction.getRating().floatValue());
             holder.tvAttrAddress.setText(attraction.getAddress());
             holder.tvAttrPhoneNumber.setText(attraction.getPhoneNumber());
             holder.tvWebsite.setText(attraction.getWebsite());
