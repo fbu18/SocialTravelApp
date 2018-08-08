@@ -128,16 +128,11 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
         public class ViewHolderPost extends RecyclerView.ViewHolder {
-            @BindView(R.id.ivPostImage)
-            ImageView imageView;
-            @BindView(R.id.tvCheckInUser)
-            TextView tvUser;
-            @BindView(R.id.tvCheckInLocation)
-            TextView tvDescription;
-            @BindView(R.id.ivCheckInProfile)
-            ImageView ivProfile;
-            @BindView(R.id.tvCheckInDate)
-            TextView tvDate;
+            @BindView(R.id.ivPostImage) ImageView imageView;
+            @BindView(R.id.tvPostUsername) TextView tvUser;
+            @BindView(R.id.tvPostDescription) TextView tvDescription;
+            @BindView(R.id.ivPostProfile) ImageView ivProfile;
+            @BindView(R.id.tvPostDate) TextView tvDate;
 
             public ViewHolderPost(View itemView) {
                 super(itemView);
@@ -195,7 +190,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 String profileUrl = (String) profilePic.getUrl();
                 String date = post.getDate("date").toString();
                 viewHolderPost.tvDate.setText(getRelativeTimeAgo(date));
-                Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.color.placeholderColor).circleCrop()).into(viewHolderPost.ivProfile);
+                Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.color.placeholderColor)/*.circleCrop()*/).into(viewHolderPost.ivProfile);
                 if (post.getImage() != null) {
                     String url = post.getImage().getUrl();
                     Glide.with(context).load(url).apply(
@@ -226,7 +221,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolderCheckIn.username.setText(checkUsername);
                 viewHolderCheckIn.location.setText(location);
                 Glide.with(context).load(imageUrl)
-                        .apply(RequestOptions.placeholderOf(R.color.placeholderColor).circleCrop())
+                        .apply(RequestOptions.placeholderOf(R.color.placeholderColor)/*.circleCrop()*/)
                         .into(viewHolderCheckIn.profileImage);
                 ParseGeoPoint point = attraction.getPoint();
                 String lat = Double.toString(point.getLatitude());

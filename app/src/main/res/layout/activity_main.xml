@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="vertical"
-        android:background="@color/white"
-        app:titleTextColor="@color/dark_purple"
+        android:background="@color/colorToolbar"
+        app:titleTextColor="@color/white"
         android:fitsSystemWindows="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
@@ -23,8 +23,8 @@
             android:layout_gravity="center"
             android:fontFamily="sans-serif-smallcaps"
             android:text="TRYP"
-            android:textColor="@color/dark_purple"
             android:textSize="30dp"
+            android:textColor="@color/white"
             android:textStyle="bold" />
     </android.support.v7.widget.Toolbar>
 
@@ -40,11 +40,12 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="404dp"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
         android:layout_above="@id/bottom_navigation"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="51dp" />
+        android:layout_marginTop="50dp" />
 
 
 </RelativeLayout>
