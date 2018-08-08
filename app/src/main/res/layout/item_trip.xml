@@ -19,7 +19,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignTop="@+id/tvGroupName"
         android:layout_alignBottom="@+id/ivAttractionPic"
-        app:realtimeBlurRadius="20dp"
+        app:realtimeBlurRadius="15dp"
         app:realtimeOverlayColor="@color/grey_9_10_transparent" />
 
     <TextView
