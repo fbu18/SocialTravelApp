@@ -41,7 +41,7 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.Vi
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_attraction_2, parent, false);
+        View view = inflater.inflate(R.layout.item_attraction, parent, false);
         final ViewHolder viewHolder = new ViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
