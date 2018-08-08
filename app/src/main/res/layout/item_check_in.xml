@@ -57,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/star_button2"
+        android:layout_below="@+id/lvCommentsCheckIn"
         android:ems="10"
         android:inputType="date"
         android:text="Date" />
@@ -85,5 +85,12 @@
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/ivMap"
         android:background="?attr/actionModeShareDrawable" />
+
+    <ListView
+        android:id="@+id/lvCommentsCheckIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/star_button2" />
 
 </RelativeLayout>

@@ -65,6 +65,7 @@ public class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
                 mCallback.openAttractionDetails(attraction);
             }
         });
+        getInfoContents(marker);
         // Return info window contents
         return v;
     }
