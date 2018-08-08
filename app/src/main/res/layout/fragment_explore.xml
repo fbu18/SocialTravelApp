@@ -3,24 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:id="@+id/explore_layout_container"
     tools:context=".ExploreFragment">
 
-    <Button
-        android:id="@+id/btnSuggest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/ivMap"
+        android:layout_width="match_parent"
+        android:layout_height="295dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="163dp"
-        android:background="@color/white_5_transparent"
-        android:text="Suggest places for me"
-        android:textAllCaps="false"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="26sp"
-        tools:clickable="true" />
+        android:layout_alignParentStart="true"
+        android:src="@drawable/map_watercolor" />
 
     <TextView
         android:id="@+id/tvExplore"
@@ -28,21 +21,36 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
         android:fontFamily="cursive"
         android:text="Explore"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="55sp"
+        android:layout_marginTop="50dp"
         android:textStyle="bold" />
 
     <fragment
         android:id="@+id/place_autocomplete_fragment"
         android:name="com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="220dp" />
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/tvExplore" />
+
+    <Button
+        android:id="@+id/btnSuggest"
+        android:layout_width="350dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/ivMap"
+        android:layout_centerHorizontal="true"
+        android:background="@color/white_5_transparent"
+        android:fontFamily="sans-serif"
+        android:text="Suggest places for me"
+        android:textAllCaps="false"
+        android:textColor="@color/grey_7"
+        android:textSize="20sp"
+        tools:clickable="true" />
+
 
 
 </RelativeLayout>

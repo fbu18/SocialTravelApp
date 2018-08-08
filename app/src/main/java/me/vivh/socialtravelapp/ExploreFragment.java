@@ -124,7 +124,7 @@ public class ExploreFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         EditText etPlace = (EditText) view.findViewById(R.id.place_autocomplete_search_input);
         etPlace.setHint("I have a destination in mind!");
-        etPlace.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+        etPlace.setHintTextColor(getResources().getColor(R.color.grey_7));
         // TODO - place API key in secret.xml
         //uploadYelpAttractions("@string/yelp_api_key");
         try {
