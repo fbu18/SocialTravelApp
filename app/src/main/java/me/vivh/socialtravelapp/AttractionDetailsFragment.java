@@ -25,7 +25,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import me.vivh.socialtravelapp.model.Attraction;
 import me.vivh.socialtravelapp.model.Review;
 
@@ -84,7 +83,8 @@ public class AttractionDetailsFragment extends Fragment {
             tvAttrName.setText(attraction.getName());
             tvAttrDesc.setText(attraction.getDescription());
             tvAttrAddress.setText(attraction.getAddress());
-            rbVoteAverage.setNumStars((int) Math.round(attraction.getRating()));
+            rbVoteAverage.setNumStars(5);
+            rbVoteAverage.setRating(attraction.getRating().floatValue());
             tvAttrPhoneNumber.setText(attraction.getPhoneNumber());
             tvAttrWebsite.setText(attraction.getWebsite());
             tvPoints.setText(String.valueOf(attraction.getPoints()));

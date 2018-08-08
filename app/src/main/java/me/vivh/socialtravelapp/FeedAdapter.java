@@ -3,6 +3,7 @@ package me.vivh.socialtravelapp;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,11 @@ import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 
-import org.w3c.dom.Text;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -97,7 +99,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ParseUser checkUser = checkIn.getUser();
                 ParseFile checkImage = (ParseFile) checkUser.getParseFile("profilePic");
                 imageUrl = (String) checkImage.getUrl();
-                String checkUsername = checkUser.getUsername();
+                String checkUsername = checkUser.getString("displayName");
                 String checkDesc = checkIn.getDescription();
 //                String checkInDate = checkIn.getDate("date").toString();
                 Attraction attraction = checkIn.getLocation();
@@ -129,13 +131,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public class ViewHolderPost extends RecyclerView.ViewHolder {
             @BindView(R.id.ivPostImage)
             ImageView imageView;
-            @BindView(R.id.tvPostUsername)
+            @BindView(R.id.tvCheckInUser)
             TextView tvUser;
-            @BindView(R.id.tvPostDescription)
+            @BindView(R.id.tvCheckInLocation)
             TextView tvDescription;
-            @BindView(R.id.ivPostProfile)
+            @BindView(R.id.ivCheckInProfile)
             ImageView ivProfile;
-            @BindView(R.id.tvPostDate)
+            @BindView(R.id.tvCheckInDate)
             TextView tvDate;
             @BindView(R.id.lvCommentsPost)
             ListView lvComments;
@@ -163,11 +165,9 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         public class ViewHolderMilestone extends RecyclerView.ViewHolder {
-            @BindView(R.id.ivTrophy) ImageView ivTrophy;
             @BindView(R.id.ivAwardPic) ImageView ivProfile;
             @BindView(R.id.tvAwardUser) TextView tvAwardUsername;
-            @BindView(R.id.tvTripNumber) TextView tvTripNumber;
-            @BindView(R.id.tvWentOn) TextView tvWentOn;
+            @BindView(R.id.tvAwardDate) TextView tvAwardDate;
 
             public ViewHolderMilestone(@NonNull View itemView) {
                 super(itemView);
@@ -188,69 +188,93 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void bindPost(RecyclerView.ViewHolder viewHolder, int i) {
             ViewHolderPost viewHolderPost = (ViewHolderPost) viewHolder;
             Post post = (Post) mPosts.get(i);
-            ParseUser user = post.getUser();
-            String name = user.getUsername();
-            String description = post.getDescription();
-            viewHolderPost.tvUser.setText(name);
-            viewHolderPost.tvDescription.setText(description);
-            ParseFile profilePic = (ParseFile) post.getParseUser("user").getParseFile("profilePic");
-            String profileUrl = (String) profilePic.getUrl();
-            String date = post.getDate("date").toString();
-            viewHolderPost.tvDate.setText(date);
-            Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.color.placeholderColor).circleCrop()).into(viewHolderPost.ivProfile);
-            if (post.getImage() != null) {
-                String url = post.getImage().getUrl();
-                Glide.with(context).load(url).apply(
-                        RequestOptions.placeholderOf(R.color.placeholderColor)).into(viewHolderPost.imageView);
-            } else {
-                viewHolderPost.imageView.setVisibility(View.GONE);
+            try {
+                ParseUser user = post.getUser();
+                String name = user.getString("displayName");
+                String description = post.getDescription();
+                viewHolderPost.tvUser.setText(name);
+                viewHolderPost.tvDescription.setText(description);
+                ParseFile profilePic = (ParseFile) post.getParseUser("user").getParseFile("profilePic");
+                String profileUrl = (String) profilePic.getUrl();
+                String date = post.getDate("date").toString();
+                viewHolderPost.tvDate.setText(getRelativeTimeAgo(date));
+                Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.color.placeholderColor).circleCrop()).into(viewHolderPost.ivProfile);
+                if (post.getImage() != null) {
+                    String url = post.getImage().getUrl();
+                    Glide.with(context).load(url).apply(
+                            RequestOptions.placeholderOf(R.color.placeholderColor)).into(viewHolderPost.imageView);
+                } else {
+                    viewHolderPost.imageView.setVisibility(View.GONE);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            return;
         }
 
         public void bindCheckIn(RecyclerView.ViewHolder viewHolder, int i) {
             String imageUrl = null;
             final ViewHolderCheckIn viewHolderCheckIn = (ViewHolderCheckIn) viewHolder;
             Post checkIn = mPosts.get(i);
-            ParseUser checkUser = checkIn.getUser();
-            ParseFile checkImage = (ParseFile) checkUser.getParseFile("profilePic");
-            imageUrl = (String) checkImage.getUrl();
-            String checkUsername = checkUser.getUsername();
+
 //                String checkDesc = checkIn.getDescription();
             try {
+                ParseUser checkUser = checkIn.getUser();
+                ParseFile checkImage = (ParseFile) checkUser.getParseFile("profilePic");
+                imageUrl = (String) checkImage.getUrl();
+                String checkUsername = checkUser.getString("displayName");
                 String checkInDate = checkIn.getDate().toString();
-                viewHolderCheckIn.tvDate.setText(checkInDate);
+                viewHolderCheckIn.tvDate.setText(getRelativeTimeAgo(checkInDate));
+                Attraction attraction = checkIn.getLocation();
+                String location = attraction.getName();
+                viewHolderCheckIn.username.setText(checkUsername);
+                viewHolderCheckIn.location.setText(location);
+                Glide.with(context).load(imageUrl)
+                        .apply(RequestOptions.placeholderOf(R.color.placeholderColor).circleCrop())
+                        .into(viewHolderCheckIn.profileImage);
+                ParseGeoPoint point = attraction.getPoint();
+                String lat = Double.toString(point.getLatitude());
+                String lng = Double.toString(point.getLongitude());
+                // Use Google Static Maps API to get an image of the map surrounding the attraction
+                String mapUrl = "http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=18&scale=2&size=1000x2000&maptype=normal&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C" + lat + "," + lng;
+                Glide.with(context).load(mapUrl).apply(RequestOptions.placeholderOf(R.drawable.background_gradient)).into(viewHolderCheckIn.ivMap);
 
             } catch (NullPointerException e) {
                 Toast.makeText(context, "You forgot a date dummy!", Toast.LENGTH_LONG);
             }
-            Attraction attraction = checkIn.getLocation();
-            String location = attraction.getName();
-            viewHolderCheckIn.username.setText(checkUsername);
-            viewHolderCheckIn.location.setText(location);
-            Glide.with(context).load(imageUrl)
-                    .apply(RequestOptions.placeholderOf(R.color.placeholderColor).circleCrop())
-                    .into(viewHolderCheckIn.profileImage);
-            ParseGeoPoint point = attraction.getPoint();
-            String lat = Double.toString(point.getLatitude());
-            String lng = Double.toString(point.getLongitude());
-            // Use Google Static Maps API to get an image of the map surrounding the attraction
-            String mapUrl = "http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=18&scale=2&size=1000x2000&maptype=normal&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C" + lat + "," + lng;
-            Glide.with(context).load(mapUrl).apply(RequestOptions.placeholderOf(R.drawable.background_gradient)).into(viewHolderCheckIn.ivMap);
-
-            return;
         }
 
         public void bindAward(RecyclerView.ViewHolder viewHolder, int i) {
             final ViewHolderMilestone viewHolderMilestone = (ViewHolderMilestone) viewHolder;
             Post award = mPosts.get(i);
-            ParseUser recipient = award.getUser();
-            String recipientName = recipient.getUsername();
+            ParseUser recipient = award.getParseUser("user");
+            String recipientName = recipient.getString("displayName");
             String rProfilePic = recipient.getParseFile("profilePic").getUrl();
             String awardsNum = award.getAward() + " trips";
-            viewHolderMilestone.tvAwardUsername.setText(recipientName);
-            viewHolderMilestone.tvTripNumber.setText(awardsNum);
-            Glide.with(context).load(rProfilePic).apply(RequestOptions.placeholderOf(R.color.placeholderColor).circleCrop()).into(viewHolderMilestone.ivProfile);
+            try {
+                viewHolderMilestone.tvAwardUsername.setText(recipientName);
+                viewHolderMilestone.tvAwardDate.setText(getRelativeTimeAgo(award.getDate().toString()));
+                Glide.with(context).load(rProfilePic).apply(RequestOptions.placeholderOf(R.color.placeholderColor).circleCrop()).into(viewHolderMilestone.ivProfile);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
+    // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
+    public String getRelativeTimeAgo(String date) {
+        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
+        sf.setLenient(true);
+
+        String relativeDate = "";
+        try {
+            long dateMillis = sf.parse(date).getTime();
+            relativeDate = DateUtils.getRelativeTimeSpanString(dateMillis,
+                    System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return relativeDate;
+    }
 
     }

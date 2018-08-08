@@ -1,5 +1,7 @@
 package me.vivh.socialtravelapp.model;
 
+import android.text.format.DateUtils;
+
 import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
@@ -8,7 +10,10 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by dmindlin on 7/26/18.

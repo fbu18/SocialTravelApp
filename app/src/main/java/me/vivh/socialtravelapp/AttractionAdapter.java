@@ -80,7 +80,7 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.Vi
             holder.tvAttrName.setText(attraction.getName());
             holder.tvAttrDesc.setText(attraction.getDescription());
             holder.rbVoteAverage.setNumStars(5);
-            holder.rbVoteAverage.setRating((attraction.getRating().floatValue()));
+            holder.rbVoteAverage.setRating(attraction.getRating().floatValue());
             holder.tvAttrAddress.setText(attraction.getAddress());
             holder.tvAttrPhoneNumber.setText(attraction.getPhoneNumber());
             holder.tvWebsite.setText(attraction.getWebsite());

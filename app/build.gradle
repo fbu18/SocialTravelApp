@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+    buildToolsVersion '27.0.3'
     compileSdkVersion 28
     defaultConfig {
         applicationId "me.vivh.socialtravelapp"
@@ -62,6 +63,8 @@ dependencies {
 
     implementation 'io.github.ranga543:yelp-fusion-client:0.1.4'
     implementation 'com.android.support:multidex:1.0.3'
+
+    implementation 'com.github.mmin18:realtimeblurview:1.1.2'
 }
 
 apply plugin: 'com.google.gms.google-services'
