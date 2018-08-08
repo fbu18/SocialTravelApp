@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -136,6 +137,8 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ImageView ivProfile;
             @BindView(R.id.tvPostDate)
             TextView tvDate;
+            @BindView(R.id.lvCommentsPost)
+            ListView lvComments;
 
             public ViewHolderPost(View itemView) {
                 super(itemView);
