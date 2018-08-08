@@ -2,7 +2,6 @@ package me.vivh.socialtravelapp;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -52,7 +51,6 @@ public class ChatActivity extends AppCompatActivity {
 
     EditText etMessage;
     Button btSend;
-    private SwipeRefreshLayout swipeContainer;
     private ArrayList<ParseUser>  members = new ArrayList<>();
 
     // Create a handler which can run code periodically
@@ -105,21 +103,6 @@ public class ChatActivity extends AppCompatActivity {
                         queryMembers();
                         parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient();
                         subscribeToMessages();
-
-                        // Lookup the swipe container view
-                        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-                        // Setup refresh listener which triggers new data loading
-                        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                            @Override
-                            public void onRefresh() {
-                                refreshMessages();
-                            }
-                        });
-                        // Configure the refreshing colors
-                        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                                android.R.color.holo_green_light,
-                                android.R.color.holo_orange_light,
-                                android.R.color.holo_red_light);
 
                         refreshMessages();
                     }
@@ -250,8 +233,6 @@ public class ChatActivity extends AppCompatActivity {
                 if (e == null) {
                     mMessages.clear();
                     mMessages.addAll(messages);
-                    // Now we call setRefreshing(false) to signal refresh has finished
-                    swipeContainer.setRefreshing(false);
                     mAdapter.notifyDataSetChanged(); // update adapter
                     // Scroll to the bottom of the list on initial load
                     if (mFirstLoad) {

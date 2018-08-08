@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="vertical"
-        android:background="@color/white"
-        app:titleTextColor="@color/dark_purple"
+        android:background="@color/colorToolbar"
+        app:titleTextColor="@color/white"
         android:fitsSystemWindows="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
@@ -22,29 +22,20 @@
             android:layout_gravity="center"
             android:fontFamily="sans-serif-smallcaps"
             android:text="TRYP"
-            android:textColor="@color/dark_purple"
             android:textSize="30dp"
+            android:textColor="@color/white"
             android:textStyle="bold" />
     </android.support.v7.widget.Toolbar>
 
-    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swipeContainer"
-        android:layout_width="match_parent"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvChat"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/toolbar"
-        android:layout_above="@+id/rlSend">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvChat"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/rlSend"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:transcriptMode="alwaysScroll" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_above="@+id/rlSend"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:transcriptMode="alwaysScroll" />
 
     <RelativeLayout
         android:id="@+id/rlSend"
@@ -64,8 +55,7 @@
             android:gravity="top"
             android:hint="@string/message_hint"
             android:inputType="textShortMessage"
-            android:imeOptions="actionSend"
-            />
+            android:imeOptions="actionSend" />
         <Button
             android:id="@+id/btSend"
             android:layout_width="wrap_content"
@@ -77,8 +67,6 @@
             android:background="@color/white"
             android:textSize="18sp" >
         </Button>
-
-
     </RelativeLayout>
 
     <ProgressBar

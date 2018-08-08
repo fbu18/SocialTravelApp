@@ -65,7 +65,7 @@
             <RatingBar
                 android:id="@+id/rbVoteAverage"
                 style="@style/Widget.AppCompat.RatingBar.Small"
-                android:theme="@style/RatingBarLight"
+                android:theme="@style/RatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/tvAttrName"

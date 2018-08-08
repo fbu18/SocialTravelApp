@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#4a148c</color>
     <color name="colorToolbar">#7b1fa2</color>
     <color name="colorAccent">#cf9bff</color>
+
         <color name="pressed_button_gray">#afabb5</color>
         <color name = "placeholderColor">#dddbe0</color>
         <color name="textDark">#3f3d42</color>
@@ -168,7 +169,6 @@
         <color name = "grey_9_10_transparent">#1a262626</color>
         <color name="ig_led_color">#fff4bb41</color>
         <color name="ig_purple">#ffc40092</color>
-        <color name="dark_purple">#461a6d</color>
         <color name="ig_red">#ffe40031</color>
         <color name="ig_yellow">#ffffd521</color>
         <color name="iglive_ssi_banner_gradient_end">#99585bc2</color>
