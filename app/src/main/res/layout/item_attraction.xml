@@ -55,7 +55,7 @@
             android:layout_marginTop="6dp"
             android:numStars="5"
             android:stepSize="0.5"
-            android:theme="@style/RatingBarLight" />
+            android:theme="@style/RatingBar" />
 
         <TextView
             android:id="@+id/tvPoints"

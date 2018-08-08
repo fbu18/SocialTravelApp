@@ -4,20 +4,25 @@
     <item
         android:id="@+id/action_feed"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="home" />
+        android:title="Home" />
     <item
         android:id="@+id/action_explore"
         android:icon="@drawable/ic_explore_black_24dp"
-        android:title="explore" />
+        android:title="Explore" />
 
     <item
         android:id="@+id/action_trips"
         android:icon="@drawable/ic_card_travel_black_24dp"
-        android:title="trips" />
+        android:title="Trips" />
 
     <item
         android:id="@+id/action_profile"
         android:icon="@drawable/ic_perm_identity_black_24dp"
-        android:title="profile" />
+        android:title="Profile" />
+
+    <item
+        android:id="@+id/action_chat"
+        android:icon="@drawable/ic_chat_black_24dp"
+        android:title="Chat" />
 
 </menu>

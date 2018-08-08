@@ -121,6 +121,9 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
                     case 3:
                         bottomNavigationView.setSelectedItemId(R.id.action_profile);
                         break;
+                    case 4:
+                        bottomNavigationView.setSelectedItemId(R.id.action_chat);
+                        break;
                 }
             }
 
@@ -140,8 +143,8 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
                         modifyStack(FEED_INDEX);
                         return true;
                     case R.id.action_explore:
-                        viewPager.setCurrentItem(EXPLORE_INDEX, false);
-                        modifyStack(EXPLORE_INDEX);
+                        viewPager.setCurrentItem(ATTRACTION_INDEX, false);
+                        modifyStack(ATTRACTION_INDEX);
                         return true;
                     case R.id.action_trips:
                         viewPager.setCurrentItem(TRIP_LIST_INDEX, false);
@@ -150,6 +153,10 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
                     case R.id.action_profile:
                         viewPager.setCurrentItem(PROFILE_INDEX, false);
                         modifyStack(PROFILE_INDEX);
+                        return true;
+                    case R.id.action_chat:
+                        viewPager.setCurrentItem(CHAT_LIST_INDEX, false);
+                        modifyStack(CHAT_LIST_INDEX);
                         return true;
                     default:
                         return false;

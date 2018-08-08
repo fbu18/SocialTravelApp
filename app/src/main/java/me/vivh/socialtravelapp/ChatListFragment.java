@@ -3,7 +3,6 @@ package me.vivh.socialtravelapp;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,7 +24,6 @@ import me.vivh.socialtravelapp.model.Trip;
 
 public class ChatListFragment extends Fragment {
     @BindView(R.id.rvChats) RecyclerView rvChats;
-    @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
     ArrayList<Trip> trips;
     ChatListAdapter chatListAdapter;
     ParseUser currentUser;
@@ -122,19 +120,5 @@ public class ChatListFragment extends Fragment {
         context = getActivity();
         currentUser = ParseUser.getCurrentUser();
         unbinder = ButterKnife.bind(this, view);
-
-
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadTopTrips();
-                swipeContainer.setRefreshing(false);
-            }
-        });
-        // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
     }
 }
