@@ -14,13 +14,14 @@ import me.vivh.socialtravelapp.model.Comment;
  */
 
 public class CommentAdapter extends BaseAdapter{
+    ArrayList<Comment> mComments;
 
     public CommentAdapter(ArrayList<Comment> comments) {
-        
+        mComments = comments;
     }
     @Override
     public int getCount() {
-        return 0;
+        return mComments.size();
     }
 
     @Override
