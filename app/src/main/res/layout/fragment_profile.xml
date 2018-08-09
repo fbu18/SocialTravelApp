@@ -10,28 +10,27 @@
     tools:context=".ProfileFragment">
 
 
-
     <TextView
         android:id="@+id/tvDisplayName"
-        android:layout_width="245dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
 
-        android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/ivProfilePic"
+        android:layout_toEndOf="@+id/ivProfilePic"
         android:text="tvDisplayName"
         android:textAlignment="center"
-        android:textColor="@color/black_70_transparent"
-        android:textSize="22sp"
+        android:textColor="@color/grey_9"
+        android:textSize="28sp"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/btnLogOut"
-        android:layout_width="211dp"
+        android:layout_width="220dp"
         android:layout_height="40dp"
-        android:layout_alignBaseline="@+id/btnEditProfile"
+        android:layout_alignBottom="@+id/btnEditProfile"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="8dp"
-        android:backgroundTint="@color/blue_5"
+        android:layout_marginEnd="12dp"
+        android:backgroundTint="@color/deep_purple_800"
         android:text="Log Out"
         android:textAllCaps="false"
         android:textColor="@color/white" />
@@ -39,22 +38,23 @@
 
     <ImageView
         android:id="@+id/ivProfilePic"
-        android:layout_width="139dp"
-        android:layout_height="129dp"
+        android:layout_width="112dp"
+        android:layout_height="112dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="left"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="12dp"
         android:src="@drawable/user_outline_24" />
 
     <TextView
         android:id="@+id/btnEditProfile"
-        android:layout_width="143dp"
+        android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/ivProfilePic"
         android:layout_gravity="center"
+        android:layout_marginStart="24dp"
         android:background="@color/white"
         android:text="Edit Profile"
         android:textAlignment="center"
@@ -72,91 +72,47 @@
 
     <TextView
         android:id="@+id/tvHomeLoc"
-        android:layout_width="245dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/tvDisplayName"
         android:layout_below="@+id/tvDisplayName"
         android:text="tvHomeLoc"
         android:textAlignment="center"
-        android:textColor="@color/black_50_transparent"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/pointsText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvHomeLoc"
-        android:layout_marginHorizontal="@dimen/pointsMargin"
-        android:layout_toEndOf="@+id/ivProfilePic"
-        android:text="Points:"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        android:textColor="@color/grey_8"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/tvPoints"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/pointsText"
-        android:layout_below="@+id/pointsText"
-        android:layout_marginTop="@dimen/pointsMargin"
-        android:text="0"
-        android:textAlignment="center"
-        android:textSize="22sp" />
-
-    <TextView
-        android:id="@+id/pastTripsText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/tvHomeLoc"
-        android:layout_marginHorizontal="@dimen/pointsMargin"
-        android:layout_toEndOf="@+id/pointsText"
-        android:text="Past: "
-        android:textSize="15sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvNumPastTrips"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/pastTripsText"
-        android:layout_below="@+id/pointsText"
-        android:layout_marginTop="@dimen/pointsMargin"
+        android:layout_marginLeft="82dp"
+        android:layout_toEndOf="@id/ivProfilePic"
         android:text="0"
         android:textAlignment="center"
-        android:textSize="22sp" />
+        android:textColor="@color/grey_8"
+        android:textSize="30sp" />
 
-    <TextView
-        android:id="@+id/upcomingText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvHomeLoc"
-        android:layout_marginHorizontal="@dimen/pointsMargin"
-        android:layout_toEndOf="@+id/pastTripsText"
-        android:text="Future:"
-        android:textAlignment="center"
-        android:textSize="15sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvUpcoming"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/upcomingText"
-        android:layout_below="@+id/pointsText"
-        android:layout_marginTop="@dimen/pointsMargin"
-        android:text="0"
-        android:textSize="22sp" />
     <TextView
         android:id="@+id/tvBio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/btnLogOut"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="3dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnEditProfile"
+        android:layout_marginLeft="8dp"
         android:text="TextView"
         android:textColor="@color/black_70_transparent"
         android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tvPoints"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@id/tvPoints"
+        android:src="@drawable/ic_explore_grey_24dp" />
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -182,5 +138,7 @@
 
         </LinearLayout>
     </ScrollView>
+
+
 
 </RelativeLayout>

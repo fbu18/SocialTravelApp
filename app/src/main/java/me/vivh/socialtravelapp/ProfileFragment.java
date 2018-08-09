@@ -36,11 +36,11 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.tvDisplayName) TextView tvDisplayName;
     @BindView(R.id.tvHomeLoc) TextView tvHomeLoc;
     @BindView(R.id.tvPoints) TextView tvPoints;
-    @BindView(R.id.tvNumPastTrips) TextView tvNumPastTrips;
+//    @BindView(R.id.tvNumPastTrips) TextView tvNumPastTrips;
     @BindView(R.id.ivProfilePic) ImageView ivProfilePic;
     @BindView(R.id.btnEditProfile) TextView editProfileBtn;
 //    @BindView(R.id.btnLeaderboard) Button leaderboardBtn;
-    @BindView(R.id.tvUpcoming) TextView tvUpcoming;
+//    @BindView(R.id.tvUpcoming) TextView tvUpcoming;
     @BindView(R.id.tvBio) TextView tvBio;
 
     private ArrayList<Trip> pastTripArray;
@@ -84,8 +84,8 @@ public class ProfileFragment extends Fragment {
         ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
 
         today = cal.getTime();
-        findPastTrips();
-        findUpcomingTrips();
+//        findPastTrips();
+//        findUpcomingTrips();
 
         btnLogOut.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -167,67 +167,67 @@ public class ProfileFragment extends Fragment {
         unbinder.unbind();
     }
 
-    public void findPastTrips(){
-
-        final Trip.Query tripQuery = new Trip.Query();
-        tripQuery.whereLessThan("date", today);
-        tripQuery.whereEqualTo("user", currentUser);
-
-        tripQuery.findInBackground(new FindCallback<Trip>() {
-            @Override
-            public void done(List<Trip> objects, ParseException e) {
-                if(e == null){
-                    try{
-                        tvNumPastTrips.setText(String.format("%s", objects.size()));
-                        pastTripArray.clear();
-                        pastTripArray.addAll(objects);
-                    }catch(Exception d){
-                        d.printStackTrace();
-                    }
-
-                }else{
-                    try {
-                        Log.d("ProfileFragment", String.format("%s", objects.size()));
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                    }
-                }
-            }
-        });
-    }
-
-    public void findUpcomingTrips(){
-        final Trip.Query tripQuery = new Trip.Query();
-        tripQuery.whereGreaterThan("date", today);
-        tripQuery.whereEqualTo("user", currentUser);
-
-        tripQuery.findInBackground(new FindCallback<Trip>() {
-            @Override
-            public void done(List<Trip> objects, ParseException e) {
-                if(e == null){
-                    try {
-                        tvUpcoming.setText(String.format("%s", objects.size()));
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                    }
-                }else{
-                    try {
-                        Log.d("ProfileFragment", String.format("%s", objects.size()));
-                    } catch (Exception e1) {
-
-                    }
-                }
-            }
-        });
-    }
+//    public void findPastTrips(){
+//
+//        final Trip.Query tripQuery = new Trip.Query();
+//        tripQuery.whereLessThan("date", today);
+//        tripQuery.whereEqualTo("user", currentUser);
+//
+//        tripQuery.findInBackground(new FindCallback<Trip>() {
+//            @Override
+//            public void done(List<Trip> objects, ParseException e) {
+//                if(e == null){
+//                    try{
+//                        tvNumPastTrips.setText(String.format("%s", objects.size()));
+//                        pastTripArray.clear();
+//                        pastTripArray.addAll(objects);
+//                    }catch(Exception d){
+//                        d.printStackTrace();
+//                    }
+//
+//                }else{
+//                    try {
+//                        Log.d("ProfileFragment", String.format("%s", objects.size()));
+//                    } catch (Exception e1) {
+//                        e1.printStackTrace();
+//                    }
+//                }
+//            }
+//        });
+//    }
+//
+//    public void findUpcomingTrips(){
+//        final Trip.Query tripQuery = new Trip.Query();
+//        tripQuery.whereGreaterThan("date", today);
+//        tripQuery.whereEqualTo("user", currentUser);
+//
+//        tripQuery.findInBackground(new FindCallback<Trip>() {
+//            @Override
+//            public void done(List<Trip> objects, ParseException e) {
+//                if(e == null){
+//                    try {
+//                        tvUpcoming.setText(String.format("%s", objects.size()));
+//                    } catch (Exception e1) {
+//                        e1.printStackTrace();
+//                    }
+//                }else{
+//                    try {
+//                        Log.d("ProfileFragment", String.format("%s", objects.size()));
+//                    } catch (Exception e1) {
+//
+//                    }
+//                }
+//            }
+//        });
+//    }
 
 
 
     @Override
     public void onResume() {
         super.onResume();
-        findUpcomingTrips();
-        findPastTrips();
+//        findUpcomingTrips();
+//        findPastTrips();
     }
 
     /**e1.printStackTrace();
