@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.parse.FindCallback;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
@@ -27,6 +28,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.vivh.socialtravelapp.model.Attraction;
+import me.vivh.socialtravelapp.model.Comment;
 import me.vivh.socialtravelapp.model.Post;
 
 /**
@@ -36,6 +38,8 @@ import me.vivh.socialtravelapp.model.Post;
 public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     List<Post> mPosts = new ArrayList<>();
     Context context;
+    ArrayList<Comment> comments = new ArrayList<>();
+    CommentAdapter commentAdapter;
 
     interface Callback {
         void openMemberProfile(ParseUser user);
@@ -194,6 +198,8 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 String date = post.getDate("date").toString();
                 viewHolderPost.tvDate.setText(getRelativeTimeAgo(date));
                 Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.color.placeholderColor).centerCrop()).into(viewHolderPost.ivProfile);
+                commentAdapter = new CommentAdapter(comments);
+                viewHolderPost.lvComments.setAdapter(commentAdapter);
                 if (post.getImage() != null) {
                     String url = post.getImage().getUrl();
                     Glide.with(context).load(url).apply(
@@ -270,6 +276,21 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         return relativeDate;
+    }
+    private void getComments(Post post) {
+
+            final Comment.Query commentQuery = new Comment.Query();
+            commentQuery.whereEqualTo("Post", post);
+            commentQuery.findInBackground(new FindCallback<Comment>() {
+                @Override
+                public void done(List<Comment> objects, com.parse.ParseException e) {
+                    if(e == null) {
+                        comments.clear();
+                        comments.addAll(objects);
+                        commentAdapter.notifyDataSetChanged();
+                    } else e.printStackTrace();
+                }
+            });
     }
 
     }

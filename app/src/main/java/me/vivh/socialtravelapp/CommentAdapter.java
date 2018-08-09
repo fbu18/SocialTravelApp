@@ -1,11 +1,20 @@
 package me.vivh.socialtravelapp;
 
+import android.content.Context;
+import android.media.Image;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import me.vivh.socialtravelapp.model.Comment;
 
@@ -25,17 +34,39 @@ public class CommentAdapter extends BaseAdapter{
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
+    public Comment getItem(int i) {
+        return mComments.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        return null;
+        Context context = view.getContext();
+        if(view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.item_comment, viewGroup, false);
+        }
+        Comment comment = getItem(i);
+        ImageView imageView = view.findViewById(R.id.ivProfilePic);
+        TextView username = view.findViewById(R.id.tvName);
+        TextView commentBody = view.findViewById(R.id.tvComment);
+        TextView timeStamp = view.findViewById(R.id.tvTimestamp);
+
+        ParseUser user = comment.getUser();
+        String commentText = comment.getBody();
+        String name = user.getUsername();
+        Date date = comment.getDate();
+        String imageUrl = user.getParseFile("profilePic").getUrl();
+
+        username.setText(name);
+        commentBody.setText(commentText);
+        timeStamp.setText(date.toString());
+
+        Glide.with(context).load(imageUrl).into(imageView);
+
+        return view;
     }
 }

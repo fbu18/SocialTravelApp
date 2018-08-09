@@ -20,6 +20,7 @@ public class Comment extends ParseObject {
     public final String KEY_USER = "user";
     public final String KEY_DATE = "date";
     public final String KEY_POST = "post";
+    public final String KEY_BODY = "body";
 
     public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
 
@@ -32,6 +33,10 @@ public class Comment extends ParseObject {
 
     public Post getPost() {
         return (Post) get(KEY_POST);
+    }
+
+    public String getBody() {
+        return getString(KEY_BODY);
     }
 
     public static class Query extends ParseQuery<Comment> {

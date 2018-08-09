@@ -33,11 +33,9 @@
         android:id="@+id/tvComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvName"
         android:layout_alignStart="@+id/tvName"
         android:layout_below="@+id/tvName"
-        android:layout_marginBottom="12dp"
-        android:text="This is a comment."/>
+        android:text="This is a comment." />
 
     <TextView
         android:id="@+id/tvTimeStamp"
