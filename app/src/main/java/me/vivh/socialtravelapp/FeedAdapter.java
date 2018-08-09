@@ -193,7 +193,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 String profileUrl = (String) profilePic.getUrl();
                 String date = post.getDate("date").toString();
                 viewHolderPost.tvDate.setText(getRelativeTimeAgo(date));
-                Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.color.placeholderColor)/*.circleCrop()*/).into(viewHolderPost.ivProfile);
+                Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.color.placeholderColor).centerCrop()).into(viewHolderPost.ivProfile);
                 if (post.getImage() != null) {
                     String url = post.getImage().getUrl();
                     Glide.with(context).load(url).apply(
@@ -224,7 +224,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolderCheckIn.username.setText(checkUsername);
                 viewHolderCheckIn.location.setText(location);
                 Glide.with(context).load(imageUrl)
-                        .apply(RequestOptions.placeholderOf(R.color.placeholderColor)/*.circleCrop()*/)
+                        .apply(RequestOptions.placeholderOf(R.color.placeholderColor).centerCrop())
                         .into(viewHolderCheckIn.profileImage);
                 ParseGeoPoint point = attraction.getPoint();
                 String lat = Double.toString(point.getLatitude());
@@ -248,7 +248,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             try {
                 viewHolderMilestone.tvAwardUsername.setText(recipientName);
                 viewHolderMilestone.tvAwardDate.setText(getRelativeTimeAgo(award.getDate().toString()));
-                Glide.with(context).load(rProfilePic).apply(RequestOptions.placeholderOf(R.color.placeholderColor).circleCrop()).into(viewHolderMilestone.ivProfile);
+                Glide.with(context).load(rProfilePic).apply(RequestOptions.placeholderOf(R.color.placeholderColor).centerCrop()).into(viewHolderMilestone.ivProfile);
             } catch (Exception e) {
                 e.printStackTrace();
             }

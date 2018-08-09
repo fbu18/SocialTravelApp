@@ -111,7 +111,7 @@ public class FeedFragment extends Fragment {
         Post.Query postQuery = new Post.Query();
 //        postQuery.include("user");
 //        postQuery.include("location");
-        postQuery.getTop().withAttraction().withUser();
+        postQuery.getTop().withAttraction().withUser().orderByDescending("date");
 
         postQuery.findInBackground(new FindCallback<Post>() {
             @Override

@@ -22,7 +22,7 @@
 
     <item
         android:id="@+id/action_chat"
-        android:icon="@drawable/ic_chat_black_24dp"
+        android:icon="@drawable/ic_chat_outline"
         android:title="Chat" />
 
 </menu>
