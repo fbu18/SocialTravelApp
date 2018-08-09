@@ -14,7 +14,8 @@
         app:titleTextColor="@color/white"
         android:fitsSystemWindows="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        app:theme="@style/ToolbarStyle">
         <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
