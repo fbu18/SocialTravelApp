@@ -34,6 +34,7 @@
     <color name="deep_purple_A200">#7C4DFF</color>
     <color name="deep_purple_A400">#651FFF</color>
     <color name="deep_purple_A700">#6200EA</color>
+    <color name="gray_purple_light">#e0dae8</color>
 
 
     <color name="pressed_button_gray">#afabb5</color>
