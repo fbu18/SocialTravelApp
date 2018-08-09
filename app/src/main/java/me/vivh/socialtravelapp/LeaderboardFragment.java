@@ -36,6 +36,7 @@ public class LeaderboardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_leaderboard, container, false);
+
         rvUsers = (RecyclerView) v.findViewById(R.id.rvLeaderboard);
         users = new ArrayList<>();
         userList = new ArrayList<>();
