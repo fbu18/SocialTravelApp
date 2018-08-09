@@ -6,6 +6,7 @@ import com.parse.Parse;
 import com.parse.ParseObject;
 
 import me.vivh.socialtravelapp.model.Attraction;
+import me.vivh.socialtravelapp.model.Comment;
 import me.vivh.socialtravelapp.model.Message;
 import me.vivh.socialtravelapp.model.Photo;
 import me.vivh.socialtravelapp.model.Post;
@@ -33,6 +34,7 @@ public class ParseApp extends Application{
         ParseObject.registerSubclass(Post.class);
         ParseObject.registerSubclass(Trophy.class);
         ParseObject.registerSubclass(Review.class);
+        ParseObject.registerSubclass(Comment.class);
 
 
         // Use for monitoring Parse network traffic

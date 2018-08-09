@@ -17,10 +17,10 @@ import java.util.Locale;
 
 @ParseClassName("Comment")
 public class Comment extends ParseObject {
-    public final String KEY_USER = "user";
-    public final String KEY_DATE = "date";
-    public final String KEY_POST = "post";
-    public final String KEY_BODY = "body";
+    private static final String KEY_USER = "user";
+    private static final String KEY_DATE = "date";
+    private static final String KEY_POST = "post";
+    private static final String KEY_BODY = "body";
 
     public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
 
@@ -42,6 +42,16 @@ public class Comment extends ParseObject {
     public static class Query extends ParseQuery<Comment> {
         public Query() {
             super(Comment.class);
+        }
+
+        public Query withUser() {
+            this.include(KEY_USER);
+            return this;
+        }
+
+        public Query withPost() {
+            this.include(KEY_POST);
+            return this;
         }
 
     }

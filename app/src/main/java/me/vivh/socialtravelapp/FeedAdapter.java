@@ -117,7 +117,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 String lat = Double.toString(point.getLatitude());
                 String lng = Double.toString(point.getLongitude());
                 // Use Google Static Maps API to get an image of the map surrounding the attraction
-                String mapUrl = "http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=15&scale=1&size=200x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C" + lat + "," + lng;
+                String mapUrl = "http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=5&scale=1&size=200x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C" + lat + "," + lng;
                 Glide.with(context).load(mapUrl).apply(RequestOptions.placeholderOf(R.color.placeholderColor)).into(viewHolderCheckIn.ivMap);
                 bindCheckIn(viewHolder, i);
                 return;
@@ -200,6 +200,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.color.placeholderColor).centerCrop()).into(viewHolderPost.ivProfile);
                 commentAdapter = new CommentAdapter(comments);
                 viewHolderPost.lvComments.setAdapter(commentAdapter);
+                getComments(post);
                 if (post.getImage() != null) {
                     String url = post.getImage().getUrl();
                     Glide.with(context).load(url).apply(
@@ -280,7 +281,8 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void getComments(Post post) {
 
             final Comment.Query commentQuery = new Comment.Query();
-            commentQuery.whereEqualTo("Post", post);
+            commentQuery.whereEqualTo("post", post);
+            commentQuery.withPost().withUser();
             commentQuery.findInBackground(new FindCallback<Comment>() {
                 @Override
                 public void done(List<Comment> objects, com.parse.ParseException e) {
