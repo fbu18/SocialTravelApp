@@ -2,6 +2,7 @@ package me.vivh.socialtravelapp;
 
 import android.content.Context;
 import android.media.Image;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.parse.ParseUser;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import me.vivh.socialtravelapp.model.Comment;
 
@@ -58,16 +62,35 @@ public class CommentAdapter extends BaseAdapter{
 
         ParseUser user = comment.getUser();
         String commentText = comment.getBody();
-        String name = user.getUsername();
+        String name = user.getString("displayName");
         Date date = comment.getDate();
+        String relativeDate = getRelativeTimeAgo(date.toString());
         String imageUrl = user.getParseFile("profilePic").getUrl();
 
         username.setText(name);
         commentBody.setText(commentText);
-        timeStamp.setText(date.toString());
+        timeStamp.setText(relativeDate);
 
         Glide.with(context).load(imageUrl).apply(RequestOptions.centerCropTransform()).into(imageView);
 
         return view;
+    }
+
+    // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
+    public String getRelativeTimeAgo(String date) {
+        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
+        sf.setLenient(true);
+
+        String relativeDate = "";
+        try {
+            long dateMillis = sf.parse(date).getTime();
+            relativeDate = DateUtils.getRelativeTimeSpanString(dateMillis,
+                    System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return relativeDate;
     }
 }
