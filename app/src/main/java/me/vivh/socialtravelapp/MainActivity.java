@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -41,19 +40,17 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
         FeedAdapter.Callback, UserAdapter.Callback, EditProfileFragment.OnFragmentInteractionListener, MemberProfileFragment.OnFragmentInteractionListener, CustomWindowAdapter.Callback{
 
     public static final int FEED_INDEX = 0;
-    public static final int EXPLORE_INDEX = 1;
+    public static final int SUGGESTIONS_INDEX = 1;
     public static final int TRIP_LIST_INDEX = 2;
-    public static final int PROFILE_INDEX = 3;
-    public static final int SUGGESTIONS_INDEX = 4;
+    public static final int CHAT_LIST_INDEX = 3;
+    public static final int PROFILE_INDEX = 4;
     public static final int MAPS_INDEX = 5;
     public static final int ATTRACTION_INDEX = 6;
     public static final int TRIP_DETAIL_INDEX = 7;
     public static final int ATTRACTION_DETAILS_INDEX = 8;
     public static final int TRIP_BROWSE_INDEX = 9;
     public static final int EDIT_PROFILE_INDEX = 10;
-    public static final int CHAT_LIST_INDEX = 11;
-//    public static final int LEADERBOARD_INDEX = 12;
-    public static final int MEMBER_PROFILE_INDEX = 12;
+    public static final int MEMBER_PROFILE_INDEX = 11;
 
     private final List<Fragment> fragments = new ArrayList<>();
     private Stack<Integer> backStack = new Stack<>();
@@ -84,18 +81,17 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
 
         ButterKnife.bind(this);
         fragments.add(new FeedFragment()); // index 0
-        fragments.add(new ExploreFragment()); // index 1
+        fragments.add(new SuggestionFragment()); // index 1
         fragments.add(new TripListFragment()); // index 2
-        fragments.add(new ProfileFragment()); // index 3
-        fragments.add(new SuggestionFragment()); // index 4
+        fragments.add(new ChatListFragment()); // index 3
+        fragments.add(new ProfileFragment()); // index 4
         fragments.add(new MapsFragment()); // index 5
         fragments.add(new AttractionListFragment()); // index 6
         fragments.add(new TripDetailFragment()); // index 7
         fragments.add(new AttractionDetailsFragment()); // index 8
         fragments.add(new TripBrowseFragment()); // index 9
         fragments.add(new EditProfileFragment()); // index 10
-        fragments.add(new ChatListFragment()); // index 11
-        fragments.add(new MemberProfileFragment()); //index 12
+        fragments.add(new MemberProfileFragment()); //index 11
 
         adapter = new BottomNavAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
@@ -119,10 +115,10 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
                         bottomNavigationView.setSelectedItemId(R.id.action_trips);
                         break;
                     case 3:
-                        bottomNavigationView.setSelectedItemId(R.id.action_profile);
+                        bottomNavigationView.setSelectedItemId(R.id.action_chat);
                         break;
                     case 4:
-                        bottomNavigationView.setSelectedItemId(R.id.action_chat);
+                        bottomNavigationView.setSelectedItemId(R.id.action_profile);
                         break;
                 }
             }
@@ -143,20 +139,20 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
                         modifyStack(FEED_INDEX);
                         return true;
                     case R.id.action_explore:
-                        viewPager.setCurrentItem(ATTRACTION_INDEX, false);
-                        modifyStack(ATTRACTION_INDEX);
+                        viewPager.setCurrentItem(SUGGESTIONS_INDEX, false);
+                        modifyStack(SUGGESTIONS_INDEX);
                         return true;
                     case R.id.action_trips:
                         viewPager.setCurrentItem(TRIP_LIST_INDEX, false);
                         modifyStack(TRIP_LIST_INDEX);
                         return true;
-                    case R.id.action_profile:
-                        viewPager.setCurrentItem(PROFILE_INDEX, false);
-                        modifyStack(PROFILE_INDEX);
-                        return true;
                     case R.id.action_chat:
                         viewPager.setCurrentItem(CHAT_LIST_INDEX, false);
                         modifyStack(CHAT_LIST_INDEX);
+                        return true;
+                    case R.id.action_profile:
+                        viewPager.setCurrentItem(PROFILE_INDEX, false);
+                        modifyStack(PROFILE_INDEX);
                         return true;
                     default:
                         return false;
@@ -166,7 +162,8 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
 
     }
 
-    @Override
+    // for chat icon in top corner
+/*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
@@ -181,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements ExploreFragment.O
             viewPager.setCurrentItem(CHAT_LIST_INDEX, false);
         }
         return super.onOptionsItemSelected(item);
-    }
+    } */
 
     static class BottomNavAdapter extends FragmentStatePagerAdapter {
 
