@@ -156,6 +156,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             TextView location;
             @BindView(R.id.ivMap) ImageView ivMap;
             @BindView(R.id.tvCheckInDate) TextView tvDate;
+            @BindView(R.id.lvCommentsCheckIn) ListView lvComments;
 
             public ViewHolderCheckIn(@NonNull View itemView) {
                 super(itemView);
@@ -167,6 +168,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @BindView(R.id.ivAwardPic) ImageView ivProfile;
             @BindView(R.id.tvAwardUser) TextView tvAwardUsername;
             @BindView(R.id.tvAwardDate) TextView tvAwardDate;
+            @BindView(R.id.lvCommentsMilestone) ListView lvComments;
 
             public ViewHolderMilestone(@NonNull View itemView) {
                 super(itemView);
@@ -233,11 +235,14 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Glide.with(context).load(imageUrl)
                         .apply(RequestOptions.placeholderOf(R.color.placeholderColor).centerCrop())
                         .into(viewHolderCheckIn.profileImage);
+                commentAdapter = new CommentAdapter(comments);
+                viewHolderCheckIn.lvComments.setAdapter(commentAdapter);
+                getComments(checkIn);
                 ParseGeoPoint point = attraction.getPoint();
                 String lat = Double.toString(point.getLatitude());
                 String lng = Double.toString(point.getLongitude());
                 // Use Google Static Maps API to get an image of the map surrounding the attraction
-                String mapUrl = "http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=18&scale=2&size=1000x2000&maptype=normal&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C" + lat + "," + lng;
+                String mapUrl = "http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=12&scale=2&size=1000x2000&maptype=normal&format=png&visual_refresh=true&markers=size:large%7Ccolor:0x5E35B1%7Clabel:%7C" + lat + "," + lng;
                 Glide.with(context).load(mapUrl).apply(RequestOptions.placeholderOf(R.color.placeholderColor)).into(viewHolderCheckIn.ivMap);
 
             } catch (NullPointerException e) {
@@ -252,6 +257,9 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             String recipientName = recipient.getString("displayName");
             String rProfilePic = recipient.getParseFile("profilePic").getUrl();
             String awardsNum = award.getAward() + " trips";
+            commentAdapter = new CommentAdapter(comments);
+            viewHolderMilestone.lvComments.setAdapter(commentAdapter);
+            getComments(award);
             try {
                 viewHolderMilestone.tvAwardUsername.setText(recipientName);
                 viewHolderMilestone.tvAwardDate.setText(getRelativeTimeAgo(award.getDate().toString()));
@@ -294,5 +302,4 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             });
     }
-
-    }
+}
