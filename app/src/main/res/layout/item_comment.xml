@@ -7,15 +7,12 @@
 
     <ImageView
         android:id="@+id/ivProfilePic"
+        android:layout_marginLeft="8dp"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="14dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="13dp"
-        android:src="@drawable/user_outline_24"/>
+        android:src="@drawable/user_outline_24" />
 
     <TextView
         android:id="@+id/tvName"
@@ -33,11 +30,9 @@
         android:id="@+id/tvComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvName"
         android:layout_alignStart="@+id/tvName"
         android:layout_below="@+id/tvName"
-        android:layout_marginBottom="12dp"
-        android:text="This is a comment."/>
+        android:text="This is a comment." />
 
     <TextView
         android:id="@+id/tvTimeStamp"

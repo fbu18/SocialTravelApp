@@ -8,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.parse.FindCallback;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
@@ -26,6 +28,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.vivh.socialtravelapp.model.Attraction;
+import me.vivh.socialtravelapp.model.Comment;
 import me.vivh.socialtravelapp.model.Post;
 
 /**
@@ -35,6 +38,8 @@ import me.vivh.socialtravelapp.model.Post;
 public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     List<Post> mPosts = new ArrayList<>();
     Context context;
+    ArrayList<Comment> comments = new ArrayList<>();
+    CommentAdapter commentAdapter;
 
     interface Callback {
         void openMemberProfile(ParseUser user);
@@ -112,7 +117,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 String lat = Double.toString(point.getLatitude());
                 String lng = Double.toString(point.getLongitude());
                 // Use Google Static Maps API to get an image of the map surrounding the attraction
-                String mapUrl = "http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=15&scale=1&size=200x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C" + lat + "," + lng;
+                String mapUrl = "http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=5&scale=1&size=200x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C" + lat + "," + lng;
                 Glide.with(context).load(mapUrl).apply(RequestOptions.placeholderOf(R.color.placeholderColor)).into(viewHolderCheckIn.ivMap);
                 bindCheckIn(viewHolder, i);
                 return;
@@ -128,6 +133,8 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
         public class ViewHolderPost extends RecyclerView.ViewHolder {
+            @BindView(R.id.lvCommentsPost)
+            ListView lvComments;
             @BindView(R.id.ivPostImage) ImageView imageView;
             @BindView(R.id.tvPostUsername) TextView tvUser;
             @BindView(R.id.tvPostDescription) TextView tvDescription;
@@ -191,6 +198,9 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 String date = post.getDate("date").toString();
                 viewHolderPost.tvDate.setText(getRelativeTimeAgo(date));
                 Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.color.placeholderColor).centerCrop()).into(viewHolderPost.ivProfile);
+                commentAdapter = new CommentAdapter(comments);
+                viewHolderPost.lvComments.setAdapter(commentAdapter);
+                getComments(post);
                 if (post.getImage() != null) {
                     String url = post.getImage().getUrl();
                     Glide.with(context).load(url).apply(
@@ -267,6 +277,22 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         return relativeDate;
+    }
+    private void getComments(Post post) {
+
+            final Comment.Query commentQuery = new Comment.Query();
+            commentQuery.whereEqualTo("post", post);
+            commentQuery.withPost().withUser();
+            commentQuery.findInBackground(new FindCallback<Comment>() {
+                @Override
+                public void done(List<Comment> objects, com.parse.ParseException e) {
+                    if(e == null) {
+                        comments.clear();
+                        comments.addAll(objects);
+                        commentAdapter.notifyDataSetChanged();
+                    } else e.printStackTrace();
+                }
+            });
     }
 
     }
