@@ -46,7 +46,7 @@
             android:layout_height="2dip"
             android:layout_below="@+id/tvTrophyDescription"
             android:layout_marginTop="15dp"
-            android:background="@drawable/background_gradient" />
+            android:background="@color/grey_9" />
 
     </RelativeLayout>
 
