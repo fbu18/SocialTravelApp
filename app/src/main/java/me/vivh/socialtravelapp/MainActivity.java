@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
 import me.vivh.socialtravelapp.model.Attraction;
 import me.vivh.socialtravelapp.model.Trip;
 
-public class MainActivity extends AppCompatActivity implements ExploreFragment.OnFragmentInteractionListener,
+public class MainActivity extends AppCompatActivity implements SuggestionFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener,
         AttractionDetailsFragment.OnFragmentInteractionListener, AttractionListFragment.OnFragmentInteractionListener,
         AttractionAdapter.Callback, FeedFragment.OnFragmentInteractionListener,
