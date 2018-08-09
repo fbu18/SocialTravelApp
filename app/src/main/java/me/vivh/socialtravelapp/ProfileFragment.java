@@ -39,7 +39,6 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.tvNumPastTrips) TextView tvNumPastTrips;
     @BindView(R.id.ivProfilePic) ImageView ivProfilePic;
     @BindView(R.id.btnEditProfile) TextView editProfileBtn;
-//    @BindView(R.id.btnLeaderboard) Button leaderboardBtn;
     @BindView(R.id.tvUpcoming) TextView tvUpcoming;
     @BindView(R.id.tvBio) TextView tvBio;
 
