@@ -238,7 +238,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 String lng = Double.toString(point.getLongitude());
                 // Use Google Static Maps API to get an image of the map surrounding the attraction
                 String mapUrl = "http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=18&scale=2&size=1000x2000&maptype=normal&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C" + lat + "," + lng;
-                Glide.with(context).load(mapUrl).apply(RequestOptions.placeholderOf(R.drawable.background_gradient)).into(viewHolderCheckIn.ivMap);
+                Glide.with(context).load(mapUrl).apply(RequestOptions.placeholderOf(R.color.deep_purple_200)).into(viewHolderCheckIn.ivMap);
 
             } catch (NullPointerException e) {
                 Toast.makeText(context, "You forgot a date dummy!", Toast.LENGTH_LONG);

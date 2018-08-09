@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.parse.FindCallback;
@@ -30,6 +31,7 @@ public class AttractionListFragment extends Fragment {
     AsyncHttpClient client;
     private Unbinder unbinder;
     private OnFragmentInteractionListener listener;
+    private ProgressBar pb;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -60,6 +62,7 @@ public class AttractionListFragment extends Fragment {
 
         attractionAdapter = new AttractionAdapter(attractions, callback);
         rvAttractions = (RecyclerView) rootView.findViewById(R.id.rvAttractions);
+        pb = (ProgressBar) rootView.findViewById(R.id.pbLoading);
 
         loadTopAttractions();
         getConfiguration();
@@ -98,25 +101,33 @@ public class AttractionListFragment extends Fragment {
     }
 
     public void loadTopAttractions(){
-        final Attraction.Query attractionsQuery = new Attraction.Query();
-        attractionsQuery.getTop().withName();
-        attractionsQuery.orderByAscending("points");
+        pb.setVisibility(ProgressBar.VISIBLE);
 
-        attractionsQuery.findInBackground(new FindCallback<Attraction>() {
+        // RecyclerView updates need to be run on the UI thread
+        getActivity().runOnUiThread(new Runnable() {
             @Override
-            public void done(List<Attraction> objects, ParseException e) {
-                if (e==null){
-                    for (int i = 0; i < objects.size(); i++){
-                        Log.d("MainActivity", "Attraction ["+i+"] = "
-                                + objects.get(i).getDescription()
-                                + "\n name = " + objects.get(i).getName());
+            public void run() {
+                final Attraction.Query attractionsQuery = new Attraction.Query();
+                attractionsQuery.getTop().withName();
+                attractionsQuery.orderByAscending("points");
+                attractionsQuery.findInBackground(new FindCallback<Attraction>() {
+                    @Override
+                    public void done(List<Attraction> objects, ParseException e) {
+                        if (e==null){
+                            for (int i = 0; i < objects.size(); i++){
+                                Log.d("MainActivity", "Attraction ["+i+"] = "
+                                        + objects.get(i).getDescription()
+                                        + "\n name = " + objects.get(i).getName());
 
-                        attractions.add(0,objects.get(i));
-                        attractionAdapter.notifyItemInserted(attractions.size()-1);
+                                attractions.add(0,objects.get(i));
+                                attractionAdapter.notifyItemInserted(attractions.size()-1);
+                                pb.setVisibility(ProgressBar.INVISIBLE);
+                            }
+                        } else {
+                            e.printStackTrace();
+                        }
                     }
-                } else {
-                    e.printStackTrace();
-                }
+                });
             }
         });
     }
