@@ -16,13 +16,15 @@
         android:title="Trips" />
 
     <item
+        android:id="@+id/action_chat"
+        android:icon="@drawable/ic_chat_outline"
+        android:title="Chat" />
+
+    <item
         android:id="@+id/action_profile"
         android:icon="@drawable/ic_perm_identity_black_24dp"
         android:title="Profile" />
 
-    <item
-        android:id="@+id/action_chat"
-        android:icon="@drawable/ic_chat_outline"
-        android:title="Chat" />
+
 
 </menu>
