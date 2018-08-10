@@ -1,7 +1,6 @@
 package me.vivh.socialtravelapp.model;
 
 import android.graphics.Bitmap;
-import android.graphics.Point;
 
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -153,7 +152,7 @@ public class Attraction extends ParseObject {
         }
 
         public Query getTop() {
-            setLimit(20);
+            setLimit(25);
             return this;
         }
 
