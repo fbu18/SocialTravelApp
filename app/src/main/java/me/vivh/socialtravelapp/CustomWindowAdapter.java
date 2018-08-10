@@ -52,12 +52,13 @@ public class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
         description.setText(marker.getSnippet());
 
         ImageView imageView = v.findViewById(R.id.ivInfo);
-        if(imageUrl != null)
-        Glide.with(context).load(imageUrl)
-                .apply(RequestOptions
-                        .placeholderOf(R.color.placeholderColor)
-                        .circleCrop())
-                .into(imageView);
+        if (imageUrl != null){
+            Glide.with(context).load(imageUrl)
+                    .apply(RequestOptions
+                            .placeholderOf(R.color.placeholderColor)
+                            .circleCrop())
+                    .into(imageView);
+    }
         Button btnGo = v.findViewById(R.id.btnInfo);
         btnGo.setOnClickListener(new View.OnClickListener() {
             @Override

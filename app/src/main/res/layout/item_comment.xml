@@ -7,11 +7,11 @@
 
     <ImageView
         android:id="@+id/ivProfilePic"
-        android:layout_marginLeft="8dp"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:src="@drawable/user_outline_24" />
 
     <TextView
