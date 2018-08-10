@@ -101,7 +101,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:like_drawable="@drawable/ic_favorite_purple_24dp"
-                app:unlike_drawable="@drawable/ic_favorite_border_black_24dp">
+                app:unlike_drawable="@drawable/ic_favorite_border_black_24dp"
+                app:circle_start_color="@color/purple_2"
+                app:circle_end_color="@color/purple_4">
 
             </com.like.LikeButton>
 
@@ -121,6 +123,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
             <ListView
                 android:id="@+id/lvCommentsPost"
                 android:layout_width="match_parent"
@@ -136,6 +139,7 @@
                 app:layout_constraintVertical_weight="2"/>
 
         </android.support.constraint.ConstraintLayout>
+
 
 
 

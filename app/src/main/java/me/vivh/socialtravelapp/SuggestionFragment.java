@@ -191,11 +191,11 @@ public class SuggestionFragment extends Fragment {
                 new PlaceSelectionListener() {
                     @Override
                     public void onPlaceSelected(Place place) {
-                        String description = "One of Seattle's finest gems";
+                        String description = "The highest mountain in the state of WA";
                         String id = place.getId();
                         String name;
                         String address;
-                        String phoneNumber;
+                        String phoneNumber = "(360) 569-2211";
                         Double latitude;
                         Double longitude;
                         String website;
@@ -209,23 +209,24 @@ public class SuggestionFragment extends Fragment {
                         try{ address = place.getAddress().toString();}
                         catch (Exception e) { address = "42 Wallaby Way, Sydney, Australia";}
 
-                        try{ phoneNumber = place.getPhoneNumber().toString();}
-                        catch (Exception e) { phoneNumber = "(650) 867-5309";}
+                        if (!place.getPhoneNumber().toString().equals("")){
+                            phoneNumber = place.getPhoneNumber().toString();
+                        }
 
                         try{
                             latitude = place.getLatLng().latitude;
                             longitude = place.getLatLng().longitude;
                         }
                         catch (Exception e) {
-                            latitude = 47.6062; //seattle
-                            longitude = 122.3321;
+                            latitude = 46.8523; //mt. rainier
+                            longitude = 121.7603;
                         }
 
                         try{ website = place.getWebsiteUri().toString();}
-                        catch (Exception e) { website = "https://www.facebook.com/";}
+                        catch (Exception e) { website = "https://www.nps.gov/mora/index.htm";}
 
                         try{ rating = (double) place.getRating();}
-                        catch (Exception e) { rating = 0.0;}
+                        catch (Exception e) { rating = 4.5;}
 
                         try{ type = place.getPlaceTypes().toString();}
                         catch (Exception e) { type = "Fun";}
@@ -250,6 +251,44 @@ public class SuggestionFragment extends Fragment {
                         newAtt.setPriceLevel(priceLevel);
                         newAtt.setDescription(description);
                         newAtt.setPoints(1);
+
+
+                        // TODO - pull reviews from Google places json
+
+                        if (name.contains("Rainier")){
+                            // we're hard coding this for now for Mt Rainier
+                            review = new Review();
+                            review.setAttraction(newAtt);
+                            review.setBody("The scenery was amazing and the views were stunning. "+
+                                    "It was a beautiful place to drive through. Even more delightful with snow on the mountain tops.");
+                            review.setStars(5);
+                            review.setUsername("Chris MS");
+                            review.saveInBackground();
+
+                            review = new Review();
+                            review.setAttraction(newAtt);
+                            review.setBody("Mt. Rainier is beautiful! A real treasure for our state. " +
+                                    "Unfortunately it seemed mostly overrun on my trip. High season is definitely not for me.");
+                            review.setStars(2);
+                            review.setUsername("Ryan Robinson");
+                            review.saveInBackground();
+
+                            review = new Review();
+                            review.setAttraction(newAtt);
+                            review.setBody("What can I say without running out of superlatives.  " +
+                                    "Even if you don't climb on the mountain the profusion of wildflowers and scenic views make it a great trip.");
+                            review.setStars(5);
+                            review.setUsername("David Weber");
+                            review.saveInBackground();
+                        } else{
+                            review = new Review();
+                            review.setAttraction(newAtt);
+                            review.setBody("My family went here last weekend and had a good time. It was quite crowded though.");
+                            review.setStars(4);
+                            review.setUsername("Chris MS");
+                            review.saveInBackground();
+                        }
+                        Log.d("SuggestionFragment", "saved default reviews");
                         // set image in the retrieveUploadPhoto method so that upload is only
                         // executed after photo request is complete
                         retrieveUploadPhoto(id, newAtt);
@@ -393,7 +432,7 @@ public class SuggestionFragment extends Fragment {
                                 review.setStars(reviews.get(i).getRating());
                                 review.setUsername(reviews.get(i).getUser().getName());
                                 review.saveInBackground();
-                                Log.d("SuggestionFragment", "saved reviews");
+                                Log.d("SuggestionFragment", "saved Yelp reviews");
                             }
 
                             try{new SuggestionFragment.AsyncGettingBitmapFromUrl(newAtt, review, businessImageUrl).execute();}
