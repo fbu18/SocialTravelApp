@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,8 +39,7 @@ import me.vivh.socialtravelapp.model.Post;
 public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     List<Post> mPosts = new ArrayList<>();
     Context context;
-    ArrayList<Comment> comments = new ArrayList<>();
-    CommentAdapter commentAdapter;
+
 
     interface Callback {
         void openMemberProfile(ParseUser user);
@@ -97,28 +97,28 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 bindPost(viewHolder, i);
                 return;
             case 1:
-                String imageUrl = null;
-                final ViewHolderCheckIn viewHolderCheckIn = (ViewHolderCheckIn) viewHolder;
-                Post checkIn = mPosts.get(i);
-                ParseUser checkUser = checkIn.getUser();
-                ParseFile checkImage = (ParseFile) checkUser.getParseFile("profilePic");
-                imageUrl = (String) checkImage.getUrl();
-                String checkUsername = checkUser.getString("displayName");
-                String checkDesc = checkIn.getDescription();
-//                String checkInDate = checkIn.getDate("date").toString();
-                Attraction attraction = checkIn.getLocation();
-                String location = attraction.getName();
-                viewHolderCheckIn.username.setText(checkUsername);
-                viewHolderCheckIn.location.setText(location);
-                Glide.with(context).load(imageUrl)
-                        .apply(RequestOptions.placeholderOf(R.color.placeholderColor).circleCrop())
-                        .into(viewHolderCheckIn.profileImage);
-                ParseGeoPoint point = attraction.getPoint();
-                String lat = Double.toString(point.getLatitude());
-                String lng = Double.toString(point.getLongitude());
-                // Use Google Static Maps API to get an image of the map surrounding the attraction
-                String mapUrl = "http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=5&scale=1&size=200x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C" + lat + "," + lng;
-                Glide.with(context).load(mapUrl).apply(RequestOptions.placeholderOf(R.color.placeholderColor)).into(viewHolderCheckIn.ivMap);
+//                String imageUrl = null;
+//                final ViewHolderCheckIn viewHolderCheckIn = (ViewHolderCheckIn) viewHolder;
+//                Post checkIn = mPosts.get(i);
+//                ParseUser checkUser = checkIn.getUser();
+//                ParseFile checkImage = (ParseFile) checkUser.getParseFile("profilePic");
+//                imageUrl = (String) checkImage.getUrl();
+//                String checkUsername = checkUser.getString("displayName");
+//                String checkDesc = checkIn.getDescription();
+////                String checkInDate = checkIn.getDate("date").toString();
+//                Attraction attraction = checkIn.getLocation();
+//                String location = attraction.getName();
+//                viewHolderCheckIn.username.setText(checkUsername);
+//                viewHolderCheckIn.location.setText(location);
+//                Glide.with(context).load(imageUrl)
+//                        .apply(RequestOptions.placeholderOf(R.color.placeholderColor).circleCrop())
+//                        .into(viewHolderCheckIn.profileImage);
+//                ParseGeoPoint point = attraction.getPoint();
+//                String lat = Double.toString(point.getLatitude());
+//                String lng = Double.toString(point.getLongitude());
+//                // Use Google Static Maps API to get an image of the map surrounding the attraction
+//                String mapUrl = "http://maps.google.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=5&scale=1&size=200x200&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:%7C" + lat + "," + lng;
+//                Glide.with(context).load(mapUrl).apply(RequestOptions.placeholderOf(R.color.placeholderColor)).into(viewHolderCheckIn.ivMap);
                 bindCheckIn(viewHolder, i);
                 return;
             case 2:
@@ -133,6 +133,8 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
         public class ViewHolderPost extends RecyclerView.ViewHolder {
+            CommentAdapter commentAdapter;
+            ArrayList<Comment> comments = new ArrayList<>();
             @BindView(R.id.lvCommentsPost)
             ListView lvComments;
             @BindView(R.id.ivPostImage) ImageView imageView;
@@ -144,10 +146,34 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             public ViewHolderPost(View itemView) {
                 super(itemView);
                 ButterKnife.bind(this, itemView);
+                commentAdapter = new CommentAdapter(comments);
+                getCommentList();
+            }
+            public void getCommentList() {
+
+                final Comment.Query commentQuery = new Comment.Query();
+//                commentQuery.whereEqualTo("post", post);
+                commentQuery.withPost().withUser();
+                commentQuery.findInBackground(new FindCallback<Comment>() {
+                    @Override
+                    public void done(List<Comment> objects, com.parse.ParseException e) {
+                        if(e == null) {
+                            comments.clear();
+                            comments.addAll(objects);
+                            commentAdapter.notifyDataSetChanged();
+                        } else e.printStackTrace();
+                    }
+                });
+            }
+
+            public ArrayList<Comment> getComments() {
+                return comments;
             }
         }
 
         public class ViewHolderCheckIn extends RecyclerView.ViewHolder {
+            CommentAdapter commentAdapter;
+            ArrayList<Comment> comments = new ArrayList<>();
             @BindView(R.id.ivCheckInProfile)
             ImageView profileImage;
             @BindView(R.id.tvCheckInUser)
@@ -161,10 +187,34 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             public ViewHolderCheckIn(@NonNull View itemView) {
                 super(itemView);
                 ButterKnife.bind(this, itemView);
+                commentAdapter = new CommentAdapter(comments);
+                getCommentList();
+            }
+            public void getCommentList() {
+
+                final Comment.Query commentQuery = new Comment.Query();
+//                commentQuery.whereEqualTo("post", post);
+                commentQuery.withPost().withUser();
+                commentQuery.findInBackground(new FindCallback<Comment>() {
+                    @Override
+                    public void done(List<Comment> objects, com.parse.ParseException e) {
+                        if(e == null) {
+                            comments.clear();
+                            comments.addAll(objects);
+                            commentAdapter.notifyDataSetChanged();
+                        } else e.printStackTrace();
+                    }
+                });
+            }
+
+            public ArrayList<Comment> getComments() {
+                return comments;
             }
         }
 
         public class ViewHolderMilestone extends RecyclerView.ViewHolder {
+            CommentAdapter commentAdapter;
+            ArrayList<Comment> comments = new ArrayList<>();
             @BindView(R.id.ivAwardPic) ImageView ivProfile;
             @BindView(R.id.tvAwardUser) TextView tvAwardUsername;
             @BindView(R.id.tvAwardDate) TextView tvAwardDate;
@@ -173,6 +223,29 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             public ViewHolderMilestone(@NonNull View itemView) {
                 super(itemView);
                 ButterKnife.bind(this, itemView);
+                commentAdapter = new CommentAdapter(comments);
+                getCommentList();
+            }
+
+            public void getCommentList() {
+
+                final Comment.Query commentQuery = new Comment.Query();
+//                commentQuery.whereEqualTo("post", post);
+                commentQuery.withPost().withUser();
+                commentQuery.findInBackground(new FindCallback<Comment>() {
+                    @Override
+                    public void done(List<Comment> objects, com.parse.ParseException e) {
+                        if(e == null) {
+                            comments.clear();
+                            comments.addAll(objects);
+                            commentAdapter.notifyDataSetChanged();
+                        } else e.printStackTrace();
+                    }
+                });
+            }
+
+            public ArrayList<Comment> getComments() {
+                return comments;
             }
         }
 
@@ -189,6 +262,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void bindPost(RecyclerView.ViewHolder viewHolder, int i) {
             ViewHolderPost viewHolderPost = (ViewHolderPost) viewHolder;
             Post post = (Post) mPosts.get(i);
+            ArrayList<Comment> comments = viewHolderPost.getComments();
             try {
                 ParseUser user = post.getUser();
                 String name = user.getString("displayName");
@@ -200,9 +274,9 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 String date = post.getDate("date").toString();
                 viewHolderPost.tvDate.setText(getRelativeTimeAgo(date));
                 Glide.with(context).load(profileUrl).apply(RequestOptions.placeholderOf(R.color.placeholderColor).centerCrop()).into(viewHolderPost.ivProfile);
-                commentAdapter = new CommentAdapter(comments);
+                CommentAdapter commentAdapter = viewHolderPost.commentAdapter;
                 viewHolderPost.lvComments.setAdapter(commentAdapter);
-                getComments(post);
+                setListViewHeightBasedOnItems(viewHolderPost.lvComments);
                 if (post.getImage() != null) {
                     String url = post.getImage().getUrl();
                     Glide.with(context).load(url).apply(
@@ -235,9 +309,8 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Glide.with(context).load(imageUrl)
                         .apply(RequestOptions.placeholderOf(R.color.placeholderColor).centerCrop())
                         .into(viewHolderCheckIn.profileImage);
-                commentAdapter = new CommentAdapter(comments);
+                CommentAdapter commentAdapter = viewHolderCheckIn.commentAdapter;
                 viewHolderCheckIn.lvComments.setAdapter(commentAdapter);
-                getComments(checkIn);
                 ParseGeoPoint point = attraction.getPoint();
                 String lat = Double.toString(point.getLatitude());
                 String lng = Double.toString(point.getLongitude());
@@ -257,9 +330,8 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             String recipientName = recipient.getString("displayName");
             String rProfilePic = recipient.getParseFile("profilePic").getUrl();
             String awardsNum = award.getAward() + " trips";
-            commentAdapter = new CommentAdapter(comments);
+            CommentAdapter commentAdapter = viewHolderMilestone.commentAdapter;
             viewHolderMilestone.lvComments.setAdapter(commentAdapter);
-            getComments(award);
             try {
                 viewHolderMilestone.tvAwardUsername.setText(recipientName);
                 viewHolderMilestone.tvAwardDate.setText(getRelativeTimeAgo(award.getDate().toString()));
@@ -286,20 +358,38 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         return relativeDate;
     }
-    private void getComments(Post post) {
 
-            final Comment.Query commentQuery = new Comment.Query();
-            commentQuery.whereEqualTo("post", post);
-            commentQuery.withPost().withUser();
-            commentQuery.findInBackground(new FindCallback<Comment>() {
-                @Override
-                public void done(List<Comment> objects, com.parse.ParseException e) {
-                    if(e == null) {
-                        comments.clear();
-                        comments.addAll(objects);
-                        commentAdapter.notifyDataSetChanged();
-                    } else e.printStackTrace();
-                }
-            });
+    public boolean setListViewHeightBasedOnItems(ListView listView) {
+
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter != null) {
+
+            int numberOfItems = listAdapter.getCount();
+
+            // Get total height of all items.
+            int totalItemsHeight = 0;
+            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
+                View item = listAdapter.getView(itemPos, null, listView);
+                item.measure(0, 0);
+                totalItemsHeight += item.getMeasuredHeight();
+            }
+
+            // Get total height of all item dividers.
+            int totalDividersHeight = listView.getDividerHeight() *
+                    (numberOfItems - 1);
+
+            // Set list height.
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            params.height = totalItemsHeight + totalDividersHeight;
+            listView.setLayoutParams(params);
+            listView.requestLayout();
+
+            return true;
+
+        } else {
+            return false;
+        }
+
     }
+
 }
