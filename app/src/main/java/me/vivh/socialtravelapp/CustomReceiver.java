@@ -54,7 +54,7 @@ public class CustomReceiver extends BroadcastReceiver {
                     }
                 }
 
-                createNotification(context, R.drawable.ic_sms_black_24dp, sender, message, tripId);
+                createNotification(context, R.drawable.ic_launcher6, sender, message, tripId);
             } catch (JSONException ex) {
                 Log.d(TAG, "JSON failed!");
             }
