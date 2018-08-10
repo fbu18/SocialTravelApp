@@ -22,8 +22,6 @@
             android:layout_height="50dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginVertical="10dp"
             app:srcCompat="@drawable/user_outline_24" />
 
         <TextView
@@ -32,27 +30,32 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="39dp"
+            android:layout_marginTop="27dp"
             android:layout_toEndOf="@+id/ivCheckInProfile"
+            android:fontFamily="@font/open_sans"
             android:text="Username"
-            android:textColor="@color/black_70_transparent"
+            android:textColor="@color/black"
+            android:textSize="@dimen/post_font_size"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvCheckInLocation"
             android:layout_width="172dp"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tvCheckInUser"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/tvCheckInUser"
             android:layout_toEndOf="@id/textView"
-            android:text="Description" />
+            android:fontFamily="@font/open_sans"
+            android:textSize="@dimen/post_font_size"
+            android:text="Description"
+            android:textColor="@color/black" />
 
         <ImageView
             android:id="@+id/ivMap"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/ivCheckInProfile"
+            android:layout_below="@+id/tvCheckInUser"
             android:scaleType="centerCrop"
             app:srcCompat="@color/placeholderColor" />
 
@@ -63,7 +66,9 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_margin="8dp"
-            android:text="Date" />
+            android:fontFamily="@font/open_sans"
+            android:text="Date"
+            android:textColor="@color/grey_7" />
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/likeCommentConstraint"
@@ -117,17 +122,19 @@
             android:id="@+id/lvCommentsCheckIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@id/likeCommentConstraint" />
+            android:layout_below="@id/likeCommentConstraint"/>
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/tvCheckInUser"
+            android:layout_alignBottom="@+id/tvCheckInUser"
             android:layout_toEndOf="@+id/tvCheckInUser"
-            android:text=" checked in to " />
+            android:fontFamily="@font/open_sans"
+            android:text=" checked in to "
+            android:textColor="@color/black"
+            android:textSize="@dimen/post_font_size" />
 
 
     </RelativeLayout>
