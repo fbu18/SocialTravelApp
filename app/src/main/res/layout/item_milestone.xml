@@ -21,8 +21,6 @@
             android:layout_height="50dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginVertical="10dp"
             app:srcCompat="@drawable/user_outline_24" />
 
         <TextView
@@ -33,6 +31,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="26dp"
             android:layout_toEndOf="@+id/ivAwardPic"
+            android:fontFamily="@font/abel"
             android:text="Username"
             android:textColor="@color/black_70_transparent"
             android:textStyle="bold" />
@@ -118,6 +117,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/tvAwardUser"
             android:layout_toEndOf="@id/tvAwardUser"
+            android:fontFamily="@font/ubuntu_light"
             android:text=" unlocked a new trophy"
             android:textAlignment="textStart" />
 

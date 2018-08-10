@@ -22,7 +22,7 @@
         android:layout_alignParentTop="true"
         android:text="Trophy Case"
         android:textAlignment="center"
-        android:textColor="@color/black_60_transparent"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold" />
 

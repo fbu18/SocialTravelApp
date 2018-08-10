@@ -2,6 +2,12 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/</item>
+        <item>@font/abel</item>
+        <item>@font/antic</item>
         <item>@font/didact_gothic</item>
+        <item>@font/open_sans</item>
+        <item>@font/open_sans_light</item>
+        <item>@font/ubuntu</item>
+        <item>@font/ubuntu_light</item>
     </array>
 </resources>

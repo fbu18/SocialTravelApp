@@ -18,7 +18,7 @@
             android:layout_alignStart="@+id/tvTrophyDescription"
             android:text="Locked"
             android:textAlignment="center"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/black"
             android:textSize="16dp" />
 
         <ImageView
@@ -30,15 +30,15 @@
             android:layout_marginStart="15dp"
             app:srcCompat="@drawable/emoji_questionmark" />
 
-        <TextView
-            android:id="@+id/tvTrophyDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/ivTrophy"
-            android:layout_below="@+id/ivTrophy"
-            android:text="Explore to unlock!"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="10sp" />
+    <TextView
+        android:id="@+id/tvTrophyDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/ivTrophy"
+        android:layout_below="@+id/ivTrophy"
+        android:text="Explore to unlock!"
+        android:textColor="@color/black"
+        android:textSize="10sp" />
 
         <View
             android:id="@+id/profile_divider"
