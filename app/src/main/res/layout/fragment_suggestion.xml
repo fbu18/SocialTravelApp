@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         app:menu="@menu/menu_explore"
         android:layout_below="@id/place_autocomplete_fragment"
-        android:background="@color/gray_purple_light">
+        android:background="@color/purple_600">
     </android.support.design.widget.BottomNavigationView>
 
     <View

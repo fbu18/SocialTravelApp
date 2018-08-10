@@ -199,7 +199,7 @@ public class SuggestionFragment extends Fragment {
                         Double latitude;
                         Double longitude;
                         String website;
-                        Double rating;
+                        Double rating = 5.0;
                         String type;
                         Integer priceLevel;
 
