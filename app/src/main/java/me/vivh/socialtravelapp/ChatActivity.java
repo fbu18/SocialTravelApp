@@ -150,6 +150,11 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String data = etMessage.getText().toString();
+                if (data.isEmpty()) {
+                    Toast.makeText(ChatActivity.this, "Please send a non-empty message",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Message message = new Message();
                 message.setBody(data);
                 message.setUser(ParseUser.getCurrentUser());

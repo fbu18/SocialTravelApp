@@ -135,6 +135,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public class ViewHolderPost extends RecyclerView.ViewHolder {
             CommentAdapter commentAdapter;
             ArrayList<Comment> comments = new ArrayList<>();
+            Post post;
             @BindView(R.id.lvCommentsPost)
             ListView lvComments;
             @BindView(R.id.ivPostImage) ImageView imageView;
@@ -147,12 +148,11 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 super(itemView);
                 ButterKnife.bind(this, itemView);
                 commentAdapter = new CommentAdapter(comments);
-                getCommentList();
             }
             public void getCommentList() {
 
                 final Comment.Query commentQuery = new Comment.Query();
-//                commentQuery.whereEqualTo("post", post);
+                commentQuery.whereEqualTo("post", post);
                 commentQuery.withPost().withUser();
                 commentQuery.findInBackground(new FindCallback<Comment>() {
                     @Override
@@ -169,11 +169,16 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             public ArrayList<Comment> getComments() {
                 return comments;
             }
+
+            public void setPost(Post newPost) {
+                post = newPost;
+            }
         }
 
         public class ViewHolderCheckIn extends RecyclerView.ViewHolder {
             CommentAdapter commentAdapter;
             ArrayList<Comment> comments = new ArrayList<>();
+            Post post;
             @BindView(R.id.ivCheckInProfile)
             ImageView profileImage;
             @BindView(R.id.tvCheckInUser)
@@ -188,12 +193,11 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 super(itemView);
                 ButterKnife.bind(this, itemView);
                 commentAdapter = new CommentAdapter(comments);
-                getCommentList();
             }
             public void getCommentList() {
 
                 final Comment.Query commentQuery = new Comment.Query();
-//                commentQuery.whereEqualTo("post", post);
+                commentQuery.whereEqualTo("post", post);
                 commentQuery.withPost().withUser();
                 commentQuery.findInBackground(new FindCallback<Comment>() {
                     @Override
@@ -210,11 +214,16 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             public ArrayList<Comment> getComments() {
                 return comments;
             }
+
+            public void setPost(Post newPost) {
+                post = newPost;
+            }
         }
 
         public class ViewHolderMilestone extends RecyclerView.ViewHolder {
             CommentAdapter commentAdapter;
             ArrayList<Comment> comments = new ArrayList<>();
+            Post post;
             @BindView(R.id.ivAwardPic) ImageView ivProfile;
             @BindView(R.id.tvAwardUser) TextView tvAwardUsername;
             @BindView(R.id.tvAwardDate) TextView tvAwardDate;
@@ -230,7 +239,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             public void getCommentList() {
 
                 final Comment.Query commentQuery = new Comment.Query();
-//                commentQuery.whereEqualTo("post", post);
+                commentQuery.whereEqualTo("post", post);
                 commentQuery.withPost().withUser();
                 commentQuery.findInBackground(new FindCallback<Comment>() {
                     @Override
@@ -246,6 +255,9 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             public ArrayList<Comment> getComments() {
                 return comments;
+            }
+            public void setPost(Post newPost) {
+                post = newPost;
             }
         }
 
@@ -277,6 +289,8 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 CommentAdapter commentAdapter = viewHolderPost.commentAdapter;
                 viewHolderPost.lvComments.setAdapter(commentAdapter);
                 setListViewHeightBasedOnItems(viewHolderPost.lvComments);
+                viewHolderPost.setPost(post);
+                viewHolderPost.getCommentList();
                 if (post.getImage() != null) {
                     String url = post.getImage().getUrl();
                     Glide.with(context).load(url).apply(
@@ -309,9 +323,11 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Glide.with(context).load(imageUrl)
                         .apply(RequestOptions.placeholderOf(R.color.placeholderColor).centerCrop())
                         .into(viewHolderCheckIn.profileImage);
-                setListViewHeightBasedOnItems(viewHolderCheckIn.lvComments);
                 CommentAdapter commentAdapter = viewHolderCheckIn.commentAdapter;
                 viewHolderCheckIn.lvComments.setAdapter(commentAdapter);
+                setListViewHeightBasedOnItems(viewHolderCheckIn.lvComments);
+                viewHolderCheckIn.setPost(checkIn);
+                viewHolderCheckIn.getCommentList();
 
                 ParseGeoPoint point = attraction.getPoint();
                 String lat = Double.toString(point.getLatitude());
