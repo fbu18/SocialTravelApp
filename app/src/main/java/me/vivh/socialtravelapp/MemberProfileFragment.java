@@ -37,9 +37,7 @@ public class MemberProfileFragment extends Fragment {
     @BindView(R.id.tvDisplayName) TextView tvDisplayName;
     @BindView(R.id.tvHomeLoc) TextView tvHomeLoc;
     @BindView(R.id.tvPoints) TextView tvPoints;
-    @BindView(R.id.tvNumPastTrips) TextView tvNumPastTrips;
     @BindView(R.id.ivProfilePic) ImageView ivProfilePic;
-    @BindView(R.id.tvUpcoming) TextView tvUpcoming;
     @BindView(R.id.tvBio) TextView tvBio;
     @BindView(R.id.lvPastTrips) ListView lvPastTrips;
 
@@ -107,8 +105,6 @@ public class MemberProfileFragment extends Fragment {
     }
 
 
-
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -126,7 +122,6 @@ public class MemberProfileFragment extends Fragment {
             public void done(List<Trip> objects, ParseException e) {
                 if(e == null){
                     try{
-                        tvNumPastTrips.setText(String.format("%s", objects.size()));
                         pastTripArrayStrings.clear();
                         int max = Math.min(3, objects.size());
                         for(int i = 0; i < max; i++){
@@ -150,28 +145,6 @@ public class MemberProfileFragment extends Fragment {
         });
     }
 
-    public void findUpcomingTrips(){
-
-
-        final Trip.Query tripQuery = new Trip.Query();
-        tripQuery.whereGreaterThan("date", today);
-        tripQuery.whereEqualTo("user", user);
-
-        tripQuery.findInBackground(new FindCallback<Trip>() {
-            @Override
-            public void done(List<Trip> objects, ParseException e) {
-                if(e == null){
-                    try {
-                        tvUpcoming.setText(String.format("%s", objects.size()));
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                    }
-                }else{
-                    Log.d("ProfileFragment", String.format("%s", objects.size()));
-                }
-            }
-        });
-    }
 
     public void setUser(ParseUser user){
         this.user = user;
@@ -203,7 +176,6 @@ public class MemberProfileFragment extends Fragment {
         }
 
         findPastTrips();
-        findUpcomingTrips();
     }
 
     public void setTrophyListFragment(Fragment fragment) {
