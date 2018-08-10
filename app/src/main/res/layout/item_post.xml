@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_toEndOf="@id/ivPostProfile"
+                android:layout_marginLeft="2dp"
                 android:fontFamily="@font/open_sans"
                 android:text="Username"
                 android:textColor="@color/black"
@@ -48,8 +49,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@id/tvPostUsername"
+                android:layout_marginLeft="2dp"
                 android:layout_toEndOf="@id/ivPostProfile"
-                android:fontFamily="@font/open_sans"
+                android:fontFamily="@font/hind_light"
                 android:text="Description"
                 android:textColor="@color/black"
                 android:textSize="@dimen/post_font_size" />

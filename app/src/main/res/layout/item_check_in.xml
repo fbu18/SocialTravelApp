@@ -32,7 +32,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="27dp"
             android:layout_toEndOf="@+id/ivCheckInProfile"
-            android:fontFamily="@font/open_sans"
+            android:fontFamily="@font/hind"
             android:text="Username"
             android:textColor="@color/black"
             android:textSize="@dimen/post_font_size"
@@ -40,15 +40,14 @@
 
         <TextView
             android:id="@+id/tvCheckInLocation"
-            android:layout_width="172dp"
+            android:layout_width="147dp"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tvCheckInUser"
-            android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@id/textView"
-            android:fontFamily="@font/open_sans"
-            android:textSize="@dimen/post_font_size"
+            android:layout_alignTop="@+id/tvCheckInUser"
+            android:layout_toEndOf="@+id/textView"
+            android:fontFamily="@font/hind_light"
             android:text="Description"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/post_font_size" />
 
         <ImageView
             android:id="@+id/ivMap"
@@ -88,14 +87,14 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginVertical="4dp"
                 app:anim_scale_factor=".5"
+                app:circle_end_color="@color/purple_4"
+                app:circle_start_color="@color/purple_2"
                 app:icon_size="26dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:like_drawable="@drawable/ic_favorite_purple_24dp"
-                app:unlike_drawable="@drawable/ic_favorite_border_black_24dp"
-                app:circle_start_color="@color/purple_2"
-                app:circle_end_color="@color/purple_4">
+                app:unlike_drawable="@drawable/ic_favorite_border_black_24dp">
 
             </com.like.LikeButton>
 
@@ -123,15 +122,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@id/likeCommentConstraint"/>
+            android:layout_below="@id/likeCommentConstraint" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tvCheckInUser"
+            android:layout_alignTop="@+id/tvCheckInUser"
             android:layout_toEndOf="@+id/tvCheckInUser"
-            android:fontFamily="@font/open_sans"
+            android:fontFamily="@font/hind_light"
             android:text=" checked in to "
             android:textColor="@color/black"
             android:textSize="@dimen/post_font_size" />

@@ -41,6 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
+                android:lineSpacingMultiplier="0.8"
                 android:text="Attraction Name"
                 android:textColor="@color/white"
                 android:textSize="20dp"

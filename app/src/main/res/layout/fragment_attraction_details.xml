@@ -21,83 +21,87 @@
                 android:id="@+id/cvAttraction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardElevation="3dp"
-                android:layout_marginBottom="4dp">
+                android:layout_marginBottom="4dp"
+                app:cardElevation="3dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/ivAttrPic"
-                android:layout_width="match_parent"
-                android:layout_height="235dp"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/rbVoteAverage"
-                app:srcCompat="@color/placeholderColor" />
+                    <ImageView
+                        android:id="@+id/ivAttrPic"
+                        android:layout_width="match_parent"
+                        android:layout_height="235dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/rbVoteAverage"
+                        app:srcCompat="@color/placeholderColor" />
 
 
-            <ImageView
-                android:id="@+id/ivImage"
-                android:layout_width="28dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="9dp"
-                app:srcCompat="@drawable/ic_explore_grey_24dp" />
+                    <ImageView
+                        android:id="@+id/ivImage"
+                        android:layout_width="28dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="12dp"
+                        app:srcCompat="@drawable/ic_explore_grey_24dp" />
 
-            <TextView
-                android:id="@+id/tvPoints"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@id/ivImage"
-                android:text="1"
-                android:textColor="@color/black_80_transparent"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-
-
-            <TextView
-                android:id="@+id/tvAttrName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="8dp"
-                android:layout_toLeftOf="@id/tvPoints"
-                android:text="Attraction Name"
-                android:textColor="@color/black_80_transparent"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tvPoints"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginEnd="38dp"
+                        android:fontFamily="@font/hind"
+                        android:text="1"
+                        android:textColor="@color/black_80_transparent"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
 
 
-            <RatingBar
-                android:id="@+id/rbVoteAverage"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:theme="@style/RatingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/tvAttrName"
-                android:layout_below="@+id/tvAttrName"
-                android:numStars="5"
-                android:stepSize="0.5" />
+                    <TextView
+                        android:id="@+id/tvAttrName"
+                        android:layout_width="318dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="22dp"
+                        android:layout_toLeftOf="@id/tvPoints"
+                        android:fontFamily="@font/hind"
+                        android:text="Attraction Name"
+                        android:textColor="@color/black_80_transparent"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        android:lineSpacingMultiplier="0.6"/>
 
 
-            <Button
-                android:id="@+id/btnChoose"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ivAttrPic"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="4dp"
-                android:background="@color/deep_purple_900"
-                android:fontFamily="sans-serif"
-                android:text="Join a TRYP"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:textSize="18sp" />
+                    <RatingBar
+                        android:id="@+id/rbVoteAverage"
+                        style="@style/Widget.AppCompat.RatingBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@+id/tvAttrName"
+                        android:layout_below="@+id/tvAttrName"
+                        android:numStars="5"
+                        android:stepSize="0.5"
+                        android:theme="@style/RatingBar" />
+
+
+                    <Button
+                        android:id="@+id/btnChoose"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ivAttrPic"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="4dp"
+                        android:background="@color/deep_purple_900"
+                        android:fontFamily="@font/hind"
+                        android:text="Join a TRYP"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp" />
 
                 </RelativeLayout>
 
@@ -107,115 +111,118 @@
                 android:id="@+id/cvAbout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardElevation="3dp"
-                app:cardBackgroundColor="@color/gray_purple_light"
+                android:layout_below="@id/cvAttraction"
                 android:layout_marginBottom="3dp"
-                android:layout_below="@id/cvAttraction">
-            <RelativeLayout
-                android:id="@+id/rlAbout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/profile_divider">
+                app:cardBackgroundColor="@color/gray_purple_light"
+                app:cardElevation="3dp">
 
-
-                <TextView
-                    android:id="@+id/tvAbout"
+                <RelativeLayout
+                    android:id="@+id/rlAbout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="About"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tvAttrDesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvAbout"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="5dp"
-                    android:text="Attraction description here"
-                    android:textAlignment="viewStart"
-                    android:textColor="@android:color/black" />
-
-                <TextView
-                    android:id="@+id/tvAttrAddress"
-                    android:layout_width="321dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@+id/tvAttrDesc"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@id/ivAddress"
-                    android:text="Address"
-                    android:textColor="@android:color/black" />
-
-                <ImageView
-                    android:id="@+id/ivAddress"
-                    android:layout_width="21dp"
-                    android:layout_height="20dp"
                     android:layout_alignParentStart="true"
-                    android:layout_alignTop="@+id/tvAttrAddress"
-                    android:layout_marginStart="12dp"
-                    android:src="@drawable/ic_location_on_black_24dp" />
-
-                <TextView
-                    android:id="@+id/tvAttrWebsite"
-                    android:layout_width="321dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@+id/tvAttrAddress"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@id/ivAttrWebsite"
-                    android:autoLink="all"
-                    android:linksClickable="true"
-                    android:maxLines="1"
-                    android:text="www.website.com"
-                    android:textColor="@android:color/black"
-                    android:textColorLink="@color/blue_5" />
-
-                <ImageView
-                    android:id="@+id/ivAttrWebsite"
-                    android:layout_width="21dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignTop="@+id/tvAttrWebsite"
-                    android:layout_marginStart="12dp"
-                    android:src="@drawable/ic_desktop_mac_black_24dp"
-                    android:textColorLink="@color/blue_6" />
-
-                <TextView
-                    android:id="@+id/tvAttrPhoneNumber"
-                    android:layout_width="321dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@+id/tvAttrWebsite"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@id/ivAttrPhoneNumber"
-                    android:autoLink="all"
-                    android:linksClickable="true"
-                    android:text="(999) 999-9999"
-                    android:textColor="@android:color/black"
-                    android:textColorLink="@color/blue_5" />
-
-                <ImageView
-                    android:id="@+id/ivAttrPhoneNumber"
-                    android:layout_width="21dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignTop="@+id/tvAttrPhoneNumber"
-                    android:layout_marginStart="12dp"
-                    android:src="@drawable/ic_call_black_24dp" />
+                    android:layout_below="@id/profile_divider">
 
 
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/tvAbout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/hind"
+                        android:text="About"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvAttrDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvAbout"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/hind"
+                        android:text="Attraction description here"
+                        android:textAlignment="viewStart"
+                        android:textColor="@android:color/black" />
+
+                    <TextView
+                        android:id="@+id/tvAttrAddress"
+                        android:layout_width="321dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/tvAttrDesc"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@id/ivAddress"
+                        android:text="Address"
+                        android:textColor="@android:color/black" />
+
+                    <ImageView
+                        android:id="@+id/ivAddress"
+                        android:layout_width="21dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignTop="@+id/tvAttrAddress"
+                        android:layout_marginStart="12dp"
+                        android:src="@drawable/ic_location_on_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/tvAttrWebsite"
+                        android:layout_width="321dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/tvAttrAddress"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@id/ivAttrWebsite"
+                        android:autoLink="all"
+                        android:linksClickable="true"
+                        android:maxLines="1"
+                        android:text="www.website.com"
+                        android:textColor="@android:color/black"
+                        android:textColorLink="@color/blue_5" />
+
+                    <ImageView
+                        android:id="@+id/ivAttrWebsite"
+                        android:layout_width="21dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignTop="@+id/tvAttrWebsite"
+                        android:layout_marginStart="12dp"
+                        android:src="@drawable/ic_desktop_mac_black_24dp"
+                        android:textColorLink="@color/blue_6" />
+
+                    <TextView
+                        android:id="@+id/tvAttrPhoneNumber"
+                        android:layout_width="321dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/tvAttrWebsite"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@id/ivAttrPhoneNumber"
+                        android:autoLink="all"
+                        android:linksClickable="true"
+                        android:text="(999) 999-9999"
+                        android:textColor="@android:color/black"
+                        android:textColorLink="@color/blue_5" />
+
+                    <ImageView
+                        android:id="@+id/ivAttrPhoneNumber"
+                        android:layout_width="21dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignTop="@+id/tvAttrPhoneNumber"
+                        android:layout_marginStart="12dp"
+                        android:src="@drawable/ic_call_black_24dp" />
+
+
+                </RelativeLayout>
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -232,17 +239,17 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvReviews"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@id/tvReviews"
-                    android:layout_marginLeft="8dp">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvReviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/tvReviews"
+                android:layout_marginLeft="8dp">
 
-                </android.support.v7.widget.RecyclerView>
+            </android.support.v7.widget.RecyclerView>
 
-    </RelativeLayout>
+        </RelativeLayout>
 
 
     </ScrollView>
