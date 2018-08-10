@@ -40,7 +40,7 @@ public class CustomReceiver extends BroadcastReceiver {
                 Iterator<String> itr = json.keys();
                 String tripId = "";
                 String message = "New Message";
-                String sender = "SocialTravelApp";
+                String sender = "Tryp";
                 while (itr.hasNext()) {
                     String key = (String) itr.next();
 //                    String value = json.getString(key);
