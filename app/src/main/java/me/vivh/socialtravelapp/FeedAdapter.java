@@ -309,8 +309,10 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Glide.with(context).load(imageUrl)
                         .apply(RequestOptions.placeholderOf(R.color.placeholderColor).centerCrop())
                         .into(viewHolderCheckIn.profileImage);
+                setListViewHeightBasedOnItems(viewHolderCheckIn.lvComments);
                 CommentAdapter commentAdapter = viewHolderCheckIn.commentAdapter;
                 viewHolderCheckIn.lvComments.setAdapter(commentAdapter);
+
                 ParseGeoPoint point = attraction.getPoint();
                 String lat = Double.toString(point.getLatitude());
                 String lng = Double.toString(point.getLongitude());
@@ -332,6 +334,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             String awardsNum = award.getAward() + " trips";
             CommentAdapter commentAdapter = viewHolderMilestone.commentAdapter;
             viewHolderMilestone.lvComments.setAdapter(commentAdapter);
+            setListViewHeightBasedOnItems(viewHolderMilestone.lvComments);
             try {
                 viewHolderMilestone.tvAwardUsername.setText(recipientName);
                 viewHolderMilestone.tvAwardDate.setText(getRelativeTimeAgo(award.getDate().toString()));
