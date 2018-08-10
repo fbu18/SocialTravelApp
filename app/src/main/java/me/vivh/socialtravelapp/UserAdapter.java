@@ -48,7 +48,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         final ParseUser user = mUsers.get(position);
 
         if((user.getObjectId()).equals(ParseUser.getCurrentUser().getObjectId())){
-            viewHolder.rlUser.setBackgroundColor(Color.LTGRAY);
+            viewHolder.rlUser.setBackgroundColor(Color.parseColor("#CE93D8"));
         }
         if (displayRank) {
             viewHolder.tvRank.setVisibility(View.VISIBLE);
