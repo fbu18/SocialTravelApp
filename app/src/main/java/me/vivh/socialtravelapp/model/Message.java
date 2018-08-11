@@ -33,6 +33,15 @@ public class Message extends ParseObject {
         }
         return name;
     }
+    public String getDisplayName() {
+        String name = "";
+        try {
+            name += getUser().fetchIfNeeded().getString("displayName");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return name;
+    }
 
     public String getBody() {
         return getString(BODY_KEY);

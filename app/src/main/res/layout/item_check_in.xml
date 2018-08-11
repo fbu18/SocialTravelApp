@@ -29,8 +29,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="27dp"
             android:layout_toEndOf="@+id/ivCheckInProfile"
             android:fontFamily="@font/hind"
             android:text="Username"
@@ -54,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/tvCheckInUser"
+            android:layout_below="@+id/ivCheckInProfile"
             android:scaleType="centerCrop"
             app:srcCompat="@color/placeholderColor" />
 
@@ -62,9 +60,8 @@
             android:id="@+id/tvCheckInDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="8dp"
+            android:layout_alignBottom="@+id/ivCheckInProfile"
+            android:layout_toEndOf="@+id/ivCheckInProfile"
             android:fontFamily="@font/open_sans"
             android:text="Date"
             android:textColor="@color/grey_7" />

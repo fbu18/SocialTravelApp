@@ -179,12 +179,9 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             CommentAdapter commentAdapter;
             ArrayList<Comment> comments = new ArrayList<>();
             Post post;
-            @BindView(R.id.ivCheckInProfile)
-            ImageView profileImage;
-            @BindView(R.id.tvCheckInUser)
-            TextView username;
-            @BindView(R.id.tvCheckInLocation)
-            TextView location;
+            @BindView(R.id.ivCheckInProfile) ImageView profileImage;
+            @BindView(R.id.tvCheckInUser) TextView username;
+            @BindView(R.id.tvCheckInLocation) TextView location;
             @BindView(R.id.ivMap) ImageView ivMap;
             @BindView(R.id.tvCheckInDate) TextView tvDate;
             @BindView(R.id.lvCommentsCheckIn) ListView lvComments;

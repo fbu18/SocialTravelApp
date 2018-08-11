@@ -1,7 +1,6 @@
 package me.vivh.socialtravelapp;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -122,7 +121,7 @@ public class TripDetailFragment extends Fragment {
                         btnCheckIn.setText("Check out");
                         btnCheckIn.setBackgroundColor(getResources().getColor(R.color.pressed_button_gray));
                     }else{
-                        Toast.makeText(context, "Must join group to check-in.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Must join group to check in", Toast.LENGTH_SHORT).show();
                     }
 
                 }

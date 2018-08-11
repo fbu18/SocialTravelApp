@@ -19,14 +19,14 @@
 
         <TextView
             android:id="@+id/tvRank"
-            android:layout_width="wrap_content"
+            android:layout_width="25dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:text="0"
-            android:textStyle="bold"
+            android:textColor="@color/black"
             android:textSize="35sp"
-            android:textColor="@color/black" />
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/ivProfilePic"

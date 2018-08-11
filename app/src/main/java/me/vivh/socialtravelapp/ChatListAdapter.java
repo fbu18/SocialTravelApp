@@ -92,7 +92,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
                             h.tvChatText.setText("You: " + lastMessage.getBody());
                         } else {
                             try {
-                                h.tvChatText.setText(object.getUsername()+ ": " + lastMessage.getBody());
+                                h.tvChatText.setText(object.getDisplayName()+ ": " + lastMessage.getBody());
                             } catch (Exception e1) {
                                 e1.printStackTrace();
                             }
