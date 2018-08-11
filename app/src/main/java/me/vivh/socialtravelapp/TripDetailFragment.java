@@ -138,7 +138,6 @@ public class TripDetailFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-
                 // on some click or some loading we need to wait for...
                 pb.setVisibility(ProgressBar.VISIBLE);
 
@@ -159,6 +158,7 @@ public class TripDetailFragment extends Fragment {
 
                 setUpFragments();
                 pb.setVisibility(ProgressBar.INVISIBLE);
+                setUpFragments();
 
             }
         });
