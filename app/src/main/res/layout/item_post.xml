@@ -35,8 +35,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
+                android:layout_marginLeft="4dp"
                 android:layout_toEndOf="@id/ivPostProfile"
-                android:layout_marginLeft="2dp"
                 android:fontFamily="@font/open_sans"
                 android:text="Username"
                 android:textColor="@color/black"
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@id/tvPostUsername"
-                android:layout_marginLeft="2dp"
+                android:layout_marginLeft="4dp"
                 android:layout_toEndOf="@id/ivPostProfile"
                 android:fontFamily="@font/hind_light"
                 android:text="Description"
@@ -73,11 +73,9 @@
             android:id="@+id/tvPostDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginEnd="11dp"
             android:fontFamily="@font/open_sans"
             android:text="Date"
             android:textColor="@color/grey_7" />
@@ -133,17 +131,15 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/star_button"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/star_button"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/star_button"
+                app:layout_constraintVertical_weight="2"
                 tools:layout_editor_absoluteX="8dp"
-                tools:layout_editor_absoluteY="6dp"
-                app:layout_constraintVertical_weight="2"/>
+                tools:layout_editor_absoluteY="6dp" />
 
         </android.support.constraint.ConstraintLayout>
-
-
 
 
     </RelativeLayout>
