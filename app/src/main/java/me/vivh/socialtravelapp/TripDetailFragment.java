@@ -128,7 +128,7 @@ public class TripDetailFragment extends Fragment {
 
                 setUpFragments();
                 pb.setVisibility(ProgressBar.INVISIBLE);
-
+                setUpFragments(); // TODO - remove because this is bad practice!
             }
         });
 
@@ -158,8 +158,7 @@ public class TripDetailFragment extends Fragment {
 
                 setUpFragments();
                 pb.setVisibility(ProgressBar.INVISIBLE);
-                setUpFragments();
-
+                setUpFragments(); // TODO - remove because this is bad practice!
             }
         });
     }

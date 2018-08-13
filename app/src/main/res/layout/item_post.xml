@@ -63,8 +63,7 @@
             android:id="@+id/ivPostImage"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_below="@+id/topBar"
             android:layout_marginTop="50dp"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/mark" />
@@ -105,7 +104,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:like_drawable="@drawable/ic_favorite_purple_24dp"
                 app:unlike_drawable="@drawable/ic_favorite_border_black_24dp">
-
             </com.like.LikeButton>
 
             <ImageButton
