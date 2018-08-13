@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/ivCheckInProfile"
+            android:layout_marginLeft="6dp"
             android:fontFamily="@font/hind"
             android:text="Username"
             android:textColor="@color/black"
@@ -60,8 +61,9 @@
             android:id="@+id/tvCheckInDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:layout_alignBottom="@+id/ivCheckInProfile"
-            android:layout_toEndOf="@+id/ivCheckInProfile"
+            android:layout_alignStart="@+id/tvCheckInUser"
             android:fontFamily="@font/open_sans"
             android:text="Date"
             android:textColor="@color/grey_7" />
