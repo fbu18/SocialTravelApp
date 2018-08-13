@@ -110,8 +110,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cvAttraction"
-                android:layout_marginBottom="3dp"
-                app:cardBackgroundColor="@color/gray_purple_light"
+                android:layout_marginBottom="6dp"
+                app:cardBackgroundColor="@color/deep_purple_50"
                 app:cardElevation="3dp">
 
                 <RelativeLayout
@@ -203,6 +203,7 @@
                         android:layout_below="@+id/tvAttrWebsite"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="10dp"
+                        android:layout_marginBottom="6dp"
                         android:layout_toRightOf="@id/ivAttrPhoneNumber"
                         android:autoLink="all"
                         android:linksClickable="true"

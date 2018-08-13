@@ -15,6 +15,6 @@
     <dimen name ="like_width">40dp</dimen>
     <dimen name ="like_height">30dp</dimen>
     <dimen name ="like_icon_size">25dp</dimen>
-    <dimen name="post_font_size">16dp</dimen>
+    <dimen name="post_font_size">17dp</dimen>
 
 </resources>

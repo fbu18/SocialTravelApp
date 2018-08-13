@@ -30,7 +30,7 @@
         android:layout_alignBottom="@+id/btnEditProfile"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/deep_purple_800"
         android:text="Log Out"
         android:textAllCaps="false"
@@ -75,7 +75,7 @@
     <TextView
         android:id="@+id/tvHomeLoc"
         android:layout_width="240dp"
-        android:layout_marginTop="-4dp"
+        android:layout_marginTop="-6dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tvDisplayName"
         android:layout_below="@+id/tvDisplayName"
@@ -93,7 +93,7 @@
         android:layout_marginLeft="96dp"
         android:layout_toEndOf="@id/ivProfilePic"
         android:text="0"
-        android:layout_marginTop="-4dp"
+        android:layout_marginTop="-6dp"
         android:textAlignment="center"
         android:textColor="@color/grey_8"
         android:textSize="30sp" />
