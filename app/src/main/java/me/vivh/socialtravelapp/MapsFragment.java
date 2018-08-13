@@ -323,6 +323,7 @@ public class MapsFragment extends Fragment {
         LatLng latLng = new LatLng(lat, lng);
         mp.position(latLng);
         mp.title(name);
+        mp.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         mp.snippet(description);
         map.addMarker(mp);
     }
