@@ -341,14 +341,15 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void bindAward(RecyclerView.ViewHolder viewHolder, int i) {
             final ViewHolderMilestone viewHolderMilestone = (ViewHolderMilestone) viewHolder;
             Post award = mPosts.get(i);
-            ParseUser recipient = award.getParseUser("user");
-            String recipientName = recipient.getString("displayName");
-            String rProfilePic = recipient.getParseFile("profilePic").getUrl();
-            String awardsNum = award.getAward() + " trips";
-            CommentAdapter commentAdapter = viewHolderMilestone.commentAdapter;
-            viewHolderMilestone.lvComments.setAdapter(commentAdapter);
-            setListViewHeightBasedOnItems(viewHolderMilestone.lvComments);
+
             try {
+                ParseUser recipient = award.getParseUser("user");
+                String recipientName = recipient.getString("displayName");
+                String rProfilePic = recipient.getParseFile("profilePic").getUrl();
+                String awardsNum = award.getAward() + " trips";
+                CommentAdapter commentAdapter = viewHolderMilestone.commentAdapter;
+                viewHolderMilestone.lvComments.setAdapter(commentAdapter);
+                setListViewHeightBasedOnItems(viewHolderMilestone.lvComments);
                 viewHolderMilestone.tvAwardUsername.setText(recipientName);
                 viewHolderMilestone.tvAwardDate.setText(getRelativeTimeAgo(award.getDate().toString()));
                 Glide.with(context).load(rProfilePic).apply(RequestOptions.placeholderOf(R.color.placeholderColor).centerCrop()).into(viewHolderMilestone.ivProfile);
