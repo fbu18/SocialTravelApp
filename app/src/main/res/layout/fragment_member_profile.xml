@@ -21,10 +21,11 @@
     <Button
         android:id="@+id/btnFollow"
         android:layout_width="220dp"
-        android:layout_height="40dp"
+        android:layout_height="38dp"
         android:layout_alignBottom="@+id/btnEditProfile"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="12dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/deep_purple_800"
         android:text="Follow"
         android:textAllCaps="false"
@@ -67,7 +68,7 @@
     <TextView
         android:id="@+id/tvHomeLoc"
         android:layout_width="240dp"
-        android:layout_height="wrap_content"
+        android:layout_height="28dp"
         android:layout_alignStart="@+id/tvDisplayName"
         android:layout_below="@+id/tvDisplayName"
         android:text="tvHomeLoc"
@@ -80,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvHomeLoc"
-        android:layout_marginLeft="82dp"
+        android:layout_marginLeft="90dp"
         android:layout_toEndOf="@id/ivProfilePic"
         android:text="0"
         android:textAlignment="center"
@@ -95,6 +96,7 @@
         android:layout_below="@+id/btnEditProfile"
         android:layout_marginLeft="8dp"
         android:text="TextView"
+        android:lineSpacingMultiplier="0.8"
         android:textColor="@color/black_70_transparent"
         android:textSize="16sp" />
 
