@@ -65,6 +65,7 @@
             android:paddingRight="10dp"
             android:layout_alignParentRight="true"
             android:text="@string/send"
+            android:textColor="@color/purple_900"
             android:background="@color/white"
             android:textSize="18sp" >
         </Button>

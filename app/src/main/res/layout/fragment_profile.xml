@@ -13,7 +13,7 @@
     <TextView
         android:id="@+id/tvDisplayName"
         android:layout_width="240dp"
-        android:layout_height="wrap_content"
+        android:layout_height="41dp"
 
         android:layout_alignTop="@+id/ivProfilePic"
         android:layout_toEndOf="@+id/ivProfilePic"
@@ -26,7 +26,7 @@
     <Button
         android:id="@+id/btnLogOut"
         android:layout_width="220dp"
-        android:layout_height="40dp"
+        android:layout_height="38dp"
         android:layout_alignBottom="@+id/btnEditProfile"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
@@ -46,6 +46,7 @@
         android:layout_gravity="left"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="12dp"
+        android:lineSpacingMultiplier="0.8"
         android:src="@drawable/user_outline_24" />
 
     <TextView
@@ -74,24 +75,25 @@
     <TextView
         android:id="@+id/tvHomeLoc"
         android:layout_width="240dp"
+        android:layout_marginTop="-4dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tvDisplayName"
         android:layout_below="@+id/tvDisplayName"
         android:text="tvHomeLoc"
         android:textAlignment="center"
         android:textColor="@color/grey_8"
+        android:lineSpacingMultiplier="0.8"
         android:textSize="20sp" />
 
     <TextView
         android:id="@+id/tvPoints"
         android:layout_width="wrap_content"
-        android:layout_height="43dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/tvHomeLoc"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="82dp"
-        android:layout_marginTop="-3dp"
+        android:layout_marginLeft="96dp"
         android:layout_toEndOf="@id/ivProfilePic"
         android:text="0"
+        android:layout_marginTop="-4dp"
         android:textAlignment="center"
         android:textColor="@color/grey_8"
         android:textSize="30sp" />
@@ -104,6 +106,7 @@
         android:layout_below="@+id/btnEditProfile"
         android:layout_marginLeft="8dp"
         android:text="TextView"
+        android:lineSpacingMultiplier="0.8"
         android:textColor="@color/black_70_transparent"
         android:textSize="16sp" />
 
