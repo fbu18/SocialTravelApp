@@ -2,19 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="85dp"
-    android:layout_marginTop="5dp">
+    android:layout_marginTop="8dp"
+    android:layout_height="85dp">
 
     <ImageView
         android:id="@+id/ivAttractionPic"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/profile_divider"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="2dp"
         android:scaleType="centerCrop"
+        android:layout_marginRight="5dp"
         app:srcCompat="@drawable/ic_card_travel_black_24dp" />
 
     <TextView
@@ -63,9 +61,9 @@
         android:id="@+id/profile_divider"
         android:layout_width="match_parent"
         android:layout_height="2dp"
+        android:layout_marginTop="8dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
         android:background="@color/grey_5_30_transparent" />
 
     <TextView
