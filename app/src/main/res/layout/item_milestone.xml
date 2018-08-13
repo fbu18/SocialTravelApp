@@ -31,7 +31,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="26dp"
             android:layout_toEndOf="@+id/ivAwardPic"
-            android:fontFamily="@font/abel"
+            android:fontFamily="@font/hind"
             android:text="Username"
             android:textColor="@color/black_70_transparent"
             android:textStyle="bold" />
@@ -40,18 +40,18 @@
             android:id="@+id/tvAwardDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
             android:layout_margin="8dp"
             android:text="Date" />
 
         <ImageView
             android:id="@+id/ivTrophy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textView3"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
+            android:layout_width="25dp"
+            android:layout_height="23dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/tvAwardUser"
+            android:layout_marginEnd="73dp"
             app:srcCompat="@drawable/emoji_trophy" />
 
         <android.support.constraint.ConstraintLayout
@@ -72,14 +72,14 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginVertical="4dp"
                 app:anim_scale_factor=".5"
+                app:circle_end_color="@color/purple_4"
+                app:circle_start_color="@color/purple_2"
                 app:icon_size="26dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:like_drawable="@drawable/ic_favorite_purple_24dp"
-                app:unlike_drawable="@drawable/ic_favorite_border_black_24dp"
-                app:circle_start_color="@color/purple_2"
-                app:circle_end_color="@color/purple_4">
+                app:unlike_drawable="@drawable/ic_favorite_border_black_24dp">
 
             </com.like.LikeButton>
 
@@ -105,19 +105,20 @@
             android:id="@+id/lvCommentsMilestone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/likeCommentConstraint"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/likeCommentConstraint" />
 
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="219dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/tvAwardUser"
+            android:layout_marginEnd="83dp"
             android:layout_toEndOf="@id/tvAwardUser"
-            android:fontFamily="@font/ubuntu_light"
+            android:fontFamily="@font/hind"
             android:text=" unlocked a new trophy"
             android:textAlignment="textStart" />
 
