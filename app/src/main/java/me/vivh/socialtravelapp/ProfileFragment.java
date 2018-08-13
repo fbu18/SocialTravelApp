@@ -154,8 +154,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        findUpcomingTrips();
-//        findPastTrips();
+        tvPoints.setText(currentUser.getNumber("points").toString());
     }
 
     /**e1.printStackTrace();

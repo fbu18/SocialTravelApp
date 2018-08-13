@@ -27,10 +27,15 @@ public class TripBrowseAdapter extends RecyclerView.Adapter<TripBrowseAdapter.Vi
 
     private List<Trip> mTrips;
     Context context;
+    private Callback callback;
 
+    interface Callback{
+        void openTripDetail(@NonNull Trip trip);
+    }
 
-    public TripBrowseAdapter(List<Trip> trips) {
+    public TripBrowseAdapter(List<Trip> trips, Callback call) {
         mTrips = trips;
+        callback = call;
     }
     @NonNull
     @Override
@@ -41,6 +46,14 @@ public class TripBrowseAdapter extends RecyclerView.Adapter<TripBrowseAdapter.Vi
         View view = inflater.inflate(R.layout.item_browse_trip, viewGroup, false);
         final ViewHolder viewHolder = new ViewHolder(view);
 
+        view.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                callback.openTripDetail(mTrips.get(viewHolder.getAdapterPosition()));
+            }
+        });
+
+
         return viewHolder;
     }
 
@@ -49,16 +62,12 @@ public class TripBrowseAdapter extends RecyclerView.Adapter<TripBrowseAdapter.Vi
         Trip trip = mTrips.get(i);
         viewHolder.tvName.setText(trip.getName());
         viewHolder.tvDate.setText(trip.getDateString());
-        viewHolder.tvDesc.setText(trip.getDescription());
 
         try{
-            String url = trip.getAttraction().fetchIfNeeded().getParseFile("image").getUrl();
-            Glide.with(context).load(url)
-                    .apply(
-                            RequestOptions.placeholderOf(R.color.placeholderColor)
-                                    .circleCrop())
-                    .into(viewHolder.imageView);
-        }catch(ParseException e){
+            viewHolder.tvName.setText(trip.getName());
+            viewHolder.tvDate.setText(trip.getDateString());
+
+        }catch(Exception e){
             e.printStackTrace();
         }
     }
@@ -73,8 +82,7 @@ public class TripBrowseAdapter extends RecyclerView.Adapter<TripBrowseAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tvBrowseName) TextView tvName;
         @BindView(R.id.tvBrowseDate) TextView tvDate;
-        @BindView(R.id.tvBrowseDesc) TextView tvDesc;
-        @BindView(R.id.ivBrowse) ImageView imageView;
+
         public ViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this, itemView);
