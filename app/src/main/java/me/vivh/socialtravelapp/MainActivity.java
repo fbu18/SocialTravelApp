@@ -37,7 +37,9 @@ public class MainActivity extends AppCompatActivity implements SuggestionFragmen
         TripListFragment.OnFragmentInteractionListener, TripAdapter.Callback, TripMemberAdapter.CallbackMember,
         MapsFragment.OnFragmentInteractionListener,
         ChatListAdapter.Callback, ChatListFragment.OnFragmentInteractionListener,
-        FeedAdapter.Callback, UserAdapter.Callback, EditProfileFragment.OnFragmentInteractionListener, MemberProfileFragment.OnFragmentInteractionListener, CustomWindowAdapter.Callback{
+        FeedAdapter.Callback, UserAdapter.Callback, EditProfileFragment.OnFragmentInteractionListener,
+        MemberProfileFragment.OnFragmentInteractionListener, CustomWindowAdapter.Callback,
+        TripBrowseAdapter.Callback{
 
     public static final int FEED_INDEX = 0;
     public static final int SUGGESTIONS_INDEX = 1;

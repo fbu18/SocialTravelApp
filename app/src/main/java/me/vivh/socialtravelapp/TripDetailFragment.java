@@ -145,6 +145,7 @@ public class TripDetailFragment extends Fragment {
                     inGroup = false;
                     alreadyCheckedIn = false;
                     trip.leaveTrip(user, context);
+                    trip.removeCheckIn(user);
                     btnJoin.setText("Join Group");
                     btnJoin.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                     btnCheckIn.setText("Check in");

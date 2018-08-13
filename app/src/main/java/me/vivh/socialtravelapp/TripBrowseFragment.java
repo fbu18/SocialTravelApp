@@ -11,7 +11,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 
@@ -27,11 +30,13 @@ import me.vivh.socialtravelapp.model.Trip;
 
 public class TripBrowseFragment extends Fragment {
     List<Trip> trips = new ArrayList<>();
-    TripAdapter tripAdapter;
+    TripBrowseAdapter tripAdapter;
     Attraction attraction;
-    TripAdapter.Callback callback;
+    TripBrowseAdapter.Callback callback;
     @BindView(R.id.rvBrowse) RecyclerView rvBrowse;
     @BindView(R.id.swiperefreshBrowse) SwipeRefreshLayout swipeContainer;
+    @BindView(R.id.ivAttractionPic)
+    ImageView ivAttractionPic;
     private Unbinder unbinder;
 
     public TripBrowseFragment() {
@@ -48,9 +53,10 @@ public class TripBrowseFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_trip_browse, container, false);
         unbinder = ButterKnife.bind(this, view);
+
         trips = new ArrayList<>();
 
-        tripAdapter = new TripAdapter(trips, callback);
+        tripAdapter = new TripBrowseAdapter(trips, callback);
         rvBrowse.setLayoutManager(new LinearLayoutManager(getContext()));
         rvBrowse.setAdapter(tripAdapter);
         loadTopTrips();
@@ -76,11 +82,23 @@ public class TripBrowseFragment extends Fragment {
 
     }
 
+    public void loadImage(){
+        try {
+            String url = attraction.getParseFile("image").getUrl();
+            Glide.with(getContext()).load(url)
+                    .apply(RequestOptions.placeholderOf(R.color.placeholderColor).centerCrop())
+                    .into(ivAttractionPic);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof TripAdapter.Callback) {
-            callback = (TripAdapter.Callback) context;
+        if (context instanceof TripBrowseAdapter.Callback) {
+            callback = (TripBrowseAdapter.Callback) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -111,13 +129,23 @@ public class TripBrowseFragment extends Fragment {
                     trips.clear();
                     trips.addAll(objects);
                     tripAdapter.notifyDataSetChanged();
+                    loadImage();
+
                 } else {
                     e.printStackTrace();
                 }
             }
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadImage();
+    }
+
     public void setAttraction(Attraction a) {
         attraction = a;
     }
+
 }
