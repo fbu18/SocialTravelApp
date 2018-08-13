@@ -122,6 +122,7 @@ public class TripBrowseFragment extends Fragment {
 
         final Trip.Query tripsQuery = new Trip.Query();
         tripsQuery.whereEqualTo("attraction", attraction)/*.include("attraction")*/;
+        tripsQuery.orderByAscending("date");
         tripsQuery.findInBackground(new FindCallback<Trip>() {
             @Override
             public void done(List<Trip> objects, ParseException e) {

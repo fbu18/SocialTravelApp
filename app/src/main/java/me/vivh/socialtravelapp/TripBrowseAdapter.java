@@ -60,8 +60,6 @@ public class TripBrowseAdapter extends RecyclerView.Adapter<TripBrowseAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Trip trip = mTrips.get(i);
-        viewHolder.tvName.setText(trip.getName());
-        viewHolder.tvDate.setText(trip.getDateString());
 
         try{
             viewHolder.tvName.setText(trip.getName());
