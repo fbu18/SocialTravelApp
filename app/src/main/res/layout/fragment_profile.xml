@@ -104,6 +104,7 @@
         android:layout_below="@+id/btnEditProfile"
         android:layout_marginLeft="8dp"
         android:text="TextView"
+        android:lineSpacingMultiplier="0.8"
         android:textColor="@color/black_70_transparent"
         android:textSize="16sp" />
 
