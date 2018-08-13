@@ -63,7 +63,7 @@ public class Message extends ParseObject {
     public String getTimestamp() {
         Date date = getCreatedAt();
         DateFormat df = new SimpleDateFormat("MMM d", Locale.getDefault());
-        DateFormat df2 = new SimpleDateFormat("hh:mm aaa", Locale.getDefault());
+        DateFormat df2 = new SimpleDateFormat("h:mm aaa", Locale.getDefault());
         String timestamp = df.format(date) + ", " + df2.format(date);
         return timestamp;
     }

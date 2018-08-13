@@ -6,35 +6,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/ivInfo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        app:srcCompat="@mipmap/ic_launcher_round" />
-
     <TextView
         android:id="@+id/tvInfoName"
         android:layout_width="wrap_content"
+        android:layout_marginLeft="8dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/ivInfo"
         android:text="Name" />
 
     <TextView
         android:id="@+id/tvInfoDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvInfoName"
-        android:layout_toEndOf="@+id/ivInfo"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/rbVoteAverage"
         android:text="TextView" />
 
-    <Button
-        android:id="@+id/btnInfo"
+    <RatingBar
+        android:id="@+id/rbVoteAverage"
+        style="@style/Widget.AppCompat.RatingBar.Small"
         android:layout_width="wrap_content"
+        android:layout_marginLeft="8dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/ivInfo"
-        android:text="Go To Attraction" />
+        android:layout_below="@+id/tvInfoName"
+        android:numStars="5"
+        android:stepSize="0.5"
+        android:theme="@style/RatingBarLight" />
+
+    <TextView
+        android:id="@+id/tvPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/ivImage"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="86dp"
+        android:text="1"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/ivImage"
+        android:layout_width="13dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvPoints"
+        android:layout_alignEnd="@id/tvInfoDescription"
+        android:tint="@color/black"
+        app:srcCompat="@drawable/ic_explore_black_24dp" />
+
+
 </RelativeLayout>

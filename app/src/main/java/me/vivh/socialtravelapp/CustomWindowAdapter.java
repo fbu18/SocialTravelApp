@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -46,27 +47,12 @@ public class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
         // Populate fields
         TextView title = (TextView) v.findViewById(R.id.tvInfoName);
         title.setText(name);
-        ImageView image = (ImageView) v.findViewById(R.id.ivInfo);
+        RatingBar rbVoteAverage = v.findViewById(R.id.rbVoteAverage);
 
         TextView description = (TextView) v.findViewById(R.id.tvInfoDescription);
         description.setText(marker.getSnippet());
-
-        ImageView imageView = v.findViewById(R.id.ivInfo);
-        if (imageUrl != null){
-            Glide.with(context).load(imageUrl)
-                    .apply(RequestOptions
-                            .placeholderOf(R.color.placeholderColor)
-                            .circleCrop())
-                    .into(imageView);
-    }
-        Button btnGo = v.findViewById(R.id.btnInfo);
-        btnGo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mCallback.openAttractionDetails(attraction);
-            }
-        });
         getInfoContents(marker);
+        rbVoteAverage.setRating(attraction.getRating().floatValue());
         // Return info window contents
         return v;
     }
