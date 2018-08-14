@@ -35,7 +35,8 @@
             android:text="Username"
             android:textColor="@color/black"
             android:textSize="@dimen/post_font_size"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginTop="6dp"/>
 
         <TextView
             android:id="@+id/tvCheckInLocation"

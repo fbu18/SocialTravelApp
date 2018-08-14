@@ -9,9 +9,10 @@
         android:id="@+id/ivProfilePic"
         android:layout_width="35dp"
         android:layout_height="35dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
         android:src="@drawable/user_outline_24" />
 
     <View
@@ -29,11 +30,12 @@
         android:layout_alignTop="@+id/ivProfilePic"
         android:layout_marginLeft="12dp"
         android:layout_marginStart="12dp"
+        android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/ivProfilePic"
         android:layout_toRightOf="@+id/ivProfilePic"
         android:text="Name"
-        android:layout_marginTop="2dp"
-        android:textStyle="bold"/>
+        android:textColor="@color/grey_9"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvComment"
@@ -41,17 +43,19 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tvName"
         android:layout_below="@+id/tvName"
-        android:text="This is a comment." />
+        android:text="This is a comment."
+        android:textColor="@color/grey_9" />
 
     <TextView
         android:id="@+id/tvTimeStamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/tvName"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/tvName"
         android:layout_marginRight="15dp"
-        android:text = "Date"/>
+        android:text="Date"
+        android:textColor="@color/grey_7" />
 
 </RelativeLayout>
 
