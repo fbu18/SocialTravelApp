@@ -3,13 +3,12 @@ package me.vivh.socialtravelapp;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -38,7 +37,7 @@ public class AttractionDetailsFragment extends DialogFragment {
     @BindView(R.id.tvAttrAddress) TextView tvAttrAddress;
     @BindView(R.id.tvAttrPhoneNumber) TextView tvAttrPhoneNumber;
     @BindView(R.id.tvAttrWebsite) TextView tvAttrWebsite;
-    @BindView(R.id.btnChoose) Button btnTrip;
+    @BindView(R.id.btnChoose) ImageButton btnTrip;
     @BindView(R.id.ivAttrPhoneNumber) ImageView ivAttrPhoneNumber;
     @BindView(R.id.tvPoints) TextView tvPoints;
     @BindView(R.id.rvReviews)
@@ -68,8 +67,8 @@ public class AttractionDetailsFragment extends DialogFragment {
         // safety check
         if (getDialog() == null)
             return;
-        int dialogWidth = 1000;
-        int dialogHeight =  1500;// specify a value here
+        int dialogWidth = 1050;
+        int dialogHeight =  1400;// specify a value here
 
         getDialog().getWindow().setLayout(dialogWidth,dialogHeight);
 
