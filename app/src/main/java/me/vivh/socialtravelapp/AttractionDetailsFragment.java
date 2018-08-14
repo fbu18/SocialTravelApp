@@ -72,7 +72,7 @@ public class AttractionDetailsFragment extends DialogFragment {
 
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         getDialog().getWindow().setLayout(dialogWidth,dialogHeight);
-        
+
     }
 
     @Override
