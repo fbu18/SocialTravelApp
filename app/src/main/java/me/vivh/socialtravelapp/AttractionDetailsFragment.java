@@ -70,9 +70,9 @@ public class AttractionDetailsFragment extends DialogFragment {
         int dialogWidth = 1050;
         int dialogHeight =  1400;// specify a value here
 
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         getDialog().getWindow().setLayout(dialogWidth,dialogHeight);
-
-        // ... other stuff you want to do in your onStart() method
+        
     }
 
     @Override

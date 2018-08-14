@@ -24,7 +24,6 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.Vi
 
     interface Callback{
         void openAttractionDetails(@NonNull Attraction attraction);
-        //void openDetail(String TAG, @NonNull Object data);
     }
 
     private Callback attrCallback;
