@@ -2,6 +2,7 @@ package me.vivh.socialtravelapp;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +30,7 @@ import me.vivh.socialtravelapp.model.Attraction;
 import me.vivh.socialtravelapp.model.Review;
 
 
-public class AttractionDetailsFragment extends Fragment {
+public class AttractionDetailsFragment extends DialogFragment {
     @BindView(R.id.tvAttrName) TextView tvAttrName;
     @BindView(R.id.ivAttrPic) ImageView ivAttrPic;
     @BindView(R.id.rbVoteAverage) RatingBar rbVoteAverage;
@@ -63,9 +64,10 @@ public class AttractionDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        context = container.getContext();
+//        context = container.getContext();
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_attraction_details, container, false);
+        context = view.getContext();
         unbinder = ButterKnife.bind(this, view);
 
         ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -162,5 +164,15 @@ public class AttractionDetailsFragment extends Fragment {
         void openTripBrowse(Attraction attraction);
 
         void dialPhone(String phoneNumber);
+    }
+
+    public static AttractionDetailsFragment newInstance(Attraction attraction) {
+        
+        Bundle args = new Bundle();
+        
+        AttractionDetailsFragment fragment = new AttractionDetailsFragment();
+        fragment.setArguments(args);
+        fragment.attraction = attraction;
+        return fragment;
     }
 }

@@ -231,9 +231,12 @@ public class MainActivity extends AppCompatActivity implements SuggestionFragmen
     }
 
     public void openAttractionDetails(@NonNull Attraction attraction) {
-        ((AttractionDetailsFragment)fragments.get(ATTRACTION_DETAILS_INDEX)).attraction = attraction;
-        viewPager.setCurrentItem(ATTRACTION_DETAILS_INDEX, false);
-        modifyStack(ATTRACTION_DETAILS_INDEX);
+        AttractionDetailsFragment fragment = AttractionDetailsFragment.newInstance(attraction);
+        fragment.show(getSupportFragmentManager(), "dialog");
+
+//        ((AttractionDetailsFragment)fragments.get(ATTRACTION_DETAILS_INDEX)).attraction = attraction;
+//        viewPager.setCurrentItem(ATTRACTION_DETAILS_INDEX, false);
+//        modifyStack(ATTRACTION_DETAILS_INDEX);
     }
 
     @Override
