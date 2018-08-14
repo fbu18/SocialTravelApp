@@ -61,6 +61,22 @@ public class AttractionDetailsFragment extends DialogFragment {
     }
 
     @Override
+    public void onStart()
+    {
+        super.onStart();
+
+        // safety check
+        if (getDialog() == null)
+            return;
+        int dialogWidth = 1000;
+        int dialogHeight =  1500;// specify a value here
+
+        getDialog().getWindow().setLayout(dialogWidth,dialogHeight);
+
+        // ... other stuff you want to do in your onStart() method
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
