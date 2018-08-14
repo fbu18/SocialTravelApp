@@ -50,7 +50,7 @@
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
                  android:textAlignment="center"
-                 android:textColor="@color/black_40_transparent"
+                 android:textColor="@color/black_50_transparent"
                  android:textSize="16sp" />
 
              <Button
@@ -59,6 +59,7 @@
                  android:layout_height="35dp"
                  android:background="@color/colorPrimaryDark"
                  android:text="Join Group"
+                 android:layout_marginTop="6dp"
                  android:textColor="#ffffff" />
 
              <Button
