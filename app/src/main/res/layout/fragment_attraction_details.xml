@@ -47,7 +47,7 @@
                 <RelativeLayout
                     android:id="@+id/attraction_title_bar"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp">
+                    android:layout_height="96dp">
 
                     <ImageView
                         android:id="@+id/ivImage"
