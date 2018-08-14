@@ -104,6 +104,7 @@ public class AttractionDetailsFragment extends DialogFragment {
             public void onClick(View v) {
                 String n = attraction.getName();
                 listener.openTripBrowse(attraction);
+                dismiss();
             }
         });
 

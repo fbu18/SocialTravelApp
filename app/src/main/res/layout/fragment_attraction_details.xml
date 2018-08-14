@@ -154,7 +154,7 @@
                         android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_below="@+id/tvAttrDesc"
-                        android:layout_marginLeft="4dp"
+                        android:layout_marginLeft="12dp"
                         android:layout_marginTop="10dp"
                         android:layout_toRightOf="@id/ivAddress"
                         android:text="Address"
@@ -169,13 +169,22 @@
                         android:layout_marginStart="12dp"
                         android:src="@drawable/ic_location_on_black_24dp" />
 
+                    <View
+                        android:id="@+id/divider1"
+                        android:layout_width="300dp"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_below="@+id/ivAddress"
+                        android:layout_alignStart="@+id/ivAddress"
+                        android:background="@color/grey_5_30_transparent" />
+
                     <TextView
                         android:id="@+id/tvAttrWebsite"
                         android:layout_width="321dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_below="@+id/tvAttrAddress"
-                        android:layout_marginLeft="5dp"
+                        android:layout_below="@+id/divider1"
+                        android:layout_marginLeft="12dp"
                         android:layout_marginTop="10dp"
                         android:layout_toRightOf="@id/ivAttrWebsite"
                         android:autoLink="all"
@@ -195,15 +204,24 @@
                         android:src="@drawable/ic_desktop_mac_black_24dp"
                         android:textColorLink="@color/blue_6" />
 
+                    <View
+                        android:id="@+id/divider2"
+                        android:layout_width="300dp"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_below="@+id/ivAttrWebsite"
+                        android:layout_alignStart="@+id/ivAttrWebsite"
+                        android:background="@color/grey_5_30_transparent" />
+
                     <TextView
                         android:id="@+id/tvAttrPhoneNumber"
                         android:layout_width="321dp"
                         android:layout_height="20dp"
                         android:layout_alignParentRight="true"
-                        android:layout_below="@+id/tvAttrWebsite"
-                        android:layout_marginLeft="5dp"
+                        android:layout_below="@+id/divider2"
+                        android:layout_marginLeft="12dp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="6dp"
+                        android:layout_marginBottom="12dp"
                         android:layout_toRightOf="@id/ivAttrPhoneNumber"
                         android:autoLink="all"
                         android:linksClickable="true"
@@ -227,11 +245,11 @@
             <TextView
                 android:id="@+id/tvReviews"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:layout_alignParentStart="true"
                 android:layout_below="@id/cvAbout"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:text="Reviews"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
